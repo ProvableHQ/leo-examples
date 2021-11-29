@@ -2,10 +2,6 @@
 //  uint256 private _totalSupply;
 
 //
-//circuit Record {
-//    payload: [u8; 128];
-//    // other components that we want the Leo code to have access to
-//}
 //that represents (part of) a record and a type
 //circuit TransitionInput {
 //    record1: Record;
