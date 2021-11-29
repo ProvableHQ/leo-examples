@@ -8,24 +8,23 @@ circuit TokenRecord {
     symbol: [char; 16]
 
     // Note: we could have some `derive` functionality for this.
-    // TODO: Do we want type casts or explicit byte conversions for datatypes?
-    // Type casts are general and enable more features
     function as_bytes(self) -> [u8; 116] {
         // 32 + 4 + 64 + 16 = 116 bytes
-        return self.owner.as_bytes() ++ 
-               self.amount.as_bytes() ++ 
-               self.name.as_bytes() ++ 
-               self.symbol.as_bytes();
+        let owner_bytes = self.owner as [u8; 32];
+        let amount_bytes = self.amount as [u8; 4];
+        let name_bytes = self.name as [u8; 64];
+        let symbol_bytes = self.symbol as [u8; 16];
+        return [...owner_bytes, ...amount_bytes, ...name_bytes, ...symbol_bytes];
     }
 
     // Note: we could have some `derive` functionality for this.
     function from_bytes(bytes: [u8; 116]) -> Self {
-        Self {
+        return Self {
             owner: bytes[0..32] as address,
             amount: bytes[32..36] as u32,
             name: bytes[36..100] as [char; 64],
             symbol: bytes[100..116] as [char; 16],
-        }
+        };
     }
 
 
@@ -67,7 +66,9 @@ circuit TokenRecord {
 
 // Note: Multiple entry points are a desirable feature.
 
-@transition
+// Commenting out below, because annotation does not exist.
+//@transition 
+//@transaction
 function transfer(rec1: Record, rec2: Record) -> (Record, Record) {
     let tok = TokenRecord::from_bytes(rec1.payload[..116]);
     let to = rec2.payload[0..32] as address;
@@ -75,8 +76,8 @@ function transfer(rec1: Record, rec2: Record) -> (Record, Record) {
 
     let (tok3, tok4) = tok.transfer(to, amount);
 
-    let payload1 = tok3.as_bytes() ++ [0u8; 12];
-    let payload2 = tok4.as_bytes() ++ [0u8; 12];
+    let payload1 = [...tok3.as_bytes() , ...[0u8; 12]];
+    let payload2 = [...tok4.as_bytes() , ...[0u8; 12]];
 
     let rec3 = Record {
         owner: rec1.owner,
@@ -84,7 +85,6 @@ function transfer(rec1: Record, rec2: Record) -> (Record, Record) {
         payload: payload1,
         program_id: rec1.program_id,
         record_view_key: rec1.record_view_key, 
-        record_ciphertext: rec1.record_ciphertext,
     };
 
     let rec4 = Record {
@@ -93,27 +93,27 @@ function transfer(rec1: Record, rec2: Record) -> (Record, Record) {
         payload: payload2,
         program_id: rec2.program_id,
         record_view_key: rec2.record_view_key,
-        record_ciphertext: rec2.record_ciphertext,
     };
 
-    return (rec3, rec4)
+    return (rec3, rec4);
 }
 
-@transition
-function merge(rec1: Record, rec2: Record) -> (Record) {
+// Commenting out below, because the annotation does not exist.
+//@transition
+//@transaction
+function merge(rec1: Record, rec2: Record) -> Record {
     let tok1 = TokenRecord::from_bytes(rec1.payload[..116]);
     let tok2 = TokenRecord::from_bytes(rec2.payload[..116]);
 
     let tok3 = tok1.merge(tok2);
-    let payload = tok3.as_bytes() ++ [0u8; 12];
+    let payload = [...tok3.as_bytes(), ...[0u8; 12]];
 
-    let rec = Record {
+    return Record {
         owner: rec1.owner,
         value: rec1.value, 
         payload: payload,
         program_id: rec1.program_id,
         record_view_key: rec1.record_view_key,
-        record_ciphertext: rec1.record_ciphertext,
-    }
+    };
 }
 
