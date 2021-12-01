@@ -1,5 +1,9 @@
 import record.Record;
 
+// Assume we have native support for generating/verifying digital signatures.
+// 1. Sign(data, account_private_key)
+// 2. Verify(data, account_address);
+
 // size should be <= 128B.
 circuit TokenRecord {
     owner: address,
@@ -73,6 +77,10 @@ function transfer(rec1: Record, rec2: Record) -> (Record, Record) {
     let tok = TokenRecord::from_bytes(rec1.payload[..116]);
     let to = rec2.payload[0..32] as address;
     let amount = rec2.payload[32..36] as u32;
+
+    // TODO: Need some sort check ensuring provenance on the data
+    // We don't wan't people to be able to forge a record containing token information.
+    console.assert(rec1.program_id == this.program_id); 
 
     let (tok3, tok4) = tok.transfer(to, amount);
 

@@ -63,7 +63,7 @@
 //    }
 //}
 //
-import token_no_approvals.(TokenRecord, merge, transfer);
+import token_without_approvals.(TokenRecord, merge, transfer);
 // The 'erc20' main function.
 function main(a: u32, b: u32) -> u32 {
     let c: u32 = a + b;
