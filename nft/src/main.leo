@@ -17,6 +17,81 @@ circuit record {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// Hashes.
+// ARC-721 is not tied to a specific hash function,
+// but since the Merkle tree roots consists of 256 bits,
+// the hash function must return 256-bit hashes.
+// We introduce a type alias for hashes, for greater clarity.
+type hash = [u8; 32]; // 256 bits
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Hash function.
+// This is a placeholder for some hash function in the library.
+// In this file, we use the same hash function
+// for signature verification (see below) and for Merkle trees;
+// we may want to use two different hash functions,
+// but that is easy to change.
+// A hash function takes as input a variable number of bytes.
+// In current Leo, we can pass a sufficiently large array
+// and a length that says how many elements are actually used;
+// we assume that the result is always 256 bits (i.e. 32 bytes),
+// which is consistent with the Merkle tree roots in the NFT application.
+function compute_hash(data: [u8; 256], len: u32) -> hash {
+    // check (at compile time) that the length is within bounds:
+    console.assert(len <= 256);
+    // just a placeholder, but we want it to depend on the inputs
+    // so it doesn't get optimized away (if it were a constant):
+    let result: u8 = 0;
+    for i in 0..256 {
+        if i < len && data[i] > 128 {
+            result += 1;
+        }
+    }
+    return [result; 32];
+}
+
+
+// Instead of taking a fixed-size array and a length,
+// a function like this could take just an array of unspecified size,
+// which different calls would resolve differently.
+// But this resolution may not be yet supported in Leo,
+// so for now we choose the approach in the code above.
+// We will try the array of unspecified size at some point.
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Signatures.
+// The exact type of a signature depends on the signature algorithm.
+// We just use 512 bits (i.e. 64 bytes) for now.
+// See verify_signature below for more information.
+type signature = [u8; 64]; // 512 bits
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Signature verification.
+// Presumably functions to verify signatures will be available
+// in the Leo library.
+// For now we just put a placeholder here.
+// A reasonable interface for a signature verification function
+// is to take as inputs
+// a hash (of the data being signed),
+// the signature (of some type; see type signature above),
+// and an address of the purported signer;
+// the output is a boolean.
+// This would work by deriving a public key from the address
+// and checking that the signature is valid for the hashed data
+// with respect to the public key.
+function verify_signature(hash: hash,
+                          signature: signature,
+                          signer: address) -> bool {
+    // just a placeholder, but we want it to depend on the inputs
+    // so it doesn't get optimized away (if it were a constant):
+    return signature == [...hash, ...signer.to_bytes_be()];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 // Token IDs.
 // Each token has an ID.
 // Token IDs can be treated as opaque in the Leo code;
@@ -43,6 +118,7 @@ type token_id = [u8; 32]; // 256 bits
 
 // Merkle tree roots.
 // These are hashes, which ARC-721 prescribes to consist of 256 bits.
+// This must be consistent with the type alias of hashes.
 type merkle_root = [u8; 32]; // 256 bits
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -77,21 +153,22 @@ circuit merkle_leaf {
 // The token ID is not represented in the record:
 // presumably, the external NFT application keeps track of the records.
 // Thus, the Aleo blockchain stores the Merkle tree roots, in records.
-// We serialize an NFT record by
-// putting the 32 bytes at the beginning of the payload
-// and filling the remaining payload bytes with 0.
-// Consequently, we deserialize it by taking the first 32 bytes of the payload;
-// we also check (at compile time) that the remainign payload bytes are 0.
 circuit nft_record {
 
     merkle_root: merkle_root;
 
+    // Serialize NFT record to Aleo record.
+    // We put the 32 bytes at the beginning of the payload
+    // and fill the remaining payload bytes with 0.
     function serialize(self) -> record {
         return record {
             payload: [...self.merkle_root, ...[0; 96]]
         };
     }
 
+    // Deserialize NFT record from Aleo record.
+    // We take the first 32 bytes from the payload;
+    // we also check (at compile time) that the remaining payload bytes are 0.
     function deserialize(record: record) -> Self {
         let payload = record.payload;
         for i in 32 .. 128 {
@@ -123,6 +200,7 @@ type opcode = u8;
 // Fortunately, the differences are just slight,
 // and thus we can get away with one circuit type consisting of
 // an opcode (which identifies the operation),
+// a caller address,
 // a token ID (common to all messages),
 // a first address
 // (which is the sender for a transfer operation,
@@ -134,14 +212,84 @@ type opcode = u8;
 // and an amount
 // (which can be set to 0 for lock, unlock, and approve operations).
 circuit message {
+
     opcode: opcode;
+    caller: address;
     token_id: token_id;
     address1: address;
     address2: address;
     amount: u128;
+
+    // Serialize the message.
+    // This is so we can compute a hash, for signature verification.
+    // We convert every member variable to bytes
+    // (in little endian, but big endian would be also fine)
+    // and we concatenate them.
+    // This gives exactly 145 bytes.
+    function serialize(self) -> [u8; 145] {
+        return [self.opcode,
+                ...self.caller.to_bytes_le(),
+                ...self.token_id,
+                ...self.address1.to_bytes_le(),
+                ...self.address2.to_bytes_le(),
+                ...self.amount.to_bytes_le()];
+    }
+
+    // Verify a message signature.
+    // We hash the message
+    // (padding the data array with 111 bytes to make 256 bytes,
+    // but passing the length 145 to the hash function)
+    // and we call the signature verification function,
+    // taking the signer directly from the message.
+    function verify_signature(self, signature: signature) -> bool {
+        let data = [...self.serialize(), ...[0; 111]];
+        let hash = compute_hash(data, 145);
+        return verify_signature(hash, signature, self.caller);
+    }
 }
 
-// TODO: add message signature verification
+////////////////////////////////////////////////////////////////////////////////
+
+// Merkle path element.
+// See the merkle_path type below for an explanation of this type.
+
+circuit merkle_path_element {
+    hash: hash;
+    left: bool;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Merkle paths.
+// A Merkle path is a sequence of hashes that correspond to a Merkle leaf.
+// With reference to the Merkle tree illustrated in ARC-721,
+// the Merkle path of Leaf 3 is the sequence of Hash 4 and Hash 1,2,
+// in that order (i.e. the path goes up the tree).
+// The significance of the path of a Merkle leaf is that
+// the Merkle root can be calculated from the leaf and the path:
+// for Leaf 3, calculate its hash Hash 3,
+// then concatenate that with Hash 4 from the path,
+// hash the concatenation to obtain Hash 3,4,
+// concatenate that with Hash 1,2 from the path,
+// and hash the concatenation to obtain Hash 1,2,3,4, i.e. the root.
+// However, the hashes alone are not enough:
+// we need to know whether each hash in the path has to be concatenated
+// on the left of the current hash or on the right:
+// this motivates the definition of the merkle_path_element type earlier,
+// where the member variable left is
+// true if the hash of the path element is concatenated to the left,
+// false if the hash of the path element is concateneted to the right
+// (an enumeration would be more elegant than a boolean,
+// but Leo currently does not support enumerations).
+// A Merkle tree is a binary tree that is always regarded as being complete,
+// by using all-zero leaves for actually missing leaves.
+// The length n of a path is the depth of the tree,
+// measured in distance between leaf hashes and root hash;
+// thus the tree contains at most 2^n (non-zero) leaves.
+// We must pick some number for n here, so we pick n,
+// which may very well be too small, but it is easily changed.
+// (Thus, each token can have 65,536 leaves asserting ownership.)
+type merkle_path = [merkle_path_element; 16];
 
 ////////////////////////////////////////////////////////////////////////////////
 
