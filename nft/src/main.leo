@@ -12,6 +12,7 @@
 // This could have additional member variables,
 // but we only need the payload for this NFT application.
 circuit record {
+    owner: address;
     payload: [u8; 128];
 }
 
@@ -51,13 +52,17 @@ function compute_hash(data: [u8; 256], len: u32) -> hash {
     return [result; 32];
 }
 
-
 // Instead of taking a fixed-size array and a length,
 // a function like this could take just an array of unspecified size,
 // which different calls would resolve differently.
 // But this resolution may not be yet supported in Leo,
 // so for now we choose the approach in the code above.
 // We will try the array of unspecified size at some point.
+
+// The condition checked in the console.assert is not represented in R1CS.
+// This seems okay, as it does not seem a critical check
+// that affects the security of the zero-knowledge proof.
+// In R1CS, any len > 256 would be treated the same as 256.
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -136,11 +141,32 @@ type merkle_root = [u8; 32]; // 256 bits
 // It also includes a flag saying whether this amount of token
 // is locked (i.e. cannot be transferred) or not.
 circuit merkle_leaf {
+
     token_id: token_id;
     owner: address;
     operator: address;
     balance: u128;
     is_locked: bool;
+
+    // Serialize the leaf.
+    // This is so we can compute a hash, for Merkle trees.
+    // We serialize and concatenate the member variables.
+    // We use little endian, but big endian would be fine too.
+    // The serialized data is 113 bytes.
+    function serialize(self) -> [u8; 113] {
+        return [...self.token_id,
+                ...self.owner.to_bytes_le(),
+                ...self.operator.to_bytes_le(),
+                ...self.balance.to_bytes_le(),
+                ...self.is_locked.to_bytes_le()];
+    }
+
+    // Hash of a leaf.
+    // This is at the lowest level of the hashes in Merkle trees.
+    function hash(self) -> hash {
+        let data = [...self.serialize(), ...[0; 143]];
+        return compute_hash(data, 113);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -148,13 +174,14 @@ circuit merkle_leaf {
 // NFT records.
 // This is a higher-level, application-specific type of records,
 // which is serialized/deserialized to/from blockchain records.
-// An NFT record consists of just a Merkle tree root,
-// which pertains to a specific token (ID).
+// An NFT record consists of an owner,
+// and  Merkle tree root, which pertains to a specific token (ID).
 // The token ID is not represented in the record:
 // presumably, the external NFT application keeps track of the records.
 // Thus, the Aleo blockchain stores the Merkle tree roots, in records.
 circuit nft_record {
 
+    owner: address;
     merkle_root: merkle_root;
 
     // Serialize NFT record to Aleo record.
@@ -162,6 +189,7 @@ circuit nft_record {
     // and fill the remaining payload bytes with 0.
     function serialize(self) -> record {
         return record {
+            owner: self.owner,
             payload: [...self.merkle_root, ...[0; 96]]
         };
     }
@@ -175,10 +203,17 @@ circuit nft_record {
             console.assert(payload[i] == 0);
         }
         return Self {
+            owner: record.owner,
             merkle_root: payload[0..32]
         };
     }
 }
+
+// The condition checked in the console.assert is not represented in R1CS.
+// This seems okay, as it does not seem a critical check
+// that affects the security of the zero-knowledge proof.
+// In R1CS, any record with non-zero bytes after the first 32
+// is treated the same as if they were zero.
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -190,6 +225,13 @@ circuit nft_record {
 // (We could use [bool; 3], but then we would have to encode/decode;
 // and we would still have 2 unused values.)
 type opcode = u8;
+
+const opcode_mint: opcode = 0;
+const opcode_transfer: opcode = 1;
+const opcode_approve: opcode = 2;
+const opcode_lock: opcode = 3;
+const opcode_unlock: opcode = 4;
+const opcode_burn: opcode = 5;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -252,7 +294,6 @@ circuit message {
 
 // Merkle path element.
 // See the merkle_path type below for an explanation of this type.
-
 circuit merkle_path_element {
     hash: hash;
     left: bool;
@@ -293,11 +334,90 @@ type merkle_path = [merkle_path_element; 16];
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// TODO: add functions for mint, transfer, approve, lock, unlock, burn
+// Calculate a Merkle root from a Merkle leaf and a Merkle path.
+// This realizes the calculation described for the type merkle_path.
+// We initialize a running hash with the hash of the leaf,
+// and then we go through the elements of the path in order:
+// we concatenate the running hash with the path hash,
+// and update the running hash with the result.
+// The final hash is returned.
+function compute_root(leaf: merkle_leaf, path: merkle_path) -> merkle_root {
+    let hash = leaf.hash();
+    for i in 0..16 {
+        let element = path[i];
+        let data = element.left ?
+                   [...element.hash, ...hash, ...[0; 192]] :
+                   [...hash, ...element.hash, ...[0; 192]];
+        hash = compute_hash(data, 64);
+    }
+    return hash;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// TODO: this is just a placeholder for now
+// The description of the operations (mint, transfer, etc.) in ARC-721
+// suggests that they are predicates, i.e. boolean-valued functions.
+// Each takes as arguments a record, a message, a signature, and more
+// (where 'more' varies across the operations),
+// and ensures that the arguments satisfy certain conditions.
+// Indeed, all these predicates in ARC-721
+// take the new Merkle root as the last argument,
+// suggesting that it is calculated outside.
+// An alternative could be to have Leo functions that calculate the new root.
+// However, since the Merkle trees are stored outside the blockchain,
+// it seems that it is the tasks of external non-Leo code
+// to update the Merke trees, including the roots (one per token).
+// Thus, we introduce Leo boolean-valued functions for the operations
+// that perform all the operations' checks.
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Check the conditions of the mint operation.
+function exec_mint(record: record,
+                   message: message,
+                   signature: signature,
+                   path: merkle_path,
+                   leaf: merkle_leaf,
+                   new_root: merkle_root) -> bool {
+    // TODO: the following conditionals do not compile currently
+    // if !message.verify_signature(signature) {
+    //     return false;
+    // }
+    // if message.opcode != opcode_mint {
+    //     return false;
+    // }
+    // TODO: more checks
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// TODO: Check the conditions of the transfer operation.
+
+////////////////////////////////////////////////////////////////////////////////
+
+// TODO: Check the conditions of the approve operation.
+
+////////////////////////////////////////////////////////////////////////////////
+
+// TODO: Check the conditions of the lock operation.
+
+////////////////////////////////////////////////////////////////////////////////
+
+// TODO: Check the conditions of the unlock operation.
+
+////////////////////////////////////////////////////////////////////////////////
+
+// TODO: Check the conditions of the burn operation.
+
+////////////////////////////////////////////////////////////////////////////////
+
+// TODO: add functions to check operation conditions and generate new records
+
+////////////////////////////////////////////////////////////////////////////////
+
+// TODO: dispath to operation (mint, transfer, etc.)
+// (this is just a placeholder for now)
 function main(a: u32, b: u32) -> u32 {
     let c: u32 = a + b;
     return c;
