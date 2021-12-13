@@ -10,7 +10,7 @@
 // Aleo blockchain records.
 // This type will be in the Leo standard library, but for now we define it here.
 // This could have additional member variables,
-// but we only need the payload for this NFT application.
+// but we only need the owner and payload for this NFT application.
 circuit record {
     owner: address;
     payload: [u8; 128];
