@@ -1,6 +1,4 @@
-# Leo Examples
+# Some "Interesting" Leo Programs
 
-A collection of "interesting" Leo programs.
-
-Add your examples by making a PR!
+Add yours by making a PR!
 
