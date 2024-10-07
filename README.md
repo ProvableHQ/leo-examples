@@ -1,4 +1,4 @@
-# Some "Interesting" Leo Programs
+# Some "interesting" Leo programs
 
 Add yours by making a PR!
 
