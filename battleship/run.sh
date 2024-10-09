@@ -16,8 +16,7 @@ echo "
 ###############################################################################
 "
 
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
@@ -67,8 +66,7 @@ echo "
 ###############################################################################
 "
 
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ENDPOINT=http://localhost:3030
 " > .env
@@ -116,8 +114,7 @@ echo "
 ###############################################################################
 "
 
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
@@ -152,8 +149,7 @@ echo "
 ###############################################################################
 "
 
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ENDPOINT=http://localhost:3030
 " > .env
@@ -188,8 +184,7 @@ echo "
 ###############################################################################
 "
 
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
@@ -224,8 +219,7 @@ echo "
 ###############################################################################
 "
 
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ENDPOINT=http://localhost:3030
 " > .env
@@ -253,8 +247,7 @@ echo "
 
 
 # Restore the .env file to its original state
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env

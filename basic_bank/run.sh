@@ -17,8 +17,7 @@ fi
 # PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 
 # Swap in the private key and address of the bank to .env.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
@@ -68,8 +67,7 @@ leo run issue aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t 10
 
 
 # Swap in the private key and address of the user to .env.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ENDPOINT=http://localhost:3030
 " > .env
@@ -163,8 +161,7 @@ echo "
 "
 
 # Swap in the private key and address of the bank to .env.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env

@@ -37,8 +37,7 @@ echo "
 ###############################################################################
 "
 # Swap in the private key and address of the first bidder to .env.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
@@ -60,8 +59,7 @@ echo "
 leo run place_bid aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 10u64 || exit
 
 # Swap in the private key and address of the second bidder to .env.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ENDPOINT=http://localhost:3030
 " > .env
@@ -83,8 +81,7 @@ echo "
 leo run place_bid aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t 90u64 || exit
 
 # Swap in the private key and address of the auctioneer to .env.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2GUmKbVsuc1NSj28pa1WTQuZaK5f1DQJAT6vPcHyWokG
 ENDPOINT=http://localhost:3030
 " > .env
@@ -141,8 +138,7 @@ leo run finish "{
 
 
 # Restore the .env file to its original state.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env

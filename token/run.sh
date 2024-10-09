@@ -17,8 +17,7 @@ fi
 # PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 
 # Swap in the private key of Alice.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
@@ -52,8 +51,7 @@ echo "
 leo run mint_public aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 100u64
 
 # Swap in the private key of Bob.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ENDPOINT=http://localhost:3030
 " > .env
@@ -87,8 +85,7 @@ echo "
 leo run mint_private aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t 100u64
 
 # Swap in the private key of Alice.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
@@ -122,8 +119,7 @@ echo "
 leo run transfer_public aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t 10u64
 
 # Swap in the private key of Bob.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ENDPOINT=http://localhost:3030
 " > .env
@@ -161,8 +157,7 @@ leo run transfer_private "{
     }" aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 20u64
 
 # Swap in the private key of Alice.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
@@ -197,8 +192,7 @@ echo "
 leo run transfer_public_to_private aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t 30u64
 
 # Swap in the private key of Bob.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ENDPOINT=http://localhost:3030
 " > .env
@@ -239,8 +233,7 @@ leo run transfer_private_to_public "{
 
 # Swap in the private key of Alice.
 # This is done to ensure that program.json is the same after every execution of ./run.sh.
-echo "
-NETWORK=testnet
+echo "NETWORK=testnet
 PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 " > .env
