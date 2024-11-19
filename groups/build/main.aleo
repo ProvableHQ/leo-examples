@@ -1,7 +1,5 @@
 program groups.aleo;
 
-
-
 function main:
     input r0 as group.private;
     double r0 into r1;

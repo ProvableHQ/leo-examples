@@ -1,7 +1,5 @@
 program core.aleo;
 
-
-
 function main:
     input r0 as field.private;
     hash.bhp256 r0 into r1 as field;

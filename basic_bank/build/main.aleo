@@ -4,10 +4,9 @@ record Token:
     owner as address.private;
     amount as u64.private;
 
-
 mapping balances:
-	key as field.public;
-	value as u64.public;
+    key as field.public;
+    value as u64.public;
 
 function issue:
     input r0 as address.private;
@@ -15,8 +14,6 @@ function issue:
     assert.eq self.caller aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px;
     cast r0 r1 into r2 as Token.record;
     output r2 as Token.record;
-
-
 
 function deposit:
     input r0 as Token.record;
@@ -34,8 +31,6 @@ finalize deposit:
     get.or_use balances[r0] 0u64 into r2;
     add r2 r1 into r3;
     set r3 into balances[r0];
-
-
 
 closure calculate_interest:
     input r0 as u64;
@@ -543,8 +538,6 @@ closure calculate_interest:
     ternary r498 r501 r497 into r502;
     output r502 as u64;
 
-
-
 function withdraw:
     input r0 as address.private;
     input r1 as u64.private;
@@ -564,4 +557,3 @@ finalize withdraw:
     get.or_use balances[r0] 0u64 into r2;
     sub r2 r1 into r3;
     set r3 into balances[r0];
-

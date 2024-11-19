@@ -4,7 +4,6 @@ struct Message:
     first as field;
     second as field;
 
-
 function main:
     input r0 as Message.private;
     cast r0.first r0.second into r1 as Message;

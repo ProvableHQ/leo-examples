@@ -1,7 +1,5 @@
 program ntzgaudet.aleo;
 
-
-
 function main:
     input r0 as u32.public;
     sub.w 0u32 r0 into r1;

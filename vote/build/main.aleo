@@ -14,26 +14,21 @@ record Ticket:
     owner as address.private;
     pid as field.private;
 
-
 mapping proposals:
-	key as field.public;
-	value as ProposalInfo.public;
-
+    key as field.public;
+    value as ProposalInfo.public;
 
 mapping tickets:
-	key as field.public;
-	value as u64.public;
-
+    key as field.public;
+    value as u64.public;
 
 mapping agree_votes:
-	key as field.public;
-	value as u64.public;
-
+    key as field.public;
+    value as u64.public;
 
 mapping disagree_votes:
-	key as field.public;
-	value as u64.public;
-
+    key as field.public;
+    value as u64.public;
 
 function propose:
     input r0 as ProposalInfo.public;
@@ -47,9 +42,6 @@ function propose:
 finalize propose:
     input r0 as field.public;
     set 0u64 into tickets[r0];
-
-
-
 
 function new_ticket:
     input r0 as field.public;
@@ -65,9 +57,6 @@ finalize new_ticket:
     add r1 1u64 into r2;
     set r2 into tickets[r0];
 
-
-
-
 function agree:
     input r0 as Ticket.record;
     async agree r0.pid into r1;
@@ -79,9 +68,6 @@ finalize agree:
     add r1 1u64 into r2;
     set r2 into agree_votes[r0];
 
-
-
-
 function disagree:
     input r0 as Ticket.record;
     async disagree r0.pid into r1;
@@ -92,4 +78,3 @@ finalize disagree:
     get.or_use disagree_votes[r0] 0u64 into r1;
     add r1 1u64 into r2;
     set r2 into disagree_votes[r0];
-

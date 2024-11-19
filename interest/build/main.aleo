@@ -1,7 +1,5 @@
 program interest.aleo;
 
-
-
 function fixed_iteration_interest:
     input r0 as u32.private;
     input r1 as u32.public;
@@ -36,7 +34,6 @@ function fixed_iteration_interest:
     div r29 100u32 into r30;
     add r28 r30 into r31;
     output r31 as u32.private;
-
 
 function bounded_iteration_interest:
     input r0 as u32.private;
