@@ -1,7 +1,5 @@
 program ntzsmallvals.aleo;
 
-
-
 function main:
     input r0 as u32.public;
     is.eq r0 0u32 into r1;

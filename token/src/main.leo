@@ -92,10 +92,10 @@ program token.aleo {
 
         // Output the sender's change record.
         // Increment the token amount publicly for the token receiver.
-        return (remaining, finalize_transfer_private_to_public(receiver, amount));
+        return (remaining, finalize_transfer_priv_to_pub(receiver, amount));
     }
 
-    async function finalize_transfer_private_to_public(public receiver: address, public amount: u64) {
+    async function finalize_transfer_priv_to_pub(public receiver: address, public amount: u64) {
         // Increments `account[receiver]` by `amount`.
         // If `account[receiver]` does not exist, it will be created.
         // If `account[receiver] + amount` overflows, `transfer_private_to_public` is reverted.
@@ -114,10 +114,10 @@ program token.aleo {
 
         // Output the receiver's record.
         // Decrement the token amount of the caller publicly.
-        return (transferred, finalize_transfer_public_to_private(self.caller, amount));
+        return (transferred, finalize_transfer_pub_to_priv(self.caller, amount));
     }
 
-    async function finalize_transfer_public_to_private(public sender: address, public amount: u64) {
+    async function finalize_transfer_pub_to_priv(public sender: address, public amount: u64) {
         // Decrements `account[sender]` by `amount`.
         // If `account[sender]` does not exist, it will be created.
         // If `account[sender] - amount` underflows, `transfer_public_to_private` is reverted.

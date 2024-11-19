@@ -1,13 +1,10 @@
 program twoadicity.aleo;
 
-
-
 closure is_even_and_nonzero:
     input r0 as field;
     div r0 2field into r1;
     lt r1 r0 into r2;
     output r2 as boolean;
-
 
 function main:
     input r0 as field.public;

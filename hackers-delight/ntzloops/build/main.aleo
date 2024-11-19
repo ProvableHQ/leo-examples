@@ -1,7 +1,5 @@
 program ntzloops.aleo;
 
-
-
 function main:
     input r0 as u32.public;
     not r0 into r1;

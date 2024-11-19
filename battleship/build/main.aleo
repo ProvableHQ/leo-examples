@@ -3,9 +3,6 @@ import move.aleo;
 import verify.aleo;
 program battleship.aleo;
 
-
-
-
 function initialize_board:
     input r0 as u64.private;
     input r1 as u64.private;
@@ -24,14 +21,12 @@ function initialize_board:
     call board.aleo/new_board_state r9 r4 into r10;
     output r10 as board.aleo/board_state.record;
 
-
 function offer_battleship:
     input r0 as board.aleo/board_state.record;
     call board.aleo/start_board r0 into r1;
     call move.aleo/start_game r0.player_2 into r2;
     output r1 as board.aleo/board_state.record;
     output r2 as move.aleo/move.record;
-
 
 function start_battleship:
     input r0 as board.aleo/board_state.record;
@@ -42,7 +37,6 @@ function start_battleship:
     call move.aleo/start_game r0.player_2 into r3;
     output r2 as board.aleo/board_state.record;
     output r3 as move.aleo/move.record;
-
 
 function play:
     input r0 as board.aleo/board_state.record;
