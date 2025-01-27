@@ -101,3 +101,21 @@ function bubble_sort:
     output r61 as u32.private;
     output r46 as u32.private;
     output r28 as u32.private;
+
+closure is_sorted:
+    input r0 as [u32; 8u32];
+    gt r0[0u32] r0[1u32] into r1;
+    gt r0[1u32] r0[2u32] into r2;
+    gt r0[2u32] r0[3u32] into r3;
+    gt r0[3u32] r0[4u32] into r4;
+    gt r0[4u32] r0[5u32] into r5;
+    gt r0[5u32] r0[6u32] into r6;
+    gt r0[6u32] r0[7u32] into r7;
+    ternary r7 false true into r8;
+    ternary r6 false r8 into r9;
+    ternary r5 false r9 into r10;
+    ternary r4 false r10 into r11;
+    ternary r3 false r11 into r12;
+    ternary r2 false r12 into r13;
+    ternary r1 false r13 into r14;
+    output r14 as boolean;
