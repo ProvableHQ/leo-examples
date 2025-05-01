@@ -7,12 +7,12 @@ then
 fi
 
 # The private key and address of Alice.
-# Swap these into program.json, when running transactions as the first bidder.
+# Swap these into .env, when running transactions as the first bidder.
 # NETWORK=testnet
 # PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 
 # The private key and address of Bob.
-# Swap these into program.json, when running transactions as the second bidder.
+# Swap these into .env, when running transactions as the second bidder.
 # NETWORK=testnet
 # PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 
