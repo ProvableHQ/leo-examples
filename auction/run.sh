@@ -7,18 +7,18 @@ then
 fi
 
 # The private key and address of the first bidder.
-# Swap these into program.json, when running transactions as the first bidder.
+# Swap these into .env, when running transactions as the first bidder.
 # NETWORK=testnet
 # PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 
 # The private key and address of the second bidder.
-# Swap these into program.json, when running transactions as the second bidder.
+# Swap these into .env, when running transactions as the second bidder.
 # NETWORK=testnet
 # PRIVATE_KEY=APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 
 
 # The private key and address of the auctioneer.
-# Swap these into program.json, when running transactions as the auctioneer.
+# Swap these into .env, when running transactions as the auctioneer.
 # NETWORK=testnet
 # PRIVATE_KEY=APrivateKey1zkp2GUmKbVsuc1NSj28pa1WTQuZaK5f1DQJAT6vPcHyWokG
 
