@@ -17,6 +17,15 @@ program bubblesort.aleo {
     // Note that the implementation below uses tuples instead of arrays.
     // The implementation also manually unrolls the loop.
 
+    function is_sorted(arr: [u32; 8]) -> bool {
+        for i: u32 in 0u32..7u32 {
+            if arr[i] > arr[i + 1u32] {
+                return false;
+            }
+        }
+        return true;
+    }
+
     transition bubble_sort(
                          arr0: u32,
                          arr1: u32,
@@ -281,6 +290,8 @@ program bubblesort.aleo {
             arr0 = arr1;
             arr1 = temp;
         }
+
+        assert(is_sorted([arr0, arr1, arr2, arr3, arr4, arr5, arr6, arr7]));
 
         return (arr0, arr1, arr2, arr3, arr4, arr5, arr6, arr7);
     }
