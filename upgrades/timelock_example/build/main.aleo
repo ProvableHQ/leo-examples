@@ -6,6 +6,8 @@ function main:
     add r0 r1 into r2;
     output r2 as u32.private;
 
+function foo:
+
 constructor:
     gt edition 0u16 into r0;
     branch.eq r0 false to end_then_0_0;

@@ -6,7 +6,7 @@ Be sure to review the **Security Practices** section.
 
 ## Initializing the Project
 
-```bash
+```
 > leo new admin_example
 > cd admin_example
 ```
@@ -50,7 +50,7 @@ If a program is deployed by a different address, the constructor will fail to ex
 Note. The Leo compiler will reference the configuration in `program.json` and check that the code matches the declared mode.
 
 ## Deploying the Program
-```bash
+```
 > leo deploy --broadcast
        Leo     6 statements before dead code elimination.
        Leo     6 statements after dead code elimination.
@@ -136,13 +136,13 @@ http://localhost:3030/testnet/program/credits.aleo/mapping/account/aleo1s3ws5tra
 
 First, modify the program by adding a `transition` of your choice.
 If we run 
-```bash
+```
 > leo upgrade --broadcast --private-key APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ```
 we will find that the transaction is rejected.
 
 Now if we run
-```bash
+```
 > leo upgrade --broadcast
 ```
 we will find that the transaction is accepted. 

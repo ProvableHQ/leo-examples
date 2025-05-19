@@ -4,7 +4,7 @@ This is the default mode supported by Leo.
 Let's take a look at a simple example.
 
 ## Initializing the Project
-```bash
+```
 > leo new noupgrade_example
 > cd noupgrade_example
 ```
@@ -51,7 +51,7 @@ If the program is already deployed on the network, the assigned version will be 
 The Leo compiler will reference this configuration in `program.json` and check that the code matches the declared mode. 
 For example, if we were to modify the constructor in any way, the Leo compiler would throw an error.
 
-```bash
+```
 > leo build
 Error [ESAZ0374011]: The constructor is not well-formed for the 'noupgrade' upgrade configuration.
     --> .../upgrades/noupgrade_example/src/main.leo:12:5
@@ -74,7 +74,7 @@ For more information, please refer to the documentation: ...
 ```
 
 ## Deploying the Program
-```bash
+```
 > leo deploy --broadcast
        Leo     6 statements before dead code elimination.
        Leo     6 statements after dead code elimination.

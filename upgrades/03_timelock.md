@@ -6,7 +6,7 @@ In these cases, developers can implement their own upgrade logic using the `"cus
 
 ## Initializing the Project
 
-```bash
+```
 > leo new timelock_example
 > cd timelock_example
 ```
@@ -28,7 +28,7 @@ We will modify the `program.json` file to use the `"custom"` configuration.
 
 ## The Program
 
-```bash
+```
 > leo query block --latest-height
 Leo ✅ Successfully retrieved data from 'http://localhost:3030/testnet/block/height/latest'.
 
@@ -60,7 +60,7 @@ The constructor is called every time the program is deployed or upgraded.
 
 ## Deploying the Program
 
-```bash
+```
 > leo deploy --broadcast
        Leo     11 statements before dead code elimination.
        Leo     11 statements after dead code elimination.
@@ -132,7 +132,7 @@ Base deployment cost for 'timelock_example.aleo' is 3.015025 credits.
 ```
 
 If we query the network, we can see that the deployment transaction has been accepted.
-```bash
+```
 > leo query transaction at19een08rx703keq3g90xc7rtlzt3ua0v289sdv4ujh42yrj6gjqzsmjrl4x
        Leo ✅ Successfully retrieved data from 'http://localhost:3030/testnet/transaction/at19een08rx703keq3g90xc7rtlzt3ua0v289sdv4ujh42yrj6gjqzsmjrl4x'.
 
@@ -251,6 +251,34 @@ constructor:
     proof: proof1qyqsqqqqqqqqqqqpqqqqqqqqqqqzkgwdlpf4djzd7aw22n2qa00epgw9vr8hm2vnf2y7789qd4tejj4r78y30eh68ygvhk89xn0mtucqq9uhvaecq9dj307shm4g8ph0rw6mynca2jmk8069t23zjtudgn87gd2aawydukhxwp4957tvlc80uqywhug5fed8xwcmyqmm9ux2sheythnlzxxpsau7pcz0yshzddka9pn4xaasppqkrarem4knzdyg8uqj0g0cuef9uld3e87exkv9kktg3dfmstqsqstev3msanp3yunfqlzh8j2st6vcemkwyefww8weug5p4yaccxd0z8z5uewl56d9e02dsfu5v3jnp09ewfm4m6epsl2jxdsqd3w4s0pv79ajvweqrscd59tsz2v627zkx22r6z9256upd0rx8sux9hkyjq4482gfjxetae60qgcurxpdq0fvfaxj497520pmcgvkq8d24f5xvhnsnscap8shsppkur8spylt5wxwyzt0pw25wrmg6szkh2nhl8wm8u6uzwagju6lsv5z2qfjchaef6cqlv00e9xka4ew9jwsgwc762m64zkfurtczervt5fkdxtm0l5u0k77rvwufgn9r88fwgq3vxeu7t28gll8qv58nxehuuc0jtxcq85fg0vlsr37n330ra6nzan8ty9uzzdtvrm5v0r4esay36qq9gx590rae766jtffpk4s042myyh8hk38a8yrr3s8tmnuv2ntvqpkfk8w9v25wg2vtamv7qvcthq76hm4qntwq4f3v4gs7swmmyx4vqef64t9dww5ge8l0sh8lja2mayy6prnhqesfkjclghzrkdywt60q03v2sgk0fhl6hg46vgwk9ppcux2n7k9q648m3kce3dd47wj9s4qcxgvad5jerujjkam8mh8qmwc942hf29hdmv7ff0r56ha9qrpk2ggd6elljpl05rgmxvukfqnvgq8xduh5r52fx9ylsnutwhzfxpvauy0cf0xckzcjy5jxt5du7ca7jhh5pjyhu9kzxy926ld90z4cv0kvyktvaa002z5u9fh96qjzm8kcjxsgf4acvl99kadn6zxxhm2la7yqpqjt4pg60vul377jex2hz8hmgr89ca5esxkvxy2nueyah4lpu2q08vtxzzd3us9scqqx6yk60ur2lnr0znl577alhdtfe0xzvehzpgvqvqqqqqqqqqqqcmzvxatg8jaj3t5xq98x5fcjqw20vs003ntx600ha72v2gqr457mrrm90elgy9wqkldh6z4t858qqqrkq6j3mqusdj9mvhjya9vq96r4e622q5uqgzuu0uchc3yl8nmrwwcdtz4sslqn99k0363txp49qsqqyzwwrplw9k3fmrhl3me7xvx29tsul9g9smv2whc5hnuhllnvhas9d46v3we40jnjr3qusa38d440h2rhxcux7nll3y48a6drgxden94u834fxzrz5wv6ka4rfqe89uhsqqq2nz09h
   }
 }
+```
+
+
+After the block height bound is reached, the program can be upgraded.
+You can verify this by first modifying the program, running `leo upgrade --broadcast`, and then 
+
+```
+> leo query program timelock_example.aleo
+       Leo ✅ Successfully retrieved data from 'http://localhost:3030/testnet/program/timelock_example.aleo'.
+
+program timelock_example.aleo;
+
+function main:
+    input r0 as u32.public;
+    input r1 as u32.private;
+    add r0 r1 into r2;
+    output r2 as u32.private;
+
+function foo:
+
+constructor:
+    gt edition 0u16 into r0;
+    branch.eq r0 false to end_then_0_0;
+    gte block.height 1300u32 into r1;
+    assert.eq r1 true;
+    branch.eq true true to end_otherwise_0_1;
+    position end_then_0_0;
+    position end_otherwise_0_1;
 ```
 
 

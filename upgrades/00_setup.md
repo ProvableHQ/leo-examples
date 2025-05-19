@@ -17,7 +17,7 @@ To start using these features, we'll need to set up a custom development environ
 ## Setting up snarkOS
 
 You will first need to clone the snarkOS repository and checkout the `feat/program-upgradability` branch.
-```bash 
+``` 
 > git clone https://github.com/ProvableHQ/snarkOS.git
 > cd snarkOS
 > git checkout feat/program-upgradability
@@ -25,7 +25,7 @@ You will first need to clone the snarkOS repository and checkout the `feat/progr
 
 You can then install and run a local development network with the following command and presets:
 **Note: you need be in the snarkOS directory.**
-```bash 
+``` 
 > chmod +x devnet.sh
 > ./devnet.sh
 Enter the total number of validators (default: 4): 4
@@ -48,14 +48,14 @@ http://localhost:3030/testnet/consensus_version
 ## Setting up Leo
 
 You will need to clone the Leo repository and checkout the `feat/program-upgradability` branch.
-```bash
+```
 > git clone https://github.com/ProvableHQ/leo.git
 > cd leo
 > git checkout feat/program-upgradability
 ```
 
 You can then install Leo with the following command:
-```bash
+```
 > cargo install --locked --path . --features test_network
 ```
 

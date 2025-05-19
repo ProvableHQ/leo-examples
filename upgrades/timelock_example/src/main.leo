@@ -5,6 +5,8 @@ program timelock_example.aleo {
         return c;
     }
 
+    transition foo() {}
+
     async constructor() {
         if self.edition > 0u16 {
             assert(block.height >= 1300u32);
