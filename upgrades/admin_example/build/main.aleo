@@ -6,5 +6,7 @@ function main:
     add r0 r1 into r2;
     output r2 as u32.private;
 
+function foo:
+
 constructor:
     assert.eq program_owner aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px;
