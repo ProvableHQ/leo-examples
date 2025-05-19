@@ -7,7 +7,7 @@ program timelock_example.aleo {
 
     async constructor() {
         if self.edition > 0u16 {
-            assert(block.height >= 1000u32);
+            assert(block.height >= 1300u32);
         }
     }
 }
