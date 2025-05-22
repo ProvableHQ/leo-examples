@@ -18,21 +18,21 @@ program test_example_program.aleo {
     // `script` testing mode.
     @test
     script test_async() {
-        const VAL: field = 12field;
-        let fut: Future = example_program.aleo/set_mapping(VAL);
-        // We must await this future for the async code to run.
-        fut.await();
-        assert_eq(Mapping::get(example_program.aleo/map, 0field), VAL);
+    const VAL: field = 12field;
+    let fut: Future = example_program.aleo/set_mapping(VAL);
+    // We must await this future for the async code to run.
+    fut.await();
+    assert_eq(Mapping::get(example_program.aleo/map, 0field), VAL);
 
-        // scripts can also do other things normally only async code can do:
-        let rand_val: field = ChaCha::rand_field();
-        Mapping::set(example_program.aleo/map, VAL, rand_val);
-        let value: field = Mapping::get(example_program.aleo/map, VAL);
-        assert_eq(value, rand_val);
-    }
+    // scripts can also do other things normally only async code can do:
+    let rand_val: field = ChaCha::rand_field();
+    Mapping::set(example_program.aleo/map, VAL, rand_val);
+    let value: field = Mapping::get(example_program.aleo/map, VAL);
+    assert_eq(value, rand_val);
+}
 
     @test
-    script test_record_maker() {
+    transition test_record_maker() {
         let r: example_program.aleo/Example = example_program.aleo/mint_record(0field);
         assert_eq(r.x, 0field);
     }
