@@ -3,7 +3,7 @@ import example_program.aleo;
 program test_example_program.aleo {
     @test
     @should_fail
-    transition do_nothing() {
+    transition test_simple_addition_fail() {
         let result: u32 = example_program.aleo/simple_addition(2u32, 3u32);
         assert_eq(result, 3u32);
     }
