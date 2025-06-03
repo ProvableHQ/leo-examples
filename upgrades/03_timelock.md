@@ -70,11 +70,11 @@ Attempting to determine the consensus version from the latest block height at ht
 🛠️  Deployment Plan Summary
 ──────────────────────────────────────────────
 🔧 Configuration:
-  Private Key:    APrivateKey1zkp8CZNn3yeC...
-  Address:        aleo1rhgdu77hgyqd3xjj8uc...
-  Endpoint:       http://localhost:3030
-  Network:        testnet
-  Consensus Version:7
+  Private Key:       APrivateKey1zkp8CZNn3yeC...
+  Address:           aleo1rhgdu77hgyqd3xjj8uc...
+  Endpoint:          http://localhost:3030
+  Network:           testnet
+  Consensus Version: 8
 
 📦 Deployment Tasks:
 +-----------------------+---------+----------+--------------+-----------------+

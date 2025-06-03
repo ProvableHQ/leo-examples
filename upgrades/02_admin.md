@@ -60,11 +60,11 @@ Attempting to determine the consensus version from the latest block height at ht
 🛠️  Deployment Plan Summary
 ──────────────────────────────────────────────
 🔧 Configuration:
-  Private Key:    APrivateKey1zkp8CZNn3yeC...
-  Address:        aleo1rhgdu77hgyqd3xjj8uc...
-  Endpoint:       http://localhost:3030
-  Network:        testnet
-  Consensus Version:7
+  Private Key:       APrivateKey1zkp8CZNn3yeC...
+  Address:           aleo1rhgdu77hgyqd3xjj8uc...
+  Endpoint:          http://localhost:3030
+  Network:           testnet
+  Consensus Version: 8
 
 📦 Deployment Tasks:
 +--------------------+---------+----------+--------------+-----------------+
@@ -123,7 +123,7 @@ Base deployment cost for 'admin_example.aleo' is 2.713025 credits.
 
 If we query the network, we can see that the deployment transaction has been accepted.
 ```
-http://localhost:3030/testnet/transaction/at12q3qa2fhlzanekqn66pr35palhfvvv2pke25lzy3vmwlucaa55zs6rhhah
+leo query transaction at12q3qa2fhlzanekqn66pr35palhfvvv2pke25lzy3vmwlucaa55zs6rhhah
 ```
 
 ## Upgrading the Program
@@ -131,7 +131,7 @@ First, let's attempt to upgrade the program using a different private key.
 We will use this private key: `APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh`, whose address is `aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t`.
 We can verify that this address has a balance by querying the network.
 ```
-http://localhost:3030/testnet/program/credits.aleo/mapping/account/aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t
+leo query program credits.aleo --mapping_value account aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t
 ```
 
 First, modify the program by adding a `transition` of your choice.
@@ -148,7 +148,7 @@ Now if we run
 we will find that the transaction is accepted. 
 We can verify that the program has been upgraded by querying the network.
 ```
-http://localhost:3030/testnet/program/admin_example.aleo
+leo query program admin_example.aleo
 ```
 
 ## Security Practices

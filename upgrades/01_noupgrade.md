@@ -88,7 +88,7 @@ Attempting to determine the consensus version from the latest block height at ht
   Address:           aleo1rhgdu77hgyqd3xjj8uc...
   Endpoint:          http://localhost:3030
   Network:           testnet
-  Consensus Version: 7
+  Consensus Version: 8
 
 📦 Deployment Tasks:
 +------------------------+------------+----------+--------------+-----------------+
@@ -146,7 +146,7 @@ Base deployment cost for 'noupgrade_example.aleo' is 2.691050 credits.
 
 If we query the network, we can see that the deployment transaction has been accepted.
 ```
-http://localhost:3030/testnet/transaction/at187cjs6uujyh4q6xrdldfyzwzejy9tnux05kqkc9nhqkxcc4khgqqdtk429
+leo query transaction at187cjs6uujyh4q6xrdldfyzwzejy9tnux05kqkc9nhqkxcc4khgqqdtk429
 ```
 
 ## Attempting an Upgrade
@@ -163,11 +163,11 @@ Attempting to determine the consensus version from the latest block height at ht
 🛠️  Deployment Plan Summary
 ──────────────────────────────────────────────
 🔧 Configuration:
-  Private Key:    APrivateKey1zkp8CZNn3yeC...
-  Address:        aleo1rhgdu77hgyqd3xjj8uc...
-  Endpoint:       http://localhost:3030
-  Network:        testnet
-  Consensus Version:7
+  Private Key:       APrivateKey1zkp8CZNn3yeC...
+  Address:           aleo1rhgdu77hgyqd3xjj8uc...
+  Endpoint:          http://localhost:3030
+  Network:           testnet
+  Consensus Version: 8
 
 📦 Deployment Tasks:
 +------------------------+------------+----------+--------------+-----------------+
@@ -222,7 +222,7 @@ Base deployment cost for 'noupgrade_example.aleo' is 2.691125 credits.
 
 If we query the network, we can see that the upgrade transaction has been rejected, because only a fee transaction is deployed.
 ```
-http://localhost:3030/testnet/transaction/at1ayz3tm4hwjweqe3a82q2wk4thh368z4q2djxf4fetw7eh8wx8szsr5llcc
+leo query transaction at1ayz3tm4hwjweqe3a82q2wk4thh368z4q2djxf4fetw7eh8wx8szsr5llcc
 ```
 
 

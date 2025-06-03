@@ -1,9 +1,11 @@
 // The 'noupgrade_example' program.
 program noupgrade_example.aleo {
     transition main(public a: u32, b: u32) -> u32 {
-        let c: u32 = a - b;
+        let c: u32 = a + b;
         return c;
     }
+
+    transition foo() {}
     
     // This is the constructor for the program.
     // It is called when the program is deployed or upgraded.
