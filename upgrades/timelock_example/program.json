@@ -1,0 +1,10 @@
+{
+  "program": "timelock_example.aleo",
+  "version": "0.1.0",
+  "description": "",
+  "license": "MIT",
+  "dependencies": null,
+  "upgrade": {
+    "mode": "custom"
+  }
+}
