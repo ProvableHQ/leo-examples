@@ -16,7 +16,7 @@ To start using these features, we'll need to set up a custom development environ
 
 ## Setting up snarkOS
 
-You will first need to clone the snarkOS repository and checkout a working commit.
+You will first need to clone the snarkOS repository and checkout a working commit on the `feat/program-upgradability` branch.
 ``` 
 > git clone https://github.com/ProvableHQ/snarkOS.git
 > cd snarkOS
@@ -47,11 +47,11 @@ http://localhost:3030/testnet/consensus_version
 
 ## Setting up Leo
 
-You will need to clone the Leo repository and checkout a working commit.
+You will need to clone the Leo repository and checkout a working commit on the `feat/program-upgradability` branch.
 ```
 > git clone https://github.com/ProvableHQ/leo.git
 > cd leo
-> git checkout 74ad797 
+> git checkout efcf916
 ```
 You may use ``
 
