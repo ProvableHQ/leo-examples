@@ -20,7 +20,7 @@ You will first need to clone the snarkOS repository and checkout a working commi
 ``` 
 > git clone https://github.com/ProvableHQ/snarkOS.git
 > cd snarkOS
-> git checkout f5838916
+> git checkout 962aee2
 ```
 
 You can then install and run a local development network with the following command and presets:
