@@ -5,7 +5,8 @@ program timelock_example.aleo {
         return c;
     }
 
-    transition foo() {}
+    // Uncomment me to test the upgrade.
+    // transition foo() {}
 
     async constructor() {
         if self.edition > 0u16 {

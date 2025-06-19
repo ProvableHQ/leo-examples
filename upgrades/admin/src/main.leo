@@ -5,6 +5,7 @@ program admin_example.aleo {
         return c;
     }
 
+    // Uncomment me to test the upgrade.
     transition foo() {}
 
     async constructor() {

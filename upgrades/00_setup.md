@@ -16,11 +16,11 @@ To start using these features, we'll need to set up a custom development environ
 
 ## Setting up snarkOS
 
-You will first need to clone the snarkOS repository and checkout the `feat/program-upgradability` branch.
+You will first need to clone the snarkOS repository and checkout a working commit.
 ``` 
 > git clone https://github.com/ProvableHQ/snarkOS.git
 > cd snarkOS
-> git checkout feat/program-upgradability
+> git checkout f5838916
 ```
 
 You can then install and run a local development network with the following command and presets:
@@ -47,12 +47,13 @@ http://localhost:3030/testnet/consensus_version
 
 ## Setting up Leo
 
-You will need to clone the Leo repository and checkout the `feat/program-upgradability` branch.
+You will need to clone the Leo repository and checkout a working commit.
 ```
 > git clone https://github.com/ProvableHQ/leo.git
 > cd leo
-> git checkout feat/program-upgradability
+> git checkout 74ad797 
 ```
+You may use ``
 
 You can then install Leo with the following command:
 ```
@@ -66,4 +67,12 @@ PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 ```
 which will use a private key that is already funded and point to the local devnet.
+
+## Trying Out Upgradable Programs
+
+You can refer to one of the following tutorials to get started with upgradable programs:
+- [Non-upgradable Programs](01_noupgrade.md)
+- [Admin-based Upgrade](02_admin.md)
+- [Timelocked Upgrade](03_timelock.md)
+- [Vote-based Upgrade](04_vote.md)
 

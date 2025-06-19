@@ -5,11 +5,10 @@ Let's take a look at a simple example.
 
 ## Initializing the Project
 ```
-> leo new noupgrade_example
 > cd noupgrade_example
 ```
 
-Observe that the `program.json` file has been created with a `"noupgrade"` configuration.
+Observe that the `program.json` file uses the `"noupgrade"` configuration.
 ```json
 {
   "program": "noupgrade_example.aleo",

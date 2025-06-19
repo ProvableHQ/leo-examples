@@ -7,11 +7,11 @@ In these cases, developers can implement their own upgrade logic using the `"cus
 ## Initializing the Project
 
 ```
-> leo new timelock_example
 > cd timelock_example
 ```
-
-We will modify the `program.json` file to use the `"custom"` configuration.
+This example has already been set up for you.
+However, if you were to initialize a new project, you would manually edit the `program.json` file to use the `"custom"` configuration.
+Under this configuration, the Leo compiler will not enforce any specific constructor logic.
 
 ```json
 {

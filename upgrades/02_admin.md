@@ -7,11 +7,12 @@ Be sure to review the **Security Practices** section.
 ## Initializing the Project
 
 ```
-> leo new admin_example
 > cd admin_example
 ```
+This example has already been set up for you.
+However, if you were to initialize a new project, you would manually edit the `program.json` file to use the `"admin"` configuration.
+The Leo compiler uses this configuration to ensure that your program is well-formed for the `"admin"` upgrade mode.
 
-We will modify the `program.json` file to use the `"admin"` configuration.
 ```json
 {
   "program": "admin_example.aleo",
@@ -47,7 +48,6 @@ program admin_example.aleo {
 
 The constructor checks that the program's owner is the administrator.
 If a program is deployed by a different address, the constructor will fail to execute, and the deployment will be rejected.
-Note. The Leo compiler will reference the configuration in `program.json` and check that the code matches the declared mode.
 
 ## Deploying the Program
 ```

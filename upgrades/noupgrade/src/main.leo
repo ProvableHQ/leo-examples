@@ -5,8 +5,9 @@ program noupgrade_example.aleo {
         return c;
     }
 
-    transition foo() {}
-    
+    // Uncomment me to test the upgrade.
+    // transition foo() {}
+
     // This is the constructor for the program.
     // It is called when the program is deployed or upgraded.
     // It is currently configured to **prevent** upgrades.
