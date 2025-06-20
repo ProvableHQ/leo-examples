@@ -154,3 +154,7 @@ leo query program admin_example.aleo
 ## Security Practices
 - The administrator's private key must be kept secure and not shared with anyone.
 - We recommend that deployment transactions are signed offline and broadcasted to the network using a secure method.
+
+In the `admin` directory, you'll find a Rust CLI utility `sign-deployment` which can be used to sign deployment transactions with a separate private key.
+
+This can be especially useful if you are storing your admin key on a seperate, air-gapped machine.
