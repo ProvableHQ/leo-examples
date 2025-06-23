@@ -19,28 +19,28 @@ function initialize_board:
     assert.eq r8 true;
     call verify.aleo/create_board r0 r1 r2 r3 into r9;
     call board.aleo/new_board_state r9 r4 into r10;
-    output r10 as board.aleo/board_state.record;
+    output r10 as board.aleo/BoardState.record;
 
 function offer_battleship:
-    input r0 as board.aleo/board_state.record;
+    input r0 as board.aleo/BoardState.record;
     call board.aleo/start_board r0 into r1;
     call move.aleo/start_game r0.player_2 into r2;
-    output r1 as board.aleo/board_state.record;
-    output r2 as move.aleo/move.record;
+    output r1 as board.aleo/BoardState.record;
+    output r2 as move.aleo/Move.record;
 
 function start_battleship:
-    input r0 as board.aleo/board_state.record;
-    input r1 as move.aleo/move.record;
+    input r0 as board.aleo/BoardState.record;
+    input r1 as move.aleo/Move.record;
     assert.eq r0.player_1 r1.player_2;
     assert.eq r0.player_2 r1.player_1;
     call board.aleo/start_board r0 into r2;
     call move.aleo/start_game r0.player_2 into r3;
-    output r2 as board.aleo/board_state.record;
-    output r3 as move.aleo/move.record;
+    output r2 as board.aleo/BoardState.record;
+    output r3 as move.aleo/Move.record;
 
 function play:
-    input r0 as board.aleo/board_state.record;
-    input r1 as move.aleo/move.record;
+    input r0 as board.aleo/BoardState.record;
+    input r1 as move.aleo/Move.record;
     input r2 as u64.private;
     assert.eq r0.game_started true;
     assert.eq r0.player_1 r1.player_2;
@@ -49,5 +49,5 @@ function play:
     call board.aleo/update_hits_and_misses r3 r1.prev_hit_or_miss into r4;
     and r1.incoming_fire_coordinate r0.ships into r5;
     call move.aleo/create_move r1 r2 r5 into r6;
-    output r4 as board.aleo/board_state.record;
-    output r6 as move.aleo/move.record;
+    output r4 as board.aleo/BoardState.record;
+    output r6 as move.aleo/Move.record;

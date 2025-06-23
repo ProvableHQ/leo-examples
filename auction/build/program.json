@@ -1,6 +1,8 @@
 {
-    "program": "auction.aleo",
-    "version": "0.0.0",
-    "description": "",
-    "license": "MIT"
+  "program": "auction.aleo",
+  "version": "0.1.0",
+  "description": "",
+  "license": "",
+  "dependencies": null,
+  "dev_dependencies": null
 }
