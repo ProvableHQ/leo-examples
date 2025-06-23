@@ -1266,6 +1266,5 @@ function main:
     call is_even_and_nonzero r1254 into r1256;
     div r1254 2field into r1257;
     add r1255 1u8 into r1258;
-    ternary r1256 r1257 r1254 into r1259;
-    ternary r1256 r1258 r1255 into r1260;
-    output r1260 as u8.private;
+    ternary r1256 r1258 r1255 into r1259;
+    output r1259 as u8.private;
