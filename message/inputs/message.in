@@ -1,4 +1,1 @@
-{
-    first: 2field,
-    second: 3field
-}
+{ first: 2field, second: 3field }

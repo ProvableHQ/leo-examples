@@ -164,5 +164,4 @@ function main:
     add r157 1u8 into r160;
     shr r158 1u8 into r161;
     ternary r159 r160 r157 into r162;
-    ternary r159 r161 r158 into r163;
     output r162 as u8.private;
