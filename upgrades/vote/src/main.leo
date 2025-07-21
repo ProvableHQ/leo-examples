@@ -7,12 +7,8 @@ program vote_example.aleo {
     }
 
     // Uncomment me to test the upgrade.
-    // transition foo() {}
+    transition foo() {}
 
-    async constructor() {
-        if self.edition > 0u16 {
-            let expected: [u8; 32] = Mapping::get(basic_voting.aleo/approved_checksum, true);
-            assert_eq(self.checksum, expected);
-        }
-    }
+    @checksum(mapping="basic_voting.aleo/approved_checksum", key="true")
+    async constructor() {}
 }

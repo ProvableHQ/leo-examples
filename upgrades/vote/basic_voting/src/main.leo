@@ -57,8 +57,6 @@ program basic_voting.aleo {
         }
     }
 
-    // The non-upgradable constructor.
-    async constructor() {
-        assert_eq(self.edition, 0u16);
-    }
+    @noupgrade
+    async constructor() {}
 }

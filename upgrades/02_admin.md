@@ -5,125 +5,115 @@ Leo provides a configuration for this use case.
 Be sure to review the **Security Practices** section.
 
 ## Initializing the Project
-
+You may either use the existing `admin` project
 ```
-> cd admin_example
+> cd admin
 ```
-This example has already been set up for you.
-However, if you were to initialize a new project, you would manually edit the `program.json` file to use the `"admin"` configuration.
-The Leo compiler uses this configuration to ensure that your program is well-formed for the `"admin"` upgrade mode.
-
-```json
-{
-  "program": "admin_example.aleo",
-  "version": "0.1.0",
-  "description": "",
-  "license": "MIT",
-  "dependencies": null,
-  "upgrade": {
-    "mode": "admin",
-    "address": "aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px"
-  }
-}
+or create a new Leo project with the following command:
 ```
-
-The `"address"` field is the address of the administrator.
-The private key associated with this address must sign the deployment transaction associated with upgrade.
+> leo new admin
+```
 
 ## The Program
 
 ```leo
-// The 'admin_example' program.
 program admin_example.aleo {
     transition main(public a: u32, b: u32) -> u32 {
         let c: u32 = a + b;
         return c;
     }
 
-    async constructor() {
-        assert_eq(self.program_owner, aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px);
-    }
+    // Uncomment me to test the upgrade.
+    transition foo() {}
+
+    // This is the constructor for the program.
+    @admin(address="aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px")
+    async constructor() {}
 }
 ```
 
-The constructor checks that the program's owner is the administrator.
+In this example, we annotate the `constructor` with the `@admin` annotation.
+The `"address"` field is the address of the administrator.
+The private key associated with this address must sign the deployment transaction associated with upgrade.
+
+The Leo compiler will generate AVM code that checks that the program's owner is the administrator.
 If a program is deployed by a different address, the constructor will fail to execute, and the deployment will be rejected.
 
 ## Deploying the Program
 ```
 > leo deploy --broadcast
-       Leo     6 statements before dead code elimination.
-       Leo     6 statements after dead code elimination.
-       Leo ✅ Compiled 'admin_example.aleo' into Aleo instructions
+       Leo     4 statements before dead code elimination.
+       Leo     4 statements after dead code elimination.
+       Leo     The program checksum is: '[154u8, 71u8, 238u8, 60u8, 58u8, 58u8, 43u8, 14u8, 200u8, 117u8, 94u8, 228u8, 30u8, 90u8, 89u8, 223u8, 172u8, 165u8, 224u8, 175u8, 32u8, 91u8, 130u8, 69u8, 230u8, 178u8, 27u8, 46u8, 106u8, 63u8, 0u8, 235u8]'.
+       Leo ✅ Compiled 'admin_example.aleo' into Aleo instructions.
 Attempting to determine the consensus version from the latest block height at http://localhost:3030...
 
 🛠️  Deployment Plan Summary
 ──────────────────────────────────────────────
 🔧 Configuration:
-  Private Key:       APrivateKey1zkp8CZNn3yeC...
-  Address:           aleo1rhgdu77hgyqd3xjj8uc...
-  Endpoint:          http://localhost:3030
-  Network:           testnet
-  Consensus Version: 8
+  Private Key:        APrivateKey1zkp8CZNn3yeC...
+  Address:            aleo1rhgdu77hgyqd3xjj8uc...
+  Endpoint:           http://localhost:3030
+  Network:            testnet
+  Consensus Version:  9
 
 📦 Deployment Tasks:
-+--------------------+---------+----------+--------------+-----------------+
-| Program            | Upgrade | Base Fee | Priority Fee | Fee Record      |
-+--------------------+---------+----------+--------------+-----------------+
-| admin_example.aleo | admin   | auto     | 0            | no (public fee) |
-+--------------------+---------+----------+--------------+-----------------+
+  • admin_example.aleo  │ priority fee: 0  │ fee record: no (public fee)
 
 ⚙️ Actions:
-  - Your transaction(s) will NOT be printed to the console.
-  - Your transaction(s) will NOT be saved to a file.
-  - Your transaction(s) will be broadcast to http://localhost:3030
+  • Transaction(s) will NOT be printed to the console.
+  • Transaction(s) will NOT be saved to a file.
+  • Transaction(s) will be broadcast to http://localhost:3030
 ──────────────────────────────────────────────
 
 ✔ Do you want to proceed with deployment? · yes
 
+
+🔧 You program 'admin_example.aleo' has the following constructor.
+──────────────────────────────────────────────
+constructor:
+assert.eq program_owner aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px;
+──────────────────────────────────────────────
+Once it is deployed, it CANNOT be changed.
+
+✔ Would you like to proceed? · yes
+
 📦 Creating deployment transaction for 'admin_example.aleo'...
 
-ANYONE with access to the private key for 'admin_example.aleo' can upgrade 'aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px'.
-You MUST ensure that the key is securely stored and operated.
-✔ Do you want to proceed? · yes
 
+📊 Deployment Summary for admin_example.aleo
+──────────────────────────────────────────────
+  Total Variables:      30,949
+  Total Constraints:    22,700
+  Max Variables:        2,097,152
+  Max Constraints:      2,097,152
 
-📊 Deployment Stats for admin_example.aleo
-Total Variables:       17,114
-Total Constraints:     12,927
-
-Base deployment cost for 'admin_example.aleo' is 2.713025 credits.
-
-+---------------------+----------------+
-| admin_example.aleo  | Cost (credits) |
-+---------------------+----------------+
-| Transaction Storage | 0.912000       |
-+---------------------+----------------+
-| Program Synthesis   | 0.751025       |
-+---------------------+----------------+
-| Constructor         | 0.050000       |
-+---------------------+----------------+
-| Namespace           | 1.000000       |
-+---------------------+----------------+
-| Priority Fee        | 0.000000       |
-+---------------------+----------------+
-| Total               | 2.713025       |
-+---------------------+----------------+
+💰 Cost Breakdown (credits)
+  Transaction Storage:  1.661000
+  Program Synthesis:    1.341225
+  Namespace:            1.000000
+  Constructor:          0.050000
+  Priority Fee:         0.000000
+  Total Fee:            4.052225
+──────────────────────────────────────────────
 
 📡 Broadcasting deployment for admin_example.aleo...
-💰Your current public balance is 93749916.175809 credits.
+💰Your current public balance is 93749981.879517 credits.
 
-✔ This transaction will cost you 2.713025 credits. Do you want to proceed? · yes
+✔ This transaction will cost you 4.052225 credits. Do you want to proceed? · yes
 
-✅ Successfully broadcast deployment with:
-  - transaction ID: 'at12q3qa2fhlzanekqn66pr35palhfvvv2pke25lzy3vmwlucaa55zs6rhhah'
-  - fee ID: 'au10g7rnc2frs7tjqtwdkfweqgpdyj90jzg6sm7c9qx4kfea78u7cpqth8cd5'
-⏲️ Waiting for 15 seconds to allow the deployment to confirm...
+✉️ Broadcasted transaction with:
+  - transaction ID: 'at13226r67fxkf66qlrug4vp06yme4sw4n36f5ujcc8fzfkc6y78uys5yatra'
+  - fee ID: 'au16cpp3addtpamknz4mghn8dzhkpde8ak0990485z464twdu3hkq9sk6jnqv'
+🔄 Searching up to 12 blocks to confirm transaction (this may take several seconds)...
+Explored 1 blocks.
+Transaction accepted.
+✅ Deployment confirmed!
 ```
 
 If we query the network, we can see that the deployment transaction has been accepted.
 ```
-leo query transaction at12q3qa2fhlzanekqn66pr35palhfvvv2pke25lzy3vmwlucaa55zs6rhhah
+leo query transaction at13226r67fxkf66qlrug4vp06yme4sw4n36f5ujcc8fzfkc6y78uys5yatra
 ```
 
 ## Upgrading the Program
@@ -131,11 +121,11 @@ First, let's attempt to upgrade the program using a different private key.
 We will use this private key: `APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh`, whose address is `aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t`.
 We can verify that this address has a balance by querying the network.
 ```
-leo query program credits.aleo --mapping_value account aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t
+leo query program credits.aleo --mapping-value account aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t
 ```
 
-First, modify the program by adding a `transition` of your choice.
-If we run 
+First, modify the source code by adding a `transition` of your choice.
+Now, if we run 
 ```
 > leo upgrade --broadcast --private-key APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ```
@@ -157,4 +147,4 @@ leo query program admin_example.aleo
 
 In the `admin` directory, you'll find a Rust CLI utility `sign-deployment` which can be used to sign deployment transactions with a separate private key.
 
-This can be especially useful if you are storing your admin key on a seperate, air-gapped machine.
+This can be especially useful if you are storing your admin key on a separate, air-gapped machine.

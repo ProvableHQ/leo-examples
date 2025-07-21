@@ -7,43 +7,22 @@ This tutorial details a "toy" voting system for program updates on the Aleo netw
 In production, extra care should be taken to ensure that the governance mechanism is secure and robust.
 
 ## Initializing the Project
+You may either use the existing `vote` project
 ```
-> cd vote_example
+> cd vote
 ```
-This example has already been set up for you.
-However, if you were to initialize a new project, you would manually edit the `program.json` file to use the `"checksum"` configuration.
-The Leo compiler uses this configuration to ensure that your program is well-formed for the `"checksum"` upgrade mode.
-
-```json
-{
-  "program": "vote_example.aleo",
-  "version": "0.1.0",
-  "description": "",
-  "license": "MIT",
-  "dependencies": [
-    {
-      "name": "basic_voting.aleo",
-      "location": "local",
-      "path": "./basic_voting",
-      "edition": null
-    }
-  ],
-  "dev_dependencies": null,
-  "upgrade": {
-    "mode": "checksum",
-    "mapping": "basic_voting.aleo/approved_checksum",
-    "key": "true"
-  }
-}
+or create a new Leo project with the following command:
+```
+> leo new vote 
 ```
 
-The `"mapping"` field specifies the program and mapping to look at for the approved checksum.
-The compiler will check that this mapping exists in the program.
-The `"key"` field specifies the hard-coded key that will be accessed to retrieve the expected checksum.
+
 
 ## Program Overview
 
-The voting program is a non-upgradable program (see `01_noupgrade.md` for more details) that allows users to propose the expected checksum and vote on it them.
+This project will contain two programs: `basic_voting.aleo` and `vote_example.aleo`.
+
+The `basic_voting` program is a non-upgradable program (see `01_noupgrade.md` for more details) that allows users to propose the expected checksum and vote on it them.
 Note that the voting program is intended for educational purposes and is **NOT** suitable for production use.
 See `vote_example/basic_voting` for the source code.
 
@@ -57,14 +36,17 @@ program vote_example.aleo {
         return c;
     }
 
-    async constructor() {
-        if self.edition > 0u16 {
-            let expected: [u8; 32] = Mapping::get(basic_voting.aleo/approved_checksum, true);
-            assert_eq(self.checksum, expected);
-        }
-    }
+    // Uncomment me to test the upgrade.
+    // transition foo() {}
+
+    @checksum(mapping="basic_voting.aleo/approved_checksum", key="true")
+    async constructor() {}
 }
 ```
+
+The `"mapping"` field specifies the program and mapping to look at for the approved checksum.
+The `"key"` field specifies the hard-coded key that will be accessed to retrieve the expected checksum.
+The Leo compiler will generate AVM code that checks that the program's checksum matches the approved checksum in the `basic_voting` program.
 
 ## Step-by-Step Guide
 
@@ -72,8 +54,23 @@ program vote_example.aleo {
 
 First, deploy both programs to the Aleo network:
 
-```bash
+```
 leo deploy --broadcast
+.
+.
+.
+🔧 Your program 'vote_example.aleo' has the following constructor.
+──────────────────────────────────────────────
+constructor:
+branch.eq edition 0u16 to end;
+get basic_voting.aleo/approved_checksum[true] into r0;
+assert.eq checksum r0;
+position end;
+──────────────────────────────────────────────
+Once it is deployed, it CANNOT be changed.
+.
+.
+.
 ```
 
 ### Developing the Upgrade
@@ -95,11 +92,11 @@ transition foo() {}
        Leo     
 12 statements before dead code elimination.
        Leo     12 statements after dead code elimination.
-       Leo     The program checksum is: '[139u8, 175u8, 223u8, 29u8, 214u8, 159u8, 77u8, 20u8, 120u8, 41u8, 188u8, 201u8, 170u8, 149u8, 63u8, 73u8, 208u8, 76u8, 207u8, 13u8, 83u8, 167u8, 134u8, 118u8, 110u8, 126u8, 131u8, 235u8, 12u8, 54u8, 155u8, 106u8]'.
+       Leo     The program checksum is: '[33u8, 48u8, 194u8, 27u8, 174u8, 61u8, 90u8, 33u8, 29u8, 160u8, 246u8, 222u8, 188u8, 64u8, 174u8, 4u8, 25u8, 255u8, 119u8, 147u8, 218u8, 75u8, 182u8, 78u8, 213u8, 89u8, 77u8, 100u8, 247u8, 125u8, 72u8, 3u8]'.
        Leo ✅ Compiled 'vote_example.aleo' into Aleo instructions.
 ```
 
-The checksum is: `[139u8, 175u8, 223u8, 29u8, 214u8, 159u8, 77u8, 20u8, 120u8, 41u8, 188u8, 201u8, 170u8, 149u8, 63u8, 73u8, 208u8, 76u8, 207u8, 13u8, 83u8, 167u8, 134u8, 118u8, 110u8, 126u8, 131u8, 235u8, 12u8, 54u8, 155u8, 106u8]`
+The checksum that we will propose is: `[33u8, 48u8, 194u8, 27u8, 174u8, 61u8, 90u8, 33u8, 29u8, 160u8, 246u8, 222u8, 188u8, 64u8, 174u8, 4u8, 25u8, 255u8, 119u8, 147u8, 218u8, 75u8, 182u8, 78u8, 213u8, 89u8, 77u8, 100u8, 247u8, 125u8, 72u8, 3u8]`
 
 ### Invalid Upgrade Attempts
 
@@ -113,17 +110,17 @@ leo upgrade --broadcast
 
 To propose the upgrade, we need to call the `propose` transition in the `basic_voting` program.
 ```bash
-leo execute basic_voting.aleo propose "[139u8, 175u8, 223u8, 29u8, 214u8, 159u8, 77u8, 20u8, 120u8, 41u8, 188u8, 201u8, 170u8, 149u8, 63u8, 73u8, 208u8, 76u8, 207u8, 13u8, 83u8, 167u8, 134u8, 118u8, 110u8, 126u8, 131u8, 235u8, 12u8, 54u8, 155u8, 106u8]" --broadcast
+leo execute basic_voting.aleo propose "[33u8, 48u8, 194u8, 27u8, 174u8, 61u8, 90u8, 33u8, 29u8, 160u8, 246u8, 222u8, 188u8, 64u8, 174u8, 4u8, 25u8, 255u8, 119u8, 147u8, 218u8, 75u8, 182u8, 78u8, 213u8, 89u8, 77u8, 100u8, 247u8, 125u8, 72u8, 3u8]" --broadcast
 ```
 
 Then we'll need to vote on the proposal.
 We'll vote once with our own address.
 ```bash
-leo execute basic_voting.aleo vote "[139u8, 175u8, 223u8, 29u8, 214u8, 159u8, 77u8, 20u8, 120u8, 41u8, 188u8, 201u8, 170u8, 149u8, 63u8, 73u8, 208u8, 76u8, 207u8, 13u8, 83u8, 167u8, 134u8, 118u8, 110u8, 126u8, 131u8, 235u8, 12u8, 54u8, 155u8, 106u8]" true --broadcast
+leo execute basic_voting.aleo vote "[33u8, 48u8, 194u8, 27u8, 174u8, 61u8, 90u8, 33u8, 29u8, 160u8, 246u8, 222u8, 188u8, 64u8, 174u8, 4u8, 25u8, 255u8, 119u8, 147u8, 218u8, 75u8, 182u8, 78u8, 213u8, 89u8, 77u8, 100u8, 247u8, 125u8, 72u8, 3u8]" true --broadcast
 ```
 And then once more with a different address.
 ```bash
-leo execute basic_voting.aleo vote "[139u8, 175u8, 223u8, 29u8, 214u8, 159u8, 77u8, 20u8, 120u8, 41u8, 188u8, 201u8, 170u8, 149u8, 63u8, 73u8, 208u8, 76u8, 207u8, 13u8, 83u8, 167u8, 134u8, 118u8, 110u8, 126u8, 131u8, 235u8, 12u8, 54u8, 155u8, 106u8]" true --broadcast --private-key 
+leo execute basic_voting.aleo vote "[33u8, 48u8, 194u8, 27u8, 174u8, 61u8, 90u8, 33u8, 29u8, 160u8, 246u8, 222u8, 188u8, 64u8, 174u8, 4u8, 25u8, 255u8, 119u8, 147u8, 218u8, 75u8, 182u8, 78u8, 213u8, 89u8, 77u8, 100u8, 247u8, 125u8, 72u8, 3u8]" true --broadcast --private-key 
 APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ```
 Note. The key `APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh` will always have credits on a local snarkOS development network.

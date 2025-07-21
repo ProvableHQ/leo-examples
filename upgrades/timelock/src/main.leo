@@ -8,6 +8,7 @@ program timelock_example.aleo {
     // Uncomment me to test the upgrade.
     // transition foo() {}
 
+    @custom
     async constructor() {
         if self.edition > 0u16 {
             assert(block.height >= 1300u32);

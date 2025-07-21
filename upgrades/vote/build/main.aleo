@@ -7,6 +7,8 @@ function main:
     add r0 r1 into r2;
     output r2 as u32.private;
 
+function foo:
+
 constructor:
     branch.eq edition 0u16 to end;
     get basic_voting.aleo/approved_checksum[true] into r0;

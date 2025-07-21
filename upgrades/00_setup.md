@@ -20,7 +20,7 @@ You will first need to clone the snarkOS repository and checkout a working commi
 ``` 
 > git clone https://github.com/ProvableHQ/snarkOS.git
 > cd snarkOS
-> git checkout 962aee2
+> git checkout 952f629
 ```
 
 You can then install and run a local development network with the following command and presets:
@@ -39,7 +39,7 @@ Running build command: "cargo install --locked --path . --features test_network"
 ```
 
 **Note: The devnet will need to produce a few blocks before it is ready to accept upgradable programs.**
-You can verify that it is ready by querying the REST endpoint and checking that the consensus version is 7 or greater.
+You can verify that it is ready by querying the REST endpoint and checking that the consensus version is 9 or greater.
 ```
 http://localhost:3030/testnet/consensus_version
 ```
@@ -51,7 +51,7 @@ You will need to clone the Leo repository and checkout a working commit on the `
 ```
 > git clone https://github.com/ProvableHQ/leo.git
 > cd leo
-> git checkout efcf916
+> git checkout 23ec6e2 
 ```
 You may use ``
 

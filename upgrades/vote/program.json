@@ -11,10 +11,5 @@
       "edition": null
     }
   ],
-  "dev_dependencies": null,
-  "upgrade": {
-    "mode": "checksum",
-    "mapping": "basic_voting.aleo/approved_checksum",
-    "key": "true"
-  }
+  "dev_dependencies": null
 }
