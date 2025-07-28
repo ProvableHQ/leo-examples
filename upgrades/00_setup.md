@@ -16,11 +16,11 @@ To start using these features, we'll need to set up a custom development environ
 
 ## Setting up snarkOS
 
-You will first need to clone the snarkOS repository and checkout a working commit on the `feat/program-upgradability` branch.
+You will first need to clone the snarkOS repository and checkout the `staging` branch.
 ``` 
 > git clone https://github.com/ProvableHQ/snarkOS.git
 > cd snarkOS
-> git checkout 952f629
+> git checkout staging 
 ```
 
 You can then install and run a local development network with the following command and presets:
@@ -51,7 +51,7 @@ You will need to clone the Leo repository and checkout a working commit on the `
 ```
 > git clone https://github.com/ProvableHQ/leo.git
 > cd leo
-> git checkout 23ec6e2 
+> git checkout eb80b6b 
 ```
 You may use ``
 

@@ -27,6 +27,9 @@ program noupgrade_example.aleo {
 ```
 Upgrades are defined by the logic of the `constructor`.
 The constructor is an **immutable** asynchronous function that is strictly on-chain.
+This means that once the program is deployed, the constructor cannot be changed.
+It is executed every time the program is deployed or upgraded.
+
 
 The `@noupgrade` annotation indicates that this program is not upgradable.
 If the `@noupgrade` annotation is specified, the body of the constructor must be left blank.
@@ -116,7 +119,7 @@ leo query transaction at1gk55y5asypvckqnszf83de8ktkte4f0k5m7cqe4pplccrvnhnszs53m
 ## Attempting to Upgrade
 To test the upgrade functionality, we can try to deploy the same program again.
 You may also try to modify the program to add a new function.
-Please refer to the documentation for more details on what constitutes a valid upgrade.
+Please refer to the [documentation](TODO) for more details on what constitutes a valid upgrade.
 
 Now we will run
 ```
