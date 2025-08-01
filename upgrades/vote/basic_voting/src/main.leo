@@ -25,6 +25,8 @@ program basic_voting.aleo {
         assert(!proposed_checksum.contains(true));
         // Ensure that there is not an existing approval for the checksum.
         assert(!approved_checksum.contains(true));
+        // Add the proposed checksum to the proposed_checksum mapping.
+        proposed_checksum.set(true, checksum);
     }
 
     // Vote on a proposed checksum.
@@ -46,7 +48,7 @@ program basic_voting.aleo {
         // Increment the count of accepting votes if the vote is approved.
         if (approved) {
             // Increment the count of accepting votes for the checksum.
-            let current_votes: u32 = accepting_votes.get(true);
+            let current_votes: u32 = accepting_votes.get_or_use(true, 0u32);
             let new_votes: u32 = current_votes + 1u32;
             accepting_votes.set(true, new_votes);
 
