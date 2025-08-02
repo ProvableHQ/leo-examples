@@ -16,11 +16,10 @@ To start using these features, we'll need to set up a custom development environ
 
 ## Setting up snarkOS
 
-You will first need to clone the snarkOS repository and checkout the `staging` branch.
+You will first need to clone the snarkOS repository.
 ``` 
 > git clone https://github.com/ProvableHQ/snarkOS.git
 > cd snarkOS
-> git checkout staging 
 ```
 
 You can then install and run a local development network with the following command and presets:
@@ -47,14 +46,11 @@ http://localhost:3030/testnet/consensus_version
 
 ## Setting up Leo
 
-You will need to clone the Leo repository and checkout a working commit on the `feat/program-upgradability` branch.
+You will need to clone the Leo repository and build from source.
 ```
 > git clone https://github.com/ProvableHQ/leo.git
 > cd leo
-> git checkout eb80b6b 
 ```
-You may use ``
-
 You can then install Leo with the following command:
 ```
 > cargo install --locked --path . --features test_network
@@ -67,6 +63,11 @@ PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
 ENDPOINT=http://localhost:3030
 ```
 which will use a private key that is already funded and point to the local devnet.
+
+Other devnet private keys include:
+- `APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh`
+- `APrivateKey1zkp2GUmKbVsuc1NSj28pa1WTQuZaK5f1DQJAT6vPcHyWokG`
+- `APrivateKey1zkpBjpEgLo4arVUkQmcLdKQMiAKGaHAQVVwmF8HQby8vdYs`
 
 ## Trying Out Upgradable Programs
 

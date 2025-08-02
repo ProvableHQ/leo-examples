@@ -74,11 +74,9 @@ Once it is deployed, it CANNOT be changed.
 ```
 
 ### Developing the Upgrade
-
-We will now modify our program by adding a new transition called `foo`.
-```leo
-transition foo() {}
-```
+To test the upgrade functionality, we can try to deploy the same program again.
+You may also try to modify the program to add a new function.
+Please refer to the [documentation](TODO) for more details on what constitutes a valid upgrade.
 
 `leo build` will compile the program and tell us what the checksum is. This will be used to propose the upgrade.
 
@@ -123,7 +121,7 @@ And then once more with a different address.
 leo execute basic_voting.aleo vote "[33u8, 48u8, 194u8, 27u8, 174u8, 61u8, 90u8, 33u8, 29u8, 160u8, 246u8, 222u8, 188u8, 64u8, 174u8, 4u8, 25u8, 255u8, 119u8, 147u8, 218u8, 75u8, 182u8, 78u8, 213u8, 89u8, 77u8, 100u8, 247u8, 125u8, 72u8, 3u8]" true --broadcast --private-key 
 APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh
 ```
-Note. The key `APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh` will always have credits on a local snarkOS development network.
+Note: The key `APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh` will always have credits on a local snarkOS development network.
 
 ### Another Invalid Upgrade Attempt
 Now let's try to deploy the program, but modify the code so that the checksum does not match the approved checksum.

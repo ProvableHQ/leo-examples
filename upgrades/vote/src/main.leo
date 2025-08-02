@@ -7,7 +7,7 @@ program vote_example.aleo {
     }
 
     // Uncomment me to test the upgrade.
-    transition foo() {}
+    // transition foo() {}
 
     @checksum(mapping="basic_voting.aleo/approved_checksum", key="true")
     async constructor() {}
