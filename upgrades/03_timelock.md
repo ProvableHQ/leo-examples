@@ -31,6 +31,13 @@ Note that this value will change as the network produces new blocks.
 Now let's define the program.
 ```leo
 program timelock_example.aleo {
+    @custom
+    async constructor() {
+        if self.edition > 0u16 {
+            assert(block.height >= 1300u32);
+        }
+    }
+    
     transition main(public a: u32, b: u32) -> u32 {
         let c: u32 = a + b;
         return c;
@@ -38,13 +45,6 @@ program timelock_example.aleo {
 
     // Uncomment me to test the upgrade.
     // transition foo() {}
-
-    @custom
-    async constructor() {
-        if self.edition > 0u16 {
-            assert(block.height >= 1300u32);
-        }
-    }
 }
 ```
 

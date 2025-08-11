@@ -31,6 +31,9 @@ The main program (`vote_example.aleo`) imports the `basic_voting` program and qu
 import basic_voting.aleo;
 
 program vote_example.aleo {
+    @checksum(mapping="basic_voting.aleo/approved_checksum", key="true")
+    async constructor() {}
+    
     transition main(public a: u32, b: u32) -> u32 {
         let c: u32 = a + b;
         return c;
@@ -38,9 +41,6 @@ program vote_example.aleo {
 
     // Uncomment me to test the upgrade.
     // transition foo() {}
-
-    @checksum(mapping="basic_voting.aleo/approved_checksum", key="true")
-    async constructor() {}
 }
 ```
 
@@ -76,7 +76,7 @@ Once it is deployed, it CANNOT be changed.
 ### Developing the Upgrade
 To test the upgrade functionality, we can try to deploy the same program again.
 You may also try to modify the program to add a new function.
-Please refer to the [documentation](TODO) for more details on what constitutes a valid upgrade.
+Please refer to the [documentation](https://docs.leo-lang.org/guides/upgradability) for more details on what constitutes a valid upgrade.
 
 `leo build` will compile the program and tell us what the checksum is. This will be used to propose the upgrade.
 

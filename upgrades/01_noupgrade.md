@@ -16,13 +16,13 @@ or create a new Leo project with the following command:
 ## The Program
 ```leo
 program noupgrade_example.aleo {
+    @noupgrade
+    async constructor() {}
+    
     transition main(public a: u32, b: u32) -> u32 {
         let c: u32 = a + b;
         return c;
     }
-    
-    @noupgrade
-    async constructor() {}
 }
 ```
 Upgrades are defined by the logic of the `constructor`.
@@ -119,7 +119,7 @@ leo query transaction at1gk55y5asypvckqnszf83de8ktkte4f0k5m7cqe4pplccrvnhnszs53m
 ## Attempting to Upgrade
 To test the upgrade functionality, we can try to deploy the same program again.
 You may also try to modify the program to add a new function.
-Please refer to the [documentation](TODO) for more details on what constitutes a valid upgrade.
+Please refer to the [documentation](https://docs.leo-lang.org/guides/upgradability) for more details on what constitutes a valid upgrade.
 
 Now we will run
 ```
