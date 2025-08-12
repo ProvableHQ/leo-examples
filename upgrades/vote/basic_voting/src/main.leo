@@ -1,5 +1,4 @@
 program basic_voting.aleo {
-
     // A mapping to store the proposed checksum.
     mapping proposed_checksum: bool => [u8; 32];
 
@@ -14,6 +13,9 @@ program basic_voting.aleo {
 
     // The number of votes required to approve a checksum.
     const THRESHOLD: u32 = 2u32;
+
+    @noupgrade
+    async constructor() {}
 
     // Propose a checksum to be voted on.
     async transition propose(checksum: [u8; 32]) -> Future {
@@ -56,7 +58,4 @@ program basic_voting.aleo {
             }
         }
     }
-
-    @noupgrade
-    async constructor() {}
 }

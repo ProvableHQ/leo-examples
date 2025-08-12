@@ -18,6 +18,9 @@ or create a new Leo project with the following command:
 
 ```leo
 program admin_example.aleo {
+    @admin(address="aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px")
+    async constructor() {}
+    
     transition main(public a: u32, b: u32) -> u32 {
         let c: u32 = a + b;
         return c;
@@ -25,10 +28,6 @@ program admin_example.aleo {
 
     // Uncomment me to test the upgrade.
     // transition foo() {}
-
-    // This is the constructor for the program.
-    @admin(address="aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px")
-    async constructor() {}
 }
 ```
 
@@ -64,7 +63,7 @@ leo query transaction at13226r67fxkf66qlrug4vp06yme4sw4n36f5ujcc8fzfkc6y78uys5ya
 ## Upgrading the Program
 To test the upgrade functionality, we can try to deploy the same program again.
 You may also try to modify the program to add a new function.
-Please refer to the [documentation](TODO) for more details on what constitutes a valid upgrade.
+Please refer to the [documentation](https://docs.leo-lang.org/guides/upgradability) for more details on what constitutes a valid upgrade.
 
 First, let's attempt to upgrade the program using a different private key.
 We will use this private key: `APrivateKey1zkp2RWGDcde3efb89rjhME1VYA8QMxcxep5DShNBR6n8Yjh`, whose address is `aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t`.
