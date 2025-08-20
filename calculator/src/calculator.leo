@@ -4,14 +4,14 @@ struct Calculator::[N: u32] {
   registers: registers::Registers::[N],
   // The history.
   // TODO: Make history longer.
-  history: history::History::[N],
+  history: history::History::[2 * N],
 }
 
 // Initialize the calculator.
 inline init::[N: u32]() -> Calculator::[N] {
   return Calculator::[N] {
     registers: registers::init::[N](),
-    history: history::init::[N]()
+    history: history::init::[2 * N]()
   };
 }
 
@@ -27,8 +27,8 @@ inline execute::[N: u32](
 }
 
 // Returns a transcript of the history.
-inline transcript::[N: u32](c: Calculator::[N]) -> history::Transcript::[N] {
-  return history::transcript::[N](c.history);
+inline transcript::[N: u32](c: Calculator::[N]) -> history::Transcript::[2 * N] {
+  return history::transcript::[2 * N](c.history);
 }
 
 // Executes a single instruction.

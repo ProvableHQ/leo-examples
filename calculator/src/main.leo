@@ -18,7 +18,7 @@ program calculator.aleo {
 
     transition transcript(
       c: calculator::Calculator::[SIZE]
-    ) -> calculator::history::Transcript::[SIZE] {
+    ) -> calculator::history::Transcript::[2 * SIZE] {
       return calculator::transcript::[SIZE](c);
     }
 
