@@ -1,4 +1,9 @@
-# Some "interesting" Leo programs
+# A tour of Leo by example
 
-Add yours by making a PR!
+## Concepts
+
+- **Testing**: `example_with_test`
+- **Modules**: `calculator`
+- **Upgradability** `upgrades`
+- **Const Generics**: `calculator`
 
