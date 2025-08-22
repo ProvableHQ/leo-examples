@@ -3,7 +3,7 @@ program calculator.aleo {
     @noupgrade
     async constructor() {}
 
-    const SIZE: u32 = 8;
+    const SIZE: u32 = 4;
 
     transition init() -> calculator::Calculator::[SIZE] {
       return calculator::init::[SIZE]();
