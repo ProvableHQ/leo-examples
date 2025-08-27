@@ -14,13 +14,13 @@ struct History__Cdcu2iyNy6a:
     head as u32;
     entries as [Instruction__Lppf6AZB52w; 8u32];
 
-struct Calculator__AeUcVKuTwJT:
-    registers as Registers__7V67zj5E35T;
-    history as History__Cdcu2iyNy6a;
-
 struct Transcript__5ydsl2cgxYJ:
     total as u32;
     entries as [Instruction__Lppf6AZB52w; 8u32];
+
+struct Calculator__AeUcVKuTwJT:
+    registers as Registers__7V67zj5E35T;
+    history as History__Cdcu2iyNy6a;
 
 function init:
     cast 0u32 0u32 0u32 0u32 into r0 as [u32; 4u32];
