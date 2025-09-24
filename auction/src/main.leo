@@ -62,5 +62,9 @@ program auction.aleo {
             is_winner: true,
         };
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }
 

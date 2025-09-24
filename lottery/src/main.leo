@@ -27,4 +27,8 @@ program lottery.aleo {
         num_winners.set(0u8, winners + 1u8);
 
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

@@ -24,4 +24,8 @@ program message.aleo {
         // `struct_name.member`
         return m1.first + m1.second;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

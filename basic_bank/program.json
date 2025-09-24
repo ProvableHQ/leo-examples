@@ -1,6 +1,9 @@
 {
   "program": "basic_bank.aleo",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
-  "license": "MIT"
+  "license": "MIT",
+  "leo": "3.2.0",
+  "dependencies": null,
+  "dev_dependencies": null
 }

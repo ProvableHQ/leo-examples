@@ -165,3 +165,6 @@ function main:
     shr r158 1u8 into r161;
     ternary r159 r160 r157 into r162;
     output r162 as u8.private;
+
+constructor:
+    assert.eq edition 0u16;

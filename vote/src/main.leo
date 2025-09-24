@@ -84,4 +84,8 @@ program vote.aleo {
         let current: u64 = Mapping::get_or_use(disagree_votes, pid, 0u64);
         Mapping::set(disagree_votes, pid, current + 1u64);
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

@@ -51,4 +51,8 @@ program ntzdebruijn.aleo {
         if i == 31u32 {return 27u8;} else
         {return 0u8;} // unused
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

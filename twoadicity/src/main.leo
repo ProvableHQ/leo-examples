@@ -25,4 +25,8 @@ program twoadicity.aleo {
     function is_even_and_nonzero (n: field) -> bool {
         return n / 2field < n;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

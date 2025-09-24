@@ -13,4 +13,8 @@ program bubblesort.aleo {
         }
         return xs;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

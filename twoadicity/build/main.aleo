@@ -1268,3 +1268,6 @@ function main:
     add r1255 1u8 into r1258;
     ternary r1256 r1258 r1255 into r1259;
     output r1259 as u8.private;
+
+constructor:
+    assert.eq edition 0u16;

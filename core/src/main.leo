@@ -9,5 +9,9 @@ program core.aleo {
         let d: field = BHP256::commit_to_field(c, 1scalar);
         return d;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }
 

@@ -41,6 +41,10 @@ program move.aleo {
             prev_hit_or_miss: 0u64,
         };
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }
 
 
