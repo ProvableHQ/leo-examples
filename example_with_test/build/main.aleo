@@ -27,3 +27,6 @@ function set_mapping:
 finalize set_mapping:
     input r0 as field.public;
     set r0 into map[0field];
+
+constructor:
+    assert.eq edition 0u16;

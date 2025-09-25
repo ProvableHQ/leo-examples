@@ -73,4 +73,8 @@ program ntzsearchtree.aleo {
                             if (x != 0u32) {return 31u8;}
                             else {return 32u8;} } } } } }
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

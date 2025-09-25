@@ -11,4 +11,8 @@ program ntzsmallvals.aleo {
         y = x.shl_wrapped(1u8); if (y != 0u32) {n = n - 1u8;}
         return n;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

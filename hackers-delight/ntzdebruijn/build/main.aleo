@@ -170,3 +170,6 @@ function main:
     call deBruijnTableLookup r5 into r6;
     ternary r1 32u8 r6 into r7;
     output r7 as u8.private;
+
+constructor:
+    assert.eq edition 0u16;

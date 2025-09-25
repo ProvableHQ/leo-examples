@@ -108,4 +108,8 @@ program tictactoe.aleo {
             return (updated, 0u8);
         }
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

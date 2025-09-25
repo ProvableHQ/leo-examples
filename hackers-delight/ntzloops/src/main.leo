@@ -12,4 +12,8 @@ program ntzloops.aleo {
         }
         return n;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

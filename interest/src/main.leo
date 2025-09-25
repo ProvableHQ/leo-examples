@@ -34,4 +34,8 @@ program interest.aleo {
         }
         return amount;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

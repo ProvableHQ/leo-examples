@@ -51,3 +51,6 @@ function play:
     call move.aleo/create_move r1 r2 r5 into r6;
     output r4 as board.aleo/BoardState.record;
     output r6 as move.aleo/Move.record;
+
+constructor:
+    assert.eq edition 0u16;

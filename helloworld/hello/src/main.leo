@@ -4,4 +4,8 @@ program hello.aleo {
         let c: u32 = a + b;
         return c;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

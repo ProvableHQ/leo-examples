@@ -30,3 +30,6 @@ function finish:
     assert.eq self.caller aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg;
     cast r0.bidder r0.bidder r0.amount true into r1 as Bid.record;
     output r1 as Bid.record;
+
+constructor:
+    assert.eq edition 0u16;

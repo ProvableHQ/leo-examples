@@ -27,4 +27,8 @@ program example_program.aleo {
     async function finalize_set_mapping(x: field) {
         Mapping::set(map, 0field, x);
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

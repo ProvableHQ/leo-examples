@@ -88,3 +88,6 @@ function bubble_sort:
     ternary r82 r77 r80 into r84;
     cast r83 r84 r81 r75 r66 r54 r39 r21 into r85 as [u32; 8u32];
     output r85 as [u32; 8u32].private;
+
+constructor:
+    assert.eq edition 0u16;

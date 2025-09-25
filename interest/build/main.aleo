@@ -342,3 +342,6 @@ function bounded_iteration_interest:
     ternary false r13 r301 into r302;
     ternary false r8 r302 into r303;
     output r303 as u32.private;
+
+constructor:
+    assert.eq edition 0u16;

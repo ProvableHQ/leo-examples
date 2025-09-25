@@ -57,4 +57,8 @@ program ntzreisers.aleo {
 
         {return 0u8;} // unused
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

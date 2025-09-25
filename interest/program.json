@@ -1,6 +1,9 @@
 {
-    "program": "interest.aleo",
-    "version": "0.0.0",
-    "description": "",
-    "license": "MIT"
+  "program": "interest.aleo",
+  "version": "0.1.0",
+  "description": "",
+  "license": "MIT",
+  "leo": "3.2.0",
+  "dependencies": null,
+  "dev_dependencies": null
 }

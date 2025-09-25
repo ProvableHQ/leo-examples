@@ -89,4 +89,8 @@ program ntzseals.aleo {
         // if i == 63u32 {return 0u8;} else   // unused
         {return 0u8;} // unused
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }
