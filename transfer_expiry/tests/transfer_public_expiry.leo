@@ -1,5 +1,6 @@
 // The 'test_transfer_public_expiry' test program.
 import transfer_public_expiry.aleo;
+
 program test_transfer_public_expiry.aleo {
     @test
     transition test_expiry() {
