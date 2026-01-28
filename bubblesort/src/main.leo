@@ -17,7 +17,7 @@ program bubblesort.aleo {
     // Note that the implementation below uses tuples instead of arrays.
     // The implementation also manually unrolls the loop.
 
-    transition bubble_sort(
+    fn bubble_sort(
                          arr0: u32,
                          arr1: u32,
                          arr2: u32,

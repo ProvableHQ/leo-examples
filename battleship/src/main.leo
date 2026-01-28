@@ -5,7 +5,7 @@ import verify.aleo;
 // The 'battleship.aleo' program.
 program battleship.aleo {
     // Returns a new record representing a new game of battleship.
-    transition initialize_board(
+    fn initialize_board(
         // The u64 representation of a carrier's placement in an 8x8 grid. Length = 5.
         carrier: u64,
         // The u64 representation of a battleship's placement in an 8x8 grid. Length = 4.
@@ -42,7 +42,7 @@ program battleship.aleo {
     // Returns an updated board state record that has been started. This board cannot be used to start any other games.
     // Returns a dummy move record owned by the opponent.
     // This function commits a given board to a game with an opponent and creates the initial dummy move.
-    transition offer_battleship(
+    fn offer_battleship(
         // The board record to start a game with.
         board: board.aleo/BoardState,
     ) -> (board.aleo/BoardState, move.aleo/Move) {
@@ -54,7 +54,7 @@ program battleship.aleo {
 
     // Returns updated board_state that has been started and can no longer be used to join or start new games.
     // Returns dummy move record owned by the opponent.
-    transition start_battleship(
+    fn start_battleship(
         // The board record to play the game with.
         board: board.aleo/BoardState,
         // The move record to play to begin the game. This should be the dummy move record created from offer_battleship.
@@ -72,7 +72,7 @@ program battleship.aleo {
 
     // Returns updated board record.
     // Returns new move record owned by opponent.
-    transition play(
+    fn play(
         // The board record to update.
         board: board.aleo/BoardState,
         // The incoming move from the opponent.
