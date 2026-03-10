@@ -1,0 +1,36 @@
+{
+  "program": "twoadicity.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "main",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "n",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Field"
+            }
+          },
+          "mode": "Public"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

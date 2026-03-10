@@ -1,0 +1,38 @@
+{
+  "program": "fibonacci.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "fibonacci",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "n",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            }
+          },
+          "mode": "Public"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U128"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "program": "groups.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "main",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "a",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Group"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Group"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "program": "ntzsearchtree.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "main",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "x",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "Public"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

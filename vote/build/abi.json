@@ -1,0 +1,264 @@
+{
+  "program": "vote.aleo",
+  "structs": [
+    {
+      "path": [
+        "ProposalInfo"
+      ],
+      "fields": [
+        {
+          "name": "title",
+          "ty": {
+            "Primitive": "Field"
+          }
+        },
+        {
+          "name": "content",
+          "ty": {
+            "Primitive": "Field"
+          }
+        },
+        {
+          "name": "proposer",
+          "ty": {
+            "Primitive": "Address"
+          }
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "path": [
+        "Proposal"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "id",
+          "ty": {
+            "Primitive": "Field"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "info",
+          "ty": {
+            "Struct": {
+              "path": [
+                "ProposalInfo"
+              ],
+              "program": "vote"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "path": [
+        "Ticket"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "pid",
+          "ty": {
+            "Primitive": "Field"
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ],
+  "mappings": [
+    {
+      "name": "proposals",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Struct": {
+          "path": [
+            "ProposalInfo"
+          ],
+          "program": "vote"
+        }
+      }
+    },
+    {
+      "name": "tickets",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Primitive": {
+          "UInt": "U64"
+        }
+      }
+    },
+    {
+      "name": "agree_votes",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Primitive": {
+          "UInt": "U64"
+        }
+      }
+    },
+    {
+      "name": "disagree_votes",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Primitive": {
+          "UInt": "U64"
+        }
+      }
+    }
+  ],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "propose",
+      "is_async": true,
+      "inputs": [
+        {
+          "name": "info",
+          "ty": {
+            "Plaintext": {
+              "Struct": {
+                "path": [
+                  "ProposalInfo"
+                ],
+                "program": "vote"
+              }
+            }
+          },
+          "mode": "Public"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Proposal"
+              ],
+              "program": "vote"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "ty": "Future",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "new_ticket",
+      "is_async": true,
+      "inputs": [
+        {
+          "name": "pid",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Field"
+            }
+          },
+          "mode": "Public"
+        },
+        {
+          "name": "voter",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Address"
+            }
+          },
+          "mode": "Public"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Ticket"
+              ],
+              "program": "vote"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "ty": "Future",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "agree",
+      "is_async": true,
+      "inputs": [
+        {
+          "name": "ticket",
+          "ty": {
+            "Record": {
+              "path": [
+                "Ticket"
+              ],
+              "program": "vote"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": "Future",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "disagree",
+      "is_async": true,
+      "inputs": [
+        {
+          "name": "ticket",
+          "ty": {
+            "Record": {
+              "path": [
+                "Ticket"
+              ],
+              "program": "vote"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": "Future",
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

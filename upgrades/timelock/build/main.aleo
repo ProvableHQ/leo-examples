@@ -14,4 +14,3 @@ constructor:
     branch.eq true true to end_otherwise_0_1;
     position end_then_0_0;
     position end_otherwise_0_1;
-
