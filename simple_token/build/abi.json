@@ -1,0 +1,134 @@
+{
+  "program": "simple_token.aleo",
+  "structs": [],
+  "records": [
+    {
+      "path": [
+        "Token"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "amount",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "mint",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "owner",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Address"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "amount",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Token"
+              ],
+              "program": "simple_token"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "transfer",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "token",
+          "ty": {
+            "Record": {
+              "path": [
+                "Token"
+              ],
+              "program": "simple_token"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "to",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Address"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "amount",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Token"
+              ],
+              "program": "simple_token"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Token"
+              ],
+              "program": "simple_token"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

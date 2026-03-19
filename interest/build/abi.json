@@ -1,0 +1,100 @@
+{
+  "program": "interest.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "fixed_iteration_interest",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "capital",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "rate",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "Public"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "bounded_iteration_interest",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "capital",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "rate",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "Public"
+        },
+        {
+          "name": "iterations",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

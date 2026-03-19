@@ -1,0 +1,226 @@
+{
+  "program": "board.aleo",
+  "structs": [],
+  "records": [
+    {
+      "path": [
+        "BoardState"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "hits_and_misses",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "played_tiles",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "ships",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "player_1",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "player_2",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "game_started",
+          "ty": {
+            "Primitive": "Boolean"
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "new_board_state",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "ships",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "opponent",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Address"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "start_board",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "board",
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "update_played_tiles",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "board",
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "shoot",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "update_hits_and_misses",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "board",
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "hit_or_miss",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

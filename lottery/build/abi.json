@@ -1,0 +1,60 @@
+{
+  "program": "lottery.aleo",
+  "structs": [],
+  "records": [
+    {
+      "path": [
+        "Ticket"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ],
+  "mappings": [
+    {
+      "name": "num_winners",
+      "key": {
+        "Primitive": {
+          "UInt": "U8"
+        }
+      },
+      "value": {
+        "Primitive": {
+          "UInt": "U8"
+        }
+      }
+    }
+  ],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "play",
+      "is_async": true,
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Ticket"
+              ],
+              "program": "lottery"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "ty": "Future",
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

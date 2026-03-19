@@ -1,0 +1,48 @@
+{
+  "program": "bubblesort.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "bubble_sort",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "xs",
+          "ty": {
+            "Plaintext": {
+              "Array": {
+                "element": {
+                  "Primitive": {
+                    "UInt": "U32"
+                  }
+                },
+                "length": 8
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Array": {
+                "element": {
+                  "Primitive": {
+                    "UInt": "U32"
+                  }
+                },
+                "length": 8
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}
