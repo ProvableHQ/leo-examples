@@ -40,10 +40,10 @@
     }
   ],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "mint_public",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "receiver",
@@ -68,14 +68,14 @@
       ],
       "outputs": [
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
     },
     {
       "name": "mint_private",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "receiver",
@@ -105,7 +105,7 @@
               "path": [
                 "Token"
               ],
-              "program": "token"
+              "program": "token.aleo"
             }
           },
           "mode": "None"
@@ -114,7 +114,7 @@
     },
     {
       "name": "transfer_public",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "receiver",
@@ -139,14 +139,14 @@
       ],
       "outputs": [
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
     },
     {
       "name": "transfer_private",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "sender",
@@ -155,7 +155,7 @@
               "path": [
                 "Token"
               ],
-              "program": "token"
+              "program": "token.aleo"
             }
           },
           "mode": "None"
@@ -188,7 +188,7 @@
               "path": [
                 "Token"
               ],
-              "program": "token"
+              "program": "token.aleo"
             }
           },
           "mode": "None"
@@ -199,7 +199,7 @@
               "path": [
                 "Token"
               ],
-              "program": "token"
+              "program": "token.aleo"
             }
           },
           "mode": "None"
@@ -208,7 +208,7 @@
     },
     {
       "name": "transfer_private_to_public",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "sender",
@@ -217,7 +217,7 @@
               "path": [
                 "Token"
               ],
-              "program": "token"
+              "program": "token.aleo"
             }
           },
           "mode": "None"
@@ -250,20 +250,20 @@
               "path": [
                 "Token"
               ],
-              "program": "token"
+              "program": "token.aleo"
             }
           },
           "mode": "None"
         },
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
     },
     {
       "name": "transfer_public_to_private",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "receiver",
@@ -293,13 +293,13 @@
               "path": [
                 "Token"
               ],
-              "program": "token"
+              "program": "token.aleo"
             }
           },
           "mode": "None"
         },
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]

@@ -36,10 +36,10 @@
     }
   ],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "simple_addition",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "a",
@@ -79,7 +79,7 @@
     },
     {
       "name": "mint_record",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "x",
@@ -98,7 +98,7 @@
               "path": [
                 "Example"
               ],
-              "program": "example_program"
+              "program": "example_program.aleo"
             }
           },
           "mode": "None"
@@ -107,7 +107,7 @@
     },
     {
       "name": "set_mapping",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "x",
@@ -121,7 +121,7 @@
       ],
       "outputs": [
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]

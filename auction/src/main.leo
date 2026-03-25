@@ -18,7 +18,7 @@ program auction.aleo {
     // Requires that `bidder` matches the function caller.
     // The owner of the record is set to the entity responsible for running the auction (auction runner).
     // The address of the auction runner is aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg.
-    transition place_bid(bidder: address, amount: u64) -> Bid {
+    fn place_bid(bidder: address, amount: u64) -> Bid {
         // Ensure the caller is the auction bidder.
         assert_eq(self.caller, bidder);
         // Return a new 'Bid' record for the auction bidder.
@@ -36,7 +36,7 @@ program auction.aleo {
     // Requires that the function caller is the auction runner.
     // Assumes that the function is invoked only after the bidding period has ended.
     // In the event of a tie, the first bid is selected.
-    transition resolve(first: Bid, second: Bid) -> Bid {
+    fn resolve(first: Bid, second: Bid) -> Bid {
         // Ensure the caller is the auctioneer.
         assert_eq(self.caller, aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg);
         // Resolve the winner of the auction.
@@ -51,7 +51,7 @@ program auction.aleo {
     // - `bid` : The winning bid.
     // Requires that the function caller is the auction runner.
     // Assumes that the function is invoked only after all bids have been resolved.
-    transition finish(bid: Bid) -> Bid {
+    fn finish(bid: Bid) -> Bid {
         // Ensure the caller is the auctioneer.
         assert_eq(self.caller, aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg);
         // Return 'is_winner' as 'true' in the winning 'Bid'.
@@ -65,6 +65,6 @@ program auction.aleo {
 
     // The constructor is configured to prevent upgrades.
     @noupgrade
-    async constructor() {}
+    constructor() {}
 }
 

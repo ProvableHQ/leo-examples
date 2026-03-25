@@ -44,7 +44,7 @@
               "path": [
                 "Row"
               ],
-              "program": "tictactoe"
+              "program": "tictactoe.aleo"
             }
           }
         },
@@ -55,7 +55,7 @@
               "path": [
                 "Row"
               ],
-              "program": "tictactoe"
+              "program": "tictactoe.aleo"
             }
           }
         },
@@ -66,7 +66,7 @@
               "path": [
                 "Row"
               ],
-              "program": "tictactoe"
+              "program": "tictactoe.aleo"
             }
           }
         }
@@ -76,10 +76,10 @@
   "records": [],
   "mappings": [],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "new",
-      "is_async": false,
+      "is_final": false,
       "inputs": [],
       "outputs": [
         {
@@ -89,7 +89,7 @@
                 "path": [
                   "Board"
                 ],
-                "program": "tictactoe"
+                "program": "tictactoe.aleo"
               }
             }
           },
@@ -99,7 +99,7 @@
     },
     {
       "name": "make_move",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "player",
@@ -142,7 +142,7 @@
                 "path": [
                   "Board"
                 ],
-                "program": "tictactoe"
+                "program": "tictactoe.aleo"
               }
             }
           },
@@ -157,7 +157,7 @@
                 "path": [
                   "Board"
                 ],
-                "program": "tictactoe"
+                "program": "tictactoe.aleo"
               }
             }
           },

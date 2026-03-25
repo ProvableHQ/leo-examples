@@ -24,10 +24,10 @@
   "records": [],
   "mappings": [],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "main",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "m",
@@ -37,7 +37,7 @@
                 "path": [
                   "Message"
                 ],
-                "program": "message"
+                "program": "message.aleo"
               }
             }
           },

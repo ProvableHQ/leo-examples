@@ -9,9 +9,9 @@ program noupgrade_example.aleo {
     //  - @custom
     // For more information, please refer to the documentation: ...
     @noupgrade
-    async constructor() {}
+    constructor() {}
 
-    transition main(public a: u32, b: u32) -> u32 {
+    fn main(public a: u32, b: u32) -> u32 {
         let c: u32 = a + b;
         return c;
     }

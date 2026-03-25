@@ -1,44 +1,64 @@
 {
-  "program": "interest.aleo",
+  "program": "verify.aleo",
   "structs": [],
   "records": [],
   "mappings": [],
   "storage_variables": [],
   "functions": [
     {
-      "name": "fixed_iteration_interest",
+      "name": "validate_ship",
       "is_final": false,
       "inputs": [
         {
-          "name": "capital",
+          "name": "ship",
           "ty": {
             "Plaintext": {
               "Primitive": {
-                "UInt": "U32"
+                "UInt": "U64"
               }
             }
           },
           "mode": "None"
         },
         {
-          "name": "rate",
+          "name": "length",
           "ty": {
             "Plaintext": {
               "Primitive": {
-                "UInt": "U32"
+                "UInt": "U64"
               }
             }
           },
-          "mode": "Public"
+          "mode": "None"
+        },
+        {
+          "name": "horizontal",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "vertical",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
         }
       ],
       "outputs": [
         {
           "ty": {
             "Plaintext": {
-              "Primitive": {
-                "UInt": "U32"
-              }
+              "Primitive": "Boolean"
             }
           },
           "mode": "None"
@@ -46,37 +66,48 @@
       ]
     },
     {
-      "name": "bounded_iteration_interest",
+      "name": "create_board",
       "is_final": false,
       "inputs": [
         {
-          "name": "capital",
+          "name": "carrier",
           "ty": {
             "Plaintext": {
               "Primitive": {
-                "UInt": "U32"
+                "UInt": "U64"
               }
             }
           },
           "mode": "None"
         },
         {
-          "name": "rate",
+          "name": "battleship",
           "ty": {
             "Plaintext": {
               "Primitive": {
-                "UInt": "U32"
+                "UInt": "U64"
               }
             }
           },
-          "mode": "Public"
+          "mode": "None"
         },
         {
-          "name": "iterations",
+          "name": "cruiser",
           "ty": {
             "Plaintext": {
               "Primitive": {
-                "UInt": "U8"
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "destroyer",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
               }
             }
           },
@@ -88,7 +119,7 @@
           "ty": {
             "Plaintext": {
               "Primitive": {
-                "UInt": "U32"
+                "UInt": "U64"
               }
             }
           },

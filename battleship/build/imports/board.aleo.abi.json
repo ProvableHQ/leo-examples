@@ -1,16 +1,79 @@
 {
-  "program": "battleship.aleo",
+  "program": "board.aleo",
   "structs": [],
-  "records": [],
+  "records": [
+    {
+      "path": [
+        "BoardState"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "hits_and_misses",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "played_tiles",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "ships",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "player_1",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "player_2",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "game_started",
+          "ty": {
+            "Primitive": "Boolean"
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ],
   "mappings": [],
   "storage_variables": [],
   "functions": [
     {
-      "name": "initialize_board",
+      "name": "new_board_state",
       "is_final": false,
       "inputs": [
         {
-          "name": "carrier",
+          "name": "ships",
           "ty": {
             "Plaintext": {
               "Primitive": {
@@ -21,40 +84,7 @@
           "mode": "None"
         },
         {
-          "name": "battleship",
-          "ty": {
-            "Plaintext": {
-              "Primitive": {
-                "UInt": "U64"
-              }
-            }
-          },
-          "mode": "None"
-        },
-        {
-          "name": "cruiser",
-          "ty": {
-            "Plaintext": {
-              "Primitive": {
-                "UInt": "U64"
-              }
-            }
-          },
-          "mode": "None"
-        },
-        {
-          "name": "destroyer",
-          "ty": {
-            "Plaintext": {
-              "Primitive": {
-                "UInt": "U64"
-              }
-            }
-          },
-          "mode": "None"
-        },
-        {
-          "name": "player",
+          "name": "opponent",
           "ty": {
             "Plaintext": {
               "Primitive": "Address"
@@ -78,7 +108,7 @@
       ]
     },
     {
-      "name": "offer_battleship",
+      "name": "start_board",
       "is_final": false,
       "inputs": [
         {
@@ -105,22 +135,11 @@
             }
           },
           "mode": "None"
-        },
-        {
-          "ty": {
-            "Record": {
-              "path": [
-                "Move"
-              ],
-              "program": "move.aleo"
-            }
-          },
-          "mode": "None"
         }
       ]
     },
     {
-      "name": "start_battleship",
+      "name": "update_played_tiles",
       "is_final": false,
       "inputs": [
         {
@@ -131,72 +150,6 @@
                 "BoardState"
               ],
               "program": "board.aleo"
-            }
-          },
-          "mode": "None"
-        },
-        {
-          "name": "move_start",
-          "ty": {
-            "Record": {
-              "path": [
-                "Move"
-              ],
-              "program": "move.aleo"
-            }
-          },
-          "mode": "None"
-        }
-      ],
-      "outputs": [
-        {
-          "ty": {
-            "Record": {
-              "path": [
-                "BoardState"
-              ],
-              "program": "board.aleo"
-            }
-          },
-          "mode": "None"
-        },
-        {
-          "ty": {
-            "Record": {
-              "path": [
-                "Move"
-              ],
-              "program": "move.aleo"
-            }
-          },
-          "mode": "None"
-        }
-      ]
-    },
-    {
-      "name": "play",
-      "is_final": false,
-      "inputs": [
-        {
-          "name": "board",
-          "ty": {
-            "Record": {
-              "path": [
-                "BoardState"
-              ],
-              "program": "board.aleo"
-            }
-          },
-          "mode": "None"
-        },
-        {
-          "name": "move_incoming",
-          "ty": {
-            "Record": {
-              "path": [
-                "Move"
-              ],
-              "program": "move.aleo"
             }
           },
           "mode": "None"
@@ -224,14 +177,45 @@
             }
           },
           "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "update_hits_and_misses",
+      "is_final": false,
+      "inputs": [
+        {
+          "name": "board",
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board.aleo"
+            }
+          },
+          "mode": "None"
         },
+        {
+          "name": "hit_or_miss",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
         {
           "ty": {
             "Record": {
               "path": [
-                "Move"
+                "BoardState"
               ],
-              "program": "move.aleo"
+              "program": "board.aleo"
             }
           },
           "mode": "None"

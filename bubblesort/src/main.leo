@@ -1,5 +1,5 @@
 program bubblesort.aleo {
-    transition bubble_sort(xs: [u32; 8]) -> [u32; 8] {
+    fn bubble_sort(xs: [u32; 8]) -> [u32; 8] {
         for i: u8 in 0u8..7u8 {
             for j: u8 in 0u8..7u8-i {
                 // Move the smaller elements forward
@@ -16,5 +16,5 @@ program bubblesort.aleo {
 
     // The constructor is configured to prevent upgrades.
     @noupgrade
-    async constructor() {}
+    constructor() {}
 }
