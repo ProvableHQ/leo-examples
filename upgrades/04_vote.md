@@ -31,7 +31,7 @@ The main program (`vote_example.aleo`) imports the `basic_voting` program and qu
 import basic_voting.aleo;
 
 program vote_example.aleo {
-    @checksum(mapping="basic_voting.aleo/approved_checksum", key="true")
+    @checksum(mapping="basic_voting.aleo::approved_checksum", key="true")
     async constructor() {}
     
     transition main(public a: u32, b: u32) -> u32 {
@@ -63,7 +63,7 @@ leo deploy --broadcast
 ──────────────────────────────────────────────
 constructor:
 branch.eq edition 0u16 to end;
-get basic_voting.aleo/approved_checksum[true] into r0;
+get basic_voting.aleo::approved_checksum[true] into r0;
 assert.eq checksum r0;
 position end;
 ──────────────────────────────────────────────
