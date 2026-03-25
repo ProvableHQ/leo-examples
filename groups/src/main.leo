@@ -15,5 +15,9 @@ program groups.aleo {
 
         return d + e;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }
 

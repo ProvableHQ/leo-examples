@@ -14,4 +14,8 @@ program ntzmasks.aleo {
         if ((x & 1u32) == 1u32) {n -= 1u8;}
         return n;
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }

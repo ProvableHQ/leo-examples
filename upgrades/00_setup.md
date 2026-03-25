@@ -52,7 +52,7 @@ To quickly get started, you can run the following commands:
 > mkdir tmp
 > leo devnet --storage tmp --snarkos ./tmp/snarkos-test --features test_network --install
 ```
-
+Note: You should omit the `--install` flag on subsequent runs.
 
 ## Trying Out Upgradable Programs
 

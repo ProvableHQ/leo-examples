@@ -192,3 +192,6 @@ function main:
     rem.w r2 37u32 into r3;
     call reisersTableLookup r3 into r4;
     output r4 as u8.private;
+
+constructor:
+    assert.eq edition 0u16;

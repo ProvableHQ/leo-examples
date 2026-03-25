@@ -1,0 +1,242 @@
+{
+  "program": "battleship.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "initialize_board",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "carrier",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "battleship",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "cruiser",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "destroyer",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "player",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Address"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "offer_battleship",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "board",
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "start_battleship",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "board",
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "move_start",
+          "ty": {
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "board",
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "move_incoming",
+          "ty": {
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "shoot",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "BoardState"
+              ],
+              "program": "board"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

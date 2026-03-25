@@ -27,22 +27,26 @@ program fibonacci.aleo {
 
         return f0;
     }
-}
 
-fn reverse_bits(n: u8) -> u8 {
-    let reverse: u8 = 0u8;
-
-    for i:u8 in 0u8..8u8 {
-        if n > 0u8 {
-            reverse = reverse << 1u8;
-    
-            if n & 1u8 == 1u8 {
-                reverse ^= 1u8;
+    fn reverse_bits(n: u8) -> u8 {
+        let reverse: u8 = 0u8;
+ 
+        for i:u8 in 0u8..8u8 {
+            if n > 0u8 {
+                reverse = reverse << 1u8;
+        
+                if n & 1u8 == 1u8 {
+                    reverse ^= 1u8;
+                }
+        
+                n = n >> 1u8;
             }
-    
-            n = n >> 1u8;
         }
+
+        return reverse;
     }
 
-    return reverse;
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    constructor() {}
 }

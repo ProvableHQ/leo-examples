@@ -25,4 +25,7 @@ program example_program.aleo {
         };
     }
 
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    constructor() {}
 }

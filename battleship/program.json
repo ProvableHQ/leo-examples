@@ -1,8 +1,9 @@
 {
   "program": "battleship.aleo",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "license": "MIT",
+  "leo": "3.5.0",
   "dependencies" : [
       {
           "name": "board.aleo",
@@ -19,5 +20,6 @@
           "location": "local",
           "path": "verify"
       }
-  ]
+  ],
+  "dev_dependencies": null
 }

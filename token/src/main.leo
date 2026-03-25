@@ -118,4 +118,8 @@ program token.aleo {
             Mapping::set(account, caller, current_amount - amount);
         });
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    constructor() {}
 }

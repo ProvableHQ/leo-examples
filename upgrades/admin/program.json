@@ -3,5 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "license": "MIT",
-  "dependencies": null
+  "leo": "3.5.0",
+  "dependencies": null,
+  "dev_dependencies": null
 }

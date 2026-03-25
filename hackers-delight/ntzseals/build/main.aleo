@@ -208,3 +208,6 @@ function main:
     shr r3 26u8 into r4;
     call sealsTableLookup r4 into r5;
     output r5 as u8.private;
+
+constructor:
+    assert.eq edition 0u16;

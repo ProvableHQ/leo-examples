@@ -1,0 +1,137 @@
+{
+  "program": "move.aleo",
+  "structs": [],
+  "records": [
+    {
+      "path": [
+        "Move"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "incoming_fire_coordinate",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "player_1",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "player_2",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "prev_hit_or_miss",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "create_move",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "move_record",
+          "ty": {
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "incoming_fire_coordinate",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "prev_hit_or_miss",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "start_game",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "player_2",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Address"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "program": "auction.aleo",
+  "structs": [],
+  "records": [
+    {
+      "path": [
+        "Bid"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "bidder",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "amount",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "is_winner",
+          "ty": {
+            "Primitive": "Boolean"
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "place_bid",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "bidder",
+          "ty": {
+            "Plaintext": {
+              "Primitive": "Address"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "amount",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Bid"
+              ],
+              "program": "auction"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "resolve",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "first",
+          "ty": {
+            "Record": {
+              "path": [
+                "Bid"
+              ],
+              "program": "auction"
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "second",
+          "ty": {
+            "Record": {
+              "path": [
+                "Bid"
+              ],
+              "program": "auction"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Bid"
+              ],
+              "program": "auction"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "finish",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "bid",
+          "ty": {
+            "Record": {
+              "path": [
+                "Bid"
+              ],
+              "program": "auction"
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Record": {
+              "path": [
+                "Bid"
+              ],
+              "program": "auction"
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

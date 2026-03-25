@@ -101,5 +101,9 @@ program battleship.aleo {
 
         return (next_board, next_move);
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }
 

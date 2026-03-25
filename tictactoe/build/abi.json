@@ -1,0 +1,179 @@
+{
+  "program": "tictactoe.aleo",
+  "structs": [
+    {
+      "path": [
+        "Row"
+      ],
+      "fields": [
+        {
+          "name": "c1",
+          "ty": {
+            "Primitive": {
+              "UInt": "U8"
+            }
+          }
+        },
+        {
+          "name": "c2",
+          "ty": {
+            "Primitive": {
+              "UInt": "U8"
+            }
+          }
+        },
+        {
+          "name": "c3",
+          "ty": {
+            "Primitive": {
+              "UInt": "U8"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": [
+        "Board"
+      ],
+      "fields": [
+        {
+          "name": "r1",
+          "ty": {
+            "Struct": {
+              "path": [
+                "Row"
+              ],
+              "program": "tictactoe"
+            }
+          }
+        },
+        {
+          "name": "r2",
+          "ty": {
+            "Struct": {
+              "path": [
+                "Row"
+              ],
+              "program": "tictactoe"
+            }
+          }
+        },
+        {
+          "name": "r3",
+          "ty": {
+            "Struct": {
+              "path": [
+                "Row"
+              ],
+              "program": "tictactoe"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "transitions": [
+    {
+      "name": "new",
+      "is_async": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Struct": {
+                "path": [
+                  "Board"
+                ],
+                "program": "tictactoe"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "make_move",
+      "is_async": false,
+      "inputs": [
+        {
+          "name": "player",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "row",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "col",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "board",
+          "ty": {
+            "Plaintext": {
+              "Struct": {
+                "path": [
+                  "Board"
+                ],
+                "program": "tictactoe"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": {
+            "Plaintext": {
+              "Struct": {
+                "path": [
+                  "Board"
+                ],
+                "program": "tictactoe"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

@@ -107,4 +107,8 @@ program board.aleo {
             game_started: board.game_started,
         };
     }
+
+    // The constructor is configured to prevent upgrades.
+    @noupgrade
+    async constructor() {}
 }
