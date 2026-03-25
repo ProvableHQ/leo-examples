@@ -1,10 +1,10 @@
 {
-  "program": "auction.aleo",
+  "program": "move.aleo",
   "structs": [],
   "records": [
     {
       "path": [
-        "Bid"
+        "Move"
       ],
       "fields": [
         {
@@ -15,14 +15,7 @@
           "mode": "None"
         },
         {
-          "name": "bidder",
-          "ty": {
-            "Primitive": "Address"
-          },
-          "mode": "None"
-        },
-        {
-          "name": "amount",
+          "name": "incoming_fire_coordinate",
           "ty": {
             "Primitive": {
               "UInt": "U64"
@@ -31,9 +24,25 @@
           "mode": "None"
         },
         {
-          "name": "is_winner",
+          "name": "player_1",
           "ty": {
-            "Primitive": "Boolean"
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "player_2",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "None"
+        },
+        {
+          "name": "prev_hit_or_miss",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
           },
           "mode": "None"
         }
@@ -44,20 +53,34 @@
   "storage_variables": [],
   "functions": [
     {
-      "name": "place_bid",
+      "name": "create_move",
       "is_final": false,
       "inputs": [
         {
-          "name": "bidder",
+          "name": "move_record",
           "ty": {
-            "Plaintext": {
-              "Primitive": "Address"
+            "Record": {
+              "path": [
+                "Move"
+              ],
+              "program": "move.aleo"
             }
           },
           "mode": "None"
         },
         {
-          "name": "amount",
+          "name": "incoming_fire_coordinate",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "prev_hit_or_miss",
           "ty": {
             "Plaintext": {
               "Primitive": {
@@ -73,9 +96,9 @@
           "ty": {
             "Record": {
               "path": [
-                "Bid"
+                "Move"
               ],
-              "program": "auction.aleo"
+              "program": "move.aleo"
             }
           },
           "mode": "None"
@@ -83,29 +106,14 @@
       ]
     },
     {
-      "name": "resolve",
+      "name": "start_game",
       "is_final": false,
       "inputs": [
         {
-          "name": "first",
+          "name": "player_2",
           "ty": {
-            "Record": {
-              "path": [
-                "Bid"
-              ],
-              "program": "auction.aleo"
-            }
-          },
-          "mode": "None"
-        },
-        {
-          "name": "second",
-          "ty": {
-            "Record": {
-              "path": [
-                "Bid"
-              ],
-              "program": "auction.aleo"
+            "Plaintext": {
+              "Primitive": "Address"
             }
           },
           "mode": "None"
@@ -116,40 +124,9 @@
           "ty": {
             "Record": {
               "path": [
-                "Bid"
+                "Move"
               ],
-              "program": "auction.aleo"
-            }
-          },
-          "mode": "None"
-        }
-      ]
-    },
-    {
-      "name": "finish",
-      "is_final": false,
-      "inputs": [
-        {
-          "name": "bid",
-          "ty": {
-            "Record": {
-              "path": [
-                "Bid"
-              ],
-              "program": "auction.aleo"
-            }
-          },
-          "mode": "None"
-        }
-      ],
-      "outputs": [
-        {
-          "ty": {
-            "Record": {
-              "path": [
-                "Bid"
-              ],
-              "program": "auction.aleo"
+              "program": "move.aleo"
             }
           },
           "mode": "None"

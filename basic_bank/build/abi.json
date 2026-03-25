@@ -40,10 +40,10 @@
     }
   ],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "issue",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "owner",
@@ -73,7 +73,7 @@
               "path": [
                 "Token"
               ],
-              "program": "basic_bank"
+              "program": "basic_bank.aleo"
             }
           },
           "mode": "None"
@@ -82,7 +82,7 @@
     },
     {
       "name": "deposit",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "token",
@@ -91,7 +91,7 @@
               "path": [
                 "Token"
               ],
-              "program": "basic_bank"
+              "program": "basic_bank.aleo"
             }
           },
           "mode": "None"
@@ -115,20 +115,20 @@
               "path": [
                 "Token"
               ],
-              "program": "basic_bank"
+              "program": "basic_bank.aleo"
             }
           },
           "mode": "None"
         },
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
     },
     {
       "name": "withdraw",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "recipient",
@@ -180,13 +180,13 @@
               "path": [
                 "Token"
               ],
-              "program": "basic_bank"
+              "program": "basic_bank.aleo"
             }
           },
           "mode": "None"
         },
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]

@@ -29,16 +29,17 @@ program basic_voting.aleo {
 
     // Vote on a proposed checksum.
     fn vote(checksum: [u8; 32], approved: bool) -> Final {
+        let caller = self.caller;
         return final {
             // Ensure that the checksum is proposed.
             assert(proposed_checksum.contains(true));
             // Ensure that the checksum is not already approved.
             assert(!approved_checksum.contains(true));
             // Ensure that the voter has not already voted.
-            assert(!voters.contains(self.caller));
+            assert(!voters.contains(caller));
 
             // Add the voter to the voters mapping.
-            voters.set(self.caller, true);
+            voters.set(caller, true);
 
             // Increment the count of accepting votes if the vote is approved.
             if (approved) {

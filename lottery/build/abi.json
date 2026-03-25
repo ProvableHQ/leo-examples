@@ -33,10 +33,10 @@
     }
   ],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "play",
-      "is_async": true,
+      "is_final": true,
       "inputs": [],
       "outputs": [
         {
@@ -45,13 +45,13 @@
               "path": [
                 "Ticket"
               ],
-              "program": "lottery"
+              "program": "lottery.aleo"
             }
           },
           "mode": "None"
         },
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]

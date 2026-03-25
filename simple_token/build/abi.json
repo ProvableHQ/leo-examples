@@ -28,10 +28,10 @@
   ],
   "mappings": [],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "mint",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "owner",
@@ -61,7 +61,7 @@
               "path": [
                 "Token"
               ],
-              "program": "simple_token"
+              "program": "simple_token.aleo"
             }
           },
           "mode": "None"
@@ -70,7 +70,7 @@
     },
     {
       "name": "transfer",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "token",
@@ -79,7 +79,7 @@
               "path": [
                 "Token"
               ],
-              "program": "simple_token"
+              "program": "simple_token.aleo"
             }
           },
           "mode": "None"
@@ -112,7 +112,7 @@
               "path": [
                 "Token"
               ],
-              "program": "simple_token"
+              "program": "simple_token.aleo"
             }
           },
           "mode": "None"
@@ -123,7 +123,7 @@
               "path": [
                 "Token"
               ],
-              "program": "simple_token"
+              "program": "simple_token.aleo"
             }
           },
           "mode": "None"

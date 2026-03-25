@@ -81,7 +81,7 @@ program basic_bank.aleo {
 
     // The constructor is configured to prevent upgrades.
     @noupgrade
-    async constructor() {}
+    constructor() {}
 }
 // Returns the total amount of tokens after compounding interest.
 // - `principal`: The amount of tokens to compound interest over.

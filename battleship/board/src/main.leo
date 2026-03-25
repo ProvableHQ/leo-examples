@@ -110,5 +110,5 @@ program board.aleo {
 
     // The constructor is configured to prevent upgrades.
     @noupgrade
-    async constructor() {}
+    constructor() {}
 }

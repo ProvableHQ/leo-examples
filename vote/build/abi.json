@@ -54,7 +54,7 @@
               "path": [
                 "ProposalInfo"
               ],
-              "program": "vote"
+              "program": "vote.aleo"
             }
           },
           "mode": "None"
@@ -94,7 +94,7 @@
           "path": [
             "ProposalInfo"
           ],
-          "program": "vote"
+          "program": "vote.aleo"
         }
       }
     },
@@ -133,10 +133,10 @@
     }
   ],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "propose",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "info",
@@ -146,7 +146,7 @@
                 "path": [
                   "ProposalInfo"
                 ],
-                "program": "vote"
+                "program": "vote.aleo"
               }
             }
           },
@@ -160,20 +160,20 @@
               "path": [
                 "Proposal"
               ],
-              "program": "vote"
+              "program": "vote.aleo"
             }
           },
           "mode": "None"
         },
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
     },
     {
       "name": "new_ticket",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "pid",
@@ -201,20 +201,20 @@
               "path": [
                 "Ticket"
               ],
-              "program": "vote"
+              "program": "vote.aleo"
             }
           },
           "mode": "None"
         },
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
     },
     {
       "name": "agree",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "ticket",
@@ -223,7 +223,7 @@
               "path": [
                 "Ticket"
               ],
-              "program": "vote"
+              "program": "vote.aleo"
             }
           },
           "mode": "None"
@@ -231,14 +231,14 @@
       ],
       "outputs": [
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
     },
     {
       "name": "disagree",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "ticket",
@@ -247,7 +247,7 @@
               "path": [
                 "Ticket"
               ],
-              "program": "vote"
+              "program": "vote.aleo"
             }
           },
           "mode": "None"
@@ -255,7 +255,7 @@
       ],
       "outputs": [
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
