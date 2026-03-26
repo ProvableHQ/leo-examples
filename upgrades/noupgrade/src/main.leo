@@ -5,7 +5,7 @@ program noupgrade_example.aleo {
     // It is currently configured to **prevent** upgrades.
     // Other configurations include:
     //  - @admin(address="aleo1...")
-    //  - @checksum(mapping="credits.aleo/fixme", key="0field")
+    //  - @checksum(mapping="credits.aleo::fixme", key="0field")
     //  - @custom
     // For more information, please refer to the documentation: ...
     @noupgrade
