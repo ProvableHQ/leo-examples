@@ -1,0 +1,10 @@
+{
+    "program": "governance.aleo",
+    "version": "0.1.0",
+    "description": "Governance contract that routes voting power queries to any VotingStrategy implementation via dynamic dispatch.",
+    "license": "MIT",
+    "dependencies": [
+        { "name": "voting_power.aleo", "location": "network", "path": null },
+        { "name": "quadratic_power.aleo", "location": "network", "path": null }
+    ]
+}

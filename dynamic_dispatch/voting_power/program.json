@@ -1,0 +1,6 @@
+{
+    "program": "voting_power.aleo",
+    "version": "0.1.0",
+    "description": "Linear voting strategy defining the VotingStrategy interface.",
+    "license": "MIT"
+}
