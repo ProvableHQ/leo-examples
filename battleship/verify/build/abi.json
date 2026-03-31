@@ -4,10 +4,10 @@
   "records": [],
   "mappings": [],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "validate_ship",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "ship",
@@ -67,7 +67,7 @@
     },
     {
       "name": "create_board",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "carrier",

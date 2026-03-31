@@ -67,10 +67,10 @@
   ],
   "mappings": [],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "new_board_state",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "ships",
@@ -100,7 +100,7 @@
               "path": [
                 "BoardState"
               ],
-              "program": "board"
+              "program": "board.aleo"
             }
           },
           "mode": "None"
@@ -109,7 +109,7 @@
     },
     {
       "name": "start_board",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "board",
@@ -118,7 +118,7 @@
               "path": [
                 "BoardState"
               ],
-              "program": "board"
+              "program": "board.aleo"
             }
           },
           "mode": "None"
@@ -131,7 +131,7 @@
               "path": [
                 "BoardState"
               ],
-              "program": "board"
+              "program": "board.aleo"
             }
           },
           "mode": "None"
@@ -140,7 +140,7 @@
     },
     {
       "name": "update_played_tiles",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "board",
@@ -149,7 +149,7 @@
               "path": [
                 "BoardState"
               ],
-              "program": "board"
+              "program": "board.aleo"
             }
           },
           "mode": "None"
@@ -173,7 +173,7 @@
               "path": [
                 "BoardState"
               ],
-              "program": "board"
+              "program": "board.aleo"
             }
           },
           "mode": "None"
@@ -182,7 +182,7 @@
     },
     {
       "name": "update_hits_and_misses",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "board",
@@ -191,7 +191,7 @@
               "path": [
                 "BoardState"
               ],
-              "program": "board"
+              "program": "board.aleo"
             }
           },
           "mode": "None"
@@ -215,7 +215,7 @@
               "path": [
                 "BoardState"
               ],
-              "program": "board"
+              "program": "board.aleo"
             }
           },
           "mode": "None"

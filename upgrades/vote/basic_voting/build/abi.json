@@ -57,10 +57,10 @@
     }
   ],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "propose",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "checksum",
@@ -81,14 +81,14 @@
       ],
       "outputs": [
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
     },
     {
       "name": "vote",
-      "is_async": true,
+      "is_final": true,
       "inputs": [
         {
           "name": "checksum",
@@ -118,7 +118,7 @@
       ],
       "outputs": [
         {
-          "ty": "Future",
+          "ty": "Final",
           "mode": "None"
         }
       ]
