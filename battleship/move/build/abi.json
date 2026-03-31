@@ -51,10 +51,10 @@
   ],
   "mappings": [],
   "storage_variables": [],
-  "transitions": [
+  "functions": [
     {
       "name": "create_move",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "move_record",
@@ -63,7 +63,7 @@
               "path": [
                 "Move"
               ],
-              "program": "move"
+              "program": "move.aleo"
             }
           },
           "mode": "None"
@@ -98,7 +98,7 @@
               "path": [
                 "Move"
               ],
-              "program": "move"
+              "program": "move.aleo"
             }
           },
           "mode": "None"
@@ -107,7 +107,7 @@
     },
     {
       "name": "start_game",
-      "is_async": false,
+      "is_final": false,
       "inputs": [
         {
           "name": "player_2",
@@ -126,7 +126,7 @@
               "path": [
                 "Move"
               ],
-              "program": "move"
+              "program": "move.aleo"
             }
           },
           "mode": "None"
