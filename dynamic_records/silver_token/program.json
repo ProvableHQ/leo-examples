@@ -1,0 +1,6 @@
+{
+    "program": "silver_token.aleo",
+    "version": "0.1.0",
+    "description": "Silver token implementing the TokenStandard interface. Carries a grade field beyond the interface minimum.",
+    "license": "MIT"
+}
