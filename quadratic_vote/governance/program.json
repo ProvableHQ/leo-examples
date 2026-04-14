@@ -1,0 +1,21 @@
+{
+    "program": "governance.aleo",
+    "version": "0.1.0",
+    "description": "Quadratic-voting governance program.",
+    "license": "MIT",
+    "leo": "4.0.1",
+    "dependencies": [
+        {
+            "name": "sqrt_math",
+            "location": "local",
+            "path": "../sqrt_math",
+            "edition": null
+        },
+        {
+            "name": "vote_math",
+            "location": "local",
+            "path": "../vote_math",
+            "edition": null
+        }
+    ]
+}
