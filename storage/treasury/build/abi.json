@@ -1,0 +1,222 @@
+{
+  "program": "treasury.aleo",
+  "structs": [
+    {
+      "path": [
+        "FeeConfig"
+      ],
+      "fields": [
+        {
+          "name": "rate",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          }
+        },
+        {
+          "name": "minimum",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [
+    {
+      "name": "balance",
+      "ty": {
+        "Plaintext": {
+          "Primitive": {
+            "UInt": "U64"
+          }
+        }
+      }
+    },
+    {
+      "name": "is_frozen",
+      "ty": {
+        "Plaintext": {
+          "Primitive": "Boolean"
+        }
+      }
+    },
+    {
+      "name": "deposit_count",
+      "ty": {
+        "Plaintext": {
+          "Primitive": {
+            "UInt": "U32"
+          }
+        }
+      }
+    },
+    {
+      "name": "config",
+      "ty": {
+        "Plaintext": {
+          "Struct": {
+            "path": [
+              "FeeConfig"
+            ],
+            "program": "treasury.aleo"
+          }
+        }
+      }
+    },
+    {
+      "name": "deposit_log",
+      "ty": {
+        "Vector": {
+          "Plaintext": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "functions": [
+    {
+      "name": "initialize",
+      "is_final": true,
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "is_final": true,
+      "inputs": [
+        {
+          "name": "amount",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "is_final": true,
+      "inputs": [
+        {
+          "name": "amount",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "freeze",
+      "is_final": true,
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "unfreeze",
+      "is_final": true,
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "update_config",
+      "is_final": true,
+      "inputs": [
+        {
+          "name": "rate",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "minimum",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "pop_last_deposit",
+      "is_final": true,
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "is_final": true,
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+    "program": "treasury.aleo",
+    "version": "0.1.0",
+    "description": "Treasury demonstrating storage singletons, structs, and vectors.",
+    "license": "MIT"
+}
