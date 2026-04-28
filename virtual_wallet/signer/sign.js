@@ -1,20 +1,44 @@
-// Off-chain ECDSA signer for virtual_wallet.aleo.
+// Off-chain ECDSA signer for the virtual_wallet example.
+//
+// The example ships two sibling programs:
+//   - virtual_wallet_eth.aleo     — verifies against a 20-byte eth address
+//   - virtual_wallet_pubkey.aleo  — verifies against a 33-byte compressed
+//                                   secp256k1 public key (SEC1)
+//
+// Both verify the same r‖s‖v signature over Keccak256(TransferAuth_bytes);
+// only the on-chain identity-encoding differs.  This script handles both,
+// selected by the `<mode>` argument.
 //
 // Usage:
-//   node sign.js <selector> <recipient_aleo_address> <amount> <nonce> <expiry>
+//   node sign.js [--args-only] <mode> <selector> <recipient_aleo_addr> <amount> <nonce> <expiry>
 //
-//   selector: "public" or "public_to_private"
+//     mode:     "eth"    | "pubkey"
+//     selector: "public" | "public_to_private"
 //
-// The custodian's ETH private key is read from the SIGNER_PRIVATE_KEY env var
-// (0x-prefixed hex).  The script prints a block of `leo execute` flags with
-// the signature and owner_eth ready to paste.
+//   The numeric selector baked into the signed payload is determined by
+//   the (mode, selector) pair so that signatures cannot be cross-replayed
+//   between the two programs:
+//
+//     eth    + public            = 1
+//     eth    + public_to_private = 2
+//     pubkey + public            = 3
+//     pubkey + public_to_private = 4
+//
+// The custodian's ETH private key is read from the SIGNER_PRIVATE_KEY env
+// var (0x-prefixed hex).  The derived eth address must match `OWNER_ETH_ADDR`
+// in the eth program; the derived compressed pubkey must match
+// `OWNER_PUBKEY` in the pubkey program.  If either doesn't match, every
+// transition for that program will revert.
 
 import { keccak_256 } from "@noble/hashes/sha3";
 import { secp256k1 } from "@noble/curves/secp256k1";
 import { Address } from "@provablehq/sdk/testnet.js";
 
-const SELECTOR_PUBLIC = 1;
-const SELECTOR_PUBLIC_TO_PRIVATE = 2;
+// (mode, selector) → numeric selector baked into the signed payload.
+const SELECTORS = {
+    eth:    { public: 1, public_to_private: 2 },
+    pubkey: { public: 3, public_to_private: 4 },
+};
 
 function hexToBytes(hex) {
     const s = hex.startsWith("0x") ? hex.slice(2) : hex;
@@ -31,10 +55,18 @@ function bytesToHex(bytes) {
 }
 
 // Derive the 20-byte Ethereum address from a secp256k1 private key.
+// Used in `eth` mode for the informational log line; the eth address is
+// NOT part of the signed payload (the on-chain verifier checks it against
+// the program's `OWNER_ETH_ADDR` constant).
 function ethAddressFromPrivateKey(privateKey) {
     const pub = secp256k1.getPublicKey(privateKey, false); // 65 bytes (0x04 ‖ x ‖ y)
     const hash = keccak_256(pub.slice(1));                 // keccak of x ‖ y
     return hash.slice(12);                                 // last 20 bytes
+}
+
+// SEC1 compressed public key (33 bytes: 0x02|0x03 ‖ x_coord).
+function compressedPubkeyFromPrivateKey(privateKey) {
+    return secp256k1.getPublicKey(privateKey, true);
 }
 
 // Encode u32/u64 as little-endian bytes.
@@ -60,7 +92,7 @@ function u32LE(value) {
 
 // Encode an Aleo address as its 32-byte little-endian representation.
 // The Aleo SDK's `toBytesLe()` is expected to produce the same bytes that
-// virtual_wallet.aleo computes on-chain via:
+// the on-chain `address_to_bytes` helper computes via:
 //     let x: field = to as field;
 //     let bits: [bool; 253] = Serialize::to_bits_raw(x);
 //     // pad to 256 with three trailing zero bits
@@ -75,18 +107,13 @@ function aleoAddressToBytesLE(aleoAddr) {
     return bytes;
 }
 
-function buildAuthBytes({
-    selector,
-    ownerEth,
-    toBytes,
-    amount,
-    nonce,
-    expiry,
-}) {
-    const out = new Uint8Array(1 + 20 + 32 + 8 + 8 + 4); // 73
+// 53-byte canonical layout of the `TransferAuth` struct shared by both
+// programs.  Neither `owner_eth_addr` nor `owner_pubkey` is part of the
+// signed payload — they're hardcoded constants in the respective programs.
+function buildAuthBytes({ selector, toBytes, amount, nonce, expiry }) {
+    const out = new Uint8Array(1 + 32 + 8 + 8 + 4); // 53
     let o = 0;
     out[o] = selector; o += 1;
-    out.set(ownerEth, o); o += 20;
     out.set(toBytes, o); o += 32;
     out.set(u64LE(amount), o); o += 8;
     out.set(u64LE(nonce), o); o += 8;
@@ -99,14 +126,28 @@ function toLeoByteArray(bytes) {
     return `[${Array.from(bytes, (b) => `${b}u8`).join(", ")}]`;
 }
 
+function programIdFor(mode) {
+    return mode === "eth" ? "virtual_wallet_eth.aleo" : "virtual_wallet_pubkey.aleo";
+}
+
 function main() {
     const argv = process.argv.slice(2);
     const argsOnly = argv[0] === "--args-only" && argv.shift();
-    const [selectorArg, recipient, amountArg, nonceArg, expiryArg] = argv;
-    if (!selectorArg || !recipient || !amountArg || !nonceArg || !expiryArg) {
+    const [modeArg, selectorArg, recipient, amountArg, nonceArg, expiryArg] = argv;
+    if (!modeArg || !selectorArg || !recipient || !amountArg || !nonceArg || !expiryArg) {
         console.error(
-            "usage: node sign.js [--args-only] <public|public_to_private> <recipient_aleo_addr> <amount> <nonce> <expiry_block_height>",
+            "usage: node sign.js [--args-only] <eth|pubkey> <public|public_to_private> <recipient_aleo_addr> <amount> <nonce> <expiry_block_height>",
         );
+        process.exit(1);
+    }
+
+    if (modeArg !== "eth" && modeArg !== "pubkey") {
+        console.error(`unknown mode "${modeArg}" (expected "eth" or "pubkey")`);
+        process.exit(1);
+    }
+    const selector = SELECTORS[modeArg][selectorArg];
+    if (selector === undefined) {
+        console.error(`unknown selector "${selectorArg}" (expected "public" or "public_to_private")`);
         process.exit(1);
     }
 
@@ -117,41 +158,33 @@ function main() {
     }
     const privateKey = hexToBytes(privateKeyHex);
 
-    const selector =
-        selectorArg === "public" ? SELECTOR_PUBLIC :
-        selectorArg === "public_to_private" ? SELECTOR_PUBLIC_TO_PRIVATE :
-        null;
-    if (selector === null) {
-        console.error(`unknown selector "${selectorArg}" (expected "public" or "public_to_private")`);
-        process.exit(1);
-    }
-
     const ownerEth = ethAddressFromPrivateKey(privateKey);
+    const ownerPubkey = compressedPubkeyFromPrivateKey(privateKey);
     const toBytes = aleoAddressToBytesLE(recipient);
     const amount = BigInt(amountArg);
     const nonce = BigInt(nonceArg);
     const expiry = Number(expiryArg);
 
-    const auth = buildAuthBytes({ selector, ownerEth, toBytes, amount, nonce, expiry });
+    const auth = buildAuthBytes({ selector, toBytes, amount, nonce, expiry });
     const digest = keccak_256(auth);
 
-    // ECDSA::verify_keccak256_eth expects an r ‖ s ‖ v signature where v ∈ {27, 28}.
+    // ECDSA::verify_keccak256_{eth,raw} expects an r ‖ s ‖ v signature
+    // where v ∈ {27, 28}.
     const sig = secp256k1.sign(digest, privateKey, { lowS: true });
     const sigBytes = new Uint8Array(65);
     sigBytes.set(sig.toCompactRawBytes(), 0);          // r ‖ s
     sigBytes[64] = 27 + sig.recovery;                   // v
 
+    const programId = programIdFor(modeArg);
     const fn =
-        selector === SELECTOR_PUBLIC
-            ? "transfer_public"
-            : "transfer_public_to_private";
+        selectorArg === "public" ? "transfer_public" : "transfer_public_to_private";
 
-    // --args-only: one positional arg per line, no shell quoting.  Designed
-    // to be read into a bash array via `mapfile -t ARGS < <(node sign.js --args-only ...)`
-    // so the values can be passed to `leo execute` without `eval`.
+    // --args-only: one positional arg per line, no shell quoting.  Read
+    // into a bash array via `while IFS= read -r line; do ...; done <
+    // <(node sign.js --args-only ...)` and pass to `leo execute` without
+    // `eval`.
     if (argsOnly) {
         const parts = [
-            toLeoByteArray(ownerEth),
             toLeoByteArray(sigBytes),
             recipient,
             `${amount}u64`,
@@ -162,12 +195,15 @@ function main() {
         return;
     }
 
-    console.log(`# leo execute invocation for virtual_wallet.aleo/${fn}`);
-    console.log(`# owner_eth = 0x${bytesToHex(ownerEth)}`);
-    console.log(`# digest     = 0x${bytesToHex(digest)}`);
+    console.log(`# leo execute invocation for ${programId}/${fn}`);
+    if (modeArg === "eth") {
+        console.log(`# signer eth_addr = 0x${bytesToHex(ownerEth)} (must match OWNER_ETH_ADDR in eth/src/main.leo)`);
+    } else {
+        console.log(`# signer pubkey   = 0x${bytesToHex(ownerPubkey)} (must match OWNER_PUBKEY in pubkey/src/main.leo)`);
+    }
+    console.log(`# digest          = 0x${bytesToHex(digest)}`);
     console.log();
-    console.log(`leo execute virtual_wallet.aleo/${fn} \\`);
-    console.log(`  '${toLeoByteArray(ownerEth)}' \\`);
+    console.log(`leo execute ${programId}/${fn} \\`);
     console.log(`  '${toLeoByteArray(sigBytes)}' \\`);
     console.log(`  '${recipient}' \\`);
     console.log(`  '${amount}u64' \\`);

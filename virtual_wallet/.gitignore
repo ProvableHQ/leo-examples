@@ -1,7 +1,6 @@
 .env
-outputs/
+*/outputs/
 *.avm
 *.prover
 *.verifier
 signer/node_modules/
-signer/package-lock.json

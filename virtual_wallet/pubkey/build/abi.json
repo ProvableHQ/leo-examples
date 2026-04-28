@@ -1,45 +1,13 @@
 {
-  "program": "virtual_wallet.aleo",
-  "structs": [
-    {
-      "path": [
-        "NonceKey"
-      ],
-      "fields": [
-        {
-          "name": "owner_eth",
-          "ty": {
-            "Array": {
-              "element": {
-                "Primitive": {
-                  "UInt": "U8"
-                }
-              },
-              "length": 20
-            }
-          }
-        },
-        {
-          "name": "nonce",
-          "ty": {
-            "Primitive": {
-              "UInt": "U64"
-            }
-          }
-        }
-      ]
-    }
-  ],
+  "program": "virtual_wallet_pubkey.aleo",
+  "structs": [],
   "records": [],
   "mappings": [
     {
       "name": "used_nonces",
       "key": {
-        "Struct": {
-          "path": [
-            "NonceKey"
-          ],
-          "program": "virtual_wallet.aleo"
+        "Primitive": {
+          "UInt": "U64"
         }
       },
       "value": {
@@ -53,22 +21,6 @@
       "name": "transfer_public",
       "is_final": true,
       "inputs": [
-        {
-          "name": "owner_eth",
-          "ty": {
-            "Plaintext": {
-              "Array": {
-                "element": {
-                  "Primitive": {
-                    "UInt": "U8"
-                  }
-                },
-                "length": 20
-              }
-            }
-          },
-          "mode": "Public"
-        },
         {
           "name": "sig",
           "ty": {
@@ -139,22 +91,6 @@
       "name": "transfer_public_to_private",
       "is_final": true,
       "inputs": [
-        {
-          "name": "owner_eth",
-          "ty": {
-            "Plaintext": {
-              "Array": {
-                "element": {
-                  "Primitive": {
-                    "UInt": "U8"
-                  }
-                },
-                "length": 20
-              }
-            }
-          },
-          "mode": "Public"
-        },
         {
           "name": "sig",
           "ty": {
