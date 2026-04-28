@@ -15,10 +15,8 @@
 // would not match a plain Keccak256(msg_bytes) computed off-chain.
 //
 // See `virtual_wallet/eth/src/main.leo` for the sibling variant that
-// verifies against a 20-byte Ethereum address.
-//
-// See `virtual_wallet/README.md` for the overall design (single-custodian,
-// pre-funded program-address pool, replay/expiry/cross-call protections).
+// verifies against a 20-byte Ethereum address, and
+// `virtual_wallet/README.md` for the overall design.
 
 import credits.aleo;
 
@@ -63,6 +61,10 @@ program virtual_wallet_pubkey.aleo {
     ) -> Final {
         let f: Final = credits.aleo::transfer_public(to, amount);
         return final {
+            // Cheap checks first so a rejected nonce/expiry doesn't pay
+            // for the secp256k1 verify on the failure path.
+            assert(block.height < expiry);
+            assert(!used_nonces.contains(nonce));
             let auth: TransferAuth = TransferAuth {
                 selector: SELECTOR_PUBLIC,
                 to_bytes: address_to_bytes(to),
@@ -71,8 +73,6 @@ program virtual_wallet_pubkey.aleo {
                 expiry: expiry,
             };
             assert(ECDSA::verify_keccak256_raw(sig, OWNER_PUBKEY, auth));
-            assert(block.height < expiry);
-            assert(!used_nonces.contains(nonce));
             used_nonces.set(nonce, true);
             f.run();
         };
@@ -88,6 +88,8 @@ program virtual_wallet_pubkey.aleo {
         let (cred, f): (credits.aleo::credits, Final) =
             credits.aleo::transfer_public_to_private(to, amount);
         return (cred, final {
+            assert(block.height < expiry);
+            assert(!used_nonces.contains(nonce));
             let auth: TransferAuth = TransferAuth {
                 selector: SELECTOR_PUBLIC_TO_PRIVATE,
                 to_bytes: address_to_bytes(to),
@@ -96,8 +98,6 @@ program virtual_wallet_pubkey.aleo {
                 expiry: expiry,
             };
             assert(ECDSA::verify_keccak256_raw(sig, OWNER_PUBKEY, auth));
-            assert(block.height < expiry);
-            assert(!used_nonces.contains(nonce));
             used_nonces.set(nonce, true);
             f.run();
         });

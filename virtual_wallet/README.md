@@ -166,7 +166,7 @@ virtual_wallet/
 ├── README.md
 ├── run.sh                       # demos both variants end-to-end
 ├── signer/
-│   ├── sign.js                  # off-chain ECDSA signer (--mode eth|pubkey)
+│   ├── sign.js                  # off-chain ECDSA signer (mode: eth|pubkey)
 │   └── package.json
 ├── eth/
 │   ├── program.json             # virtual_wallet_eth.aleo

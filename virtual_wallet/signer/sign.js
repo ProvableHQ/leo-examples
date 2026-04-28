@@ -32,6 +32,7 @@
 
 import { keccak_256 } from "@noble/hashes/sha3";
 import { secp256k1 } from "@noble/curves/secp256k1";
+import { bytesToHex, hexToBytes } from "@noble/hashes/utils";
 import { Address } from "@provablehq/sdk/testnet.js";
 
 // (mode, selector) → numeric selector baked into the signed payload.
@@ -39,20 +40,6 @@ const SELECTORS = {
     eth:    { public: 1, public_to_private: 2 },
     pubkey: { public: 3, public_to_private: 4 },
 };
-
-function hexToBytes(hex) {
-    const s = hex.startsWith("0x") ? hex.slice(2) : hex;
-    if (s.length % 2 !== 0) throw new Error("odd-length hex");
-    const out = new Uint8Array(s.length / 2);
-    for (let i = 0; i < out.length; i++) {
-        out[i] = parseInt(s.slice(2 * i, 2 * i + 2), 16);
-    }
-    return out;
-}
-
-function bytesToHex(bytes) {
-    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
-}
 
 // Derive the 20-byte Ethereum address from a secp256k1 private key.
 // Used in `eth` mode for the informational log line; the eth address is
@@ -132,7 +119,11 @@ function programIdFor(mode) {
 
 function main() {
     const argv = process.argv.slice(2);
-    const argsOnly = argv[0] === "--args-only" && argv.shift();
+    let argsOnly = false;
+    if (argv[0] === "--args-only") {
+        argsOnly = true;
+        argv.shift();
+    }
     const [modeArg, selectorArg, recipient, amountArg, nonceArg, expiryArg] = argv;
     if (!modeArg || !selectorArg || !recipient || !amountArg || !nonceArg || !expiryArg) {
         console.error(
@@ -141,13 +132,11 @@ function main() {
         process.exit(1);
     }
 
-    if (modeArg !== "eth" && modeArg !== "pubkey") {
-        console.error(`unknown mode "${modeArg}" (expected "eth" or "pubkey")`);
-        process.exit(1);
-    }
-    const selector = SELECTORS[modeArg][selectorArg];
+    const selector = SELECTORS[modeArg]?.[selectorArg];
     if (selector === undefined) {
-        console.error(`unknown selector "${selectorArg}" (expected "public" or "public_to_private")`);
+        console.error(
+            `unknown (mode, selector) "${modeArg}/${selectorArg}" — expected one of: eth/public, eth/public_to_private, pubkey/public, pubkey/public_to_private`,
+        );
         process.exit(1);
     }
 
@@ -156,7 +145,7 @@ function main() {
         console.error("SIGNER_PRIVATE_KEY env var is required (0x-prefixed secp256k1 key).");
         process.exit(1);
     }
-    const privateKey = hexToBytes(privateKeyHex);
+    const privateKey = hexToBytes(privateKeyHex.replace(/^0x/, ""));
 
     const ownerEth = ethAddressFromPrivateKey(privateKey);
     const ownerPubkey = compressedPubkeyFromPrivateKey(privateKey);
