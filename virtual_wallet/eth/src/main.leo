@@ -28,15 +28,30 @@ program virtual_wallet_eth.aleo {
     const SELECTOR_PUBLIC: u8 = 1u8;
     const SELECTOR_PUBLIC_TO_PRIVATE: u8 = 2u8;
 
+    // Singleton-mapping key for `next_nonce`.
+    const NONCE_KEY: u8 = 0u8;
+
+    // Canonical authorization payload signed by the custodian.  Hashed
+    // *in-circuit* (via `Keccak256::hash_to_bits_raw`) so that only the
+    // resulting 32-byte digest crosses into the on-chain `final` scope —
+    // the salt (and, for `transfer_public_to_private`, the recipient) stay
+    // in witness data.
     struct TransferAuth {
         selector: u8,         //   1 byte
         to_bytes: [u8; 32],   //  32 bytes
         amount: u64,          //   8 bytes (little-endian)
         nonce: u64,           //   8 bytes (little-endian)
         expiry: u32,          //   4 bytes (little-endian)
-    }                         //  53 bytes = 424 bits
+        salt: [u8; 32],       //  32 bytes
+    }                         //  85 bytes total
 
-    mapping used_nonces: u64 => bool;
+    // Auto-incrementing nonce counter.  A single u64 keyed by `NONCE_KEY`,
+    // starting at 0u64.  Each accepted transition advances it by exactly 1,
+    // so the signed `nonce` field doubles as a sequence number — replay
+    // protection is implicit (a replayed payload's nonce no longer matches
+    // the on-chain counter) and the wallet's storage footprint is O(1)
+    // rather than O(transactions).
+    mapping next_nonce: u8 => u64;
 
     @noupgrade
     constructor() {}
@@ -47,55 +62,82 @@ program virtual_wallet_eth.aleo {
         public amount: u64,
         public nonce: u64,
         public expiry: u32,
+        private salt: [u8; 32],
     ) -> Final {
+        // Build & hash the auth payload entirely in-circuit; only the
+        // resulting digest crosses into `final`.
+        let digest: [u8; 32] = auth_digest(
+            SELECTOR_PUBLIC, to, amount, nonce, expiry, salt,
+        );
         let f: Final = credits.aleo::transfer_public(to, amount);
         return final {
             // Cheap checks first so a rejected nonce/expiry doesn't pay
             // for the secp256k1 verify on the failure path.
             assert(block.height < expiry);
-            assert(!used_nonces.contains(nonce));
-            let auth: TransferAuth = TransferAuth {
-                selector: SELECTOR_PUBLIC,
-                to_bytes: address_to_bytes(to),
-                amount: amount,
-                nonce: nonce,
-                expiry: expiry,
-            };
-            assert(ECDSA::verify_keccak256_eth(sig, OWNER_ETH_ADDR, auth));
-            used_nonces.set(nonce, true);
+            let cur: u64 = next_nonce.get_or_use(NONCE_KEY, 0u64);
+            assert_eq(nonce, cur);
+            assert(ECDSA::verify_digest_eth(sig, OWNER_ETH_ADDR, digest));
+            next_nonce.set(NONCE_KEY, cur + 1u64);
             f.run();
         };
     }
 
     fn transfer_public_to_private(
         public sig: [u8; 65],
-        public to: address,
-        public amount: u64,
+        // `to` and `amount` are *private* here — they're the values we
+        // most want to keep out of this wallet's public transition input.
+        // `credits.aleo::transfer_public_to_private` itself takes
+        // `address.private, u64.public`, so the recipient flows straight
+        // through into the encrypted output record while the amount is
+        // (necessarily) republished by credits.aleo's own finalize.
+        private to: address,
+        private amount: u64,
         public nonce: u64,
         public expiry: u32,
+        private salt: [u8; 32],
     ) -> (credits.aleo::credits, Final) {
+        let digest: [u8; 32] = auth_digest(
+            SELECTOR_PUBLIC_TO_PRIVATE, to, amount, nonce, expiry, salt,
+        );
         let (cred, f): (credits.aleo::credits, Final) =
             credits.aleo::transfer_public_to_private(to, amount);
         return (cred, final {
             assert(block.height < expiry);
-            assert(!used_nonces.contains(nonce));
-            let auth: TransferAuth = TransferAuth {
-                selector: SELECTOR_PUBLIC_TO_PRIVATE,
-                to_bytes: address_to_bytes(to),
-                amount: amount,
-                nonce: nonce,
-                expiry: expiry,
-            };
-            assert(ECDSA::verify_keccak256_eth(sig, OWNER_ETH_ADDR, auth));
-            used_nonces.set(nonce, true);
+            let cur: u64 = next_nonce.get_or_use(NONCE_KEY, 0u64);
+            assert_eq(nonce, cur);
+            assert(ECDSA::verify_digest_eth(sig, OWNER_ETH_ADDR, digest));
+            next_nonce.set(NONCE_KEY, cur + 1u64);
             f.run();
         });
     }
 }
 
+// Build the canonical TransferAuth payload and hash it with Keccak256
+// using `*_raw` so the digest is over the plain 85-byte concatenation —
+// matching what the off-chain signer hashes (see `signer/sign.js`).
+fn auth_digest(
+    selector: u8,
+    to: address,
+    amount: u64,
+    nonce: u64,
+    expiry: u32,
+    salt: [u8; 32],
+) -> [u8; 32] {
+    let auth: TransferAuth = TransferAuth {
+        selector: selector,
+        to_bytes: address_to_bytes(to),
+        amount: amount,
+        nonce: nonce,
+        expiry: expiry,
+        salt: salt,
+    };
+    let digest_bits: [bool; 256] = Keccak256::hash_to_bits_raw(auth);
+    return Deserialize::from_bits_raw::[[u8; 32]](digest_bits);
+}
+
 // Encode an Aleo address as its 32-byte x-coordinate representation.
-// Called from the `final` blocks above; the off-chain signer re-implements
-// this byte layout (see `virtual_wallet/signer/sign.js`).
+// Used inside `auth_digest`; the off-chain signer reproduces this byte
+// layout via the Aleo SDK's `Address.toBytesLe()`.
 fn address_to_bytes(addr: address) -> [u8; 32] {
     let x: field = addr as field;
     let bits: [bool; 253] = Serialize::to_bits_raw(x);

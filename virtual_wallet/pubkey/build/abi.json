@@ -4,14 +4,16 @@
   "records": [],
   "mappings": [
     {
-      "name": "used_nonces",
+      "name": "next_nonce",
       "key": {
         "Primitive": {
-          "UInt": "U64"
+          "UInt": "U8"
         }
       },
       "value": {
-        "Primitive": "Boolean"
+        "Primitive": {
+          "UInt": "U64"
+        }
       }
     }
   ],
@@ -78,6 +80,22 @@
             }
           },
           "mode": "Public"
+        },
+        {
+          "name": "salt",
+          "ty": {
+            "Plaintext": {
+              "Array": {
+                "element": {
+                  "Primitive": {
+                    "UInt": "U8"
+                  }
+                },
+                "length": 32
+              }
+            }
+          },
+          "mode": "Private"
         }
       ],
       "outputs": [
@@ -114,7 +132,7 @@
               "Primitive": "Address"
             }
           },
-          "mode": "Public"
+          "mode": "Private"
         },
         {
           "name": "amount",
@@ -125,7 +143,7 @@
               }
             }
           },
-          "mode": "Public"
+          "mode": "Private"
         },
         {
           "name": "nonce",
@@ -148,6 +166,22 @@
             }
           },
           "mode": "Public"
+        },
+        {
+          "name": "salt",
+          "ty": {
+            "Plaintext": {
+              "Array": {
+                "element": {
+                  "Primitive": {
+                    "UInt": "U8"
+                  }
+                },
+                "length": 32
+              }
+            }
+          },
+          "mode": "Private"
         }
       ],
       "outputs": [

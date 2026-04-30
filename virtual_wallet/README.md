@@ -4,15 +4,15 @@
 
 The `virtual_wallet` example ships **two sibling Leo programs** that
 implement the same single-custodian smart-contract wallet on top of
-**Ethereum-only primitives** — an ECDSA keypair, a nonce, and a block
-height — without integrating Aleo's native Schnorr / curve tooling.  The
-two programs differ only in how the on-chain verifier identifies the
-custodian's secp256k1 keypair:
+**Ethereum-only primitives** — an ECDSA keypair, an auto-incrementing
+nonce, and a block height — without integrating Aleo's native Schnorr /
+curve tooling.  The two programs differ only in how the on-chain
+verifier identifies the custodian's secp256k1 keypair:
 
 | Program                       | On-chain identity                                           | Verifier                       |
 | ----------------------------- | ----------------------------------------------------------- | ------------------------------ |
-| `virtual_wallet_eth.aleo`     | 20-byte Ethereum address (`keccak256(pubkey)[12:]`)         | `ECDSA::verify_keccak256_eth`     |
-| `virtual_wallet_pubkey.aleo`  | 33-byte SEC1 compressed public key (`0x02\|0x03 ‖ x_coord`) | `ECDSA::verify_keccak256_raw`     |
+| `virtual_wallet_eth.aleo`     | 20-byte Ethereum address (`keccak256(pubkey)[12:]`)         | `ECDSA::verify_digest_eth`     |
+| `virtual_wallet_pubkey.aleo`  | 33-byte SEC1 compressed public key (`0x02\|0x03 ‖ x_coord`) | `ECDSA::verify_digest`         |
 
 Pick whichever variant matches the custodian's existing tooling:
 
@@ -35,6 +35,12 @@ variant), so only that one secp256k1 keypair can authorize transfers — an
 attacker cannot submit a signature from a different keypair.  Any relayer
 may submit the signed payload; the contract debits its own public balance.
 
+The authorization payload is hashed **in-circuit** with Keccak256, and
+only the resulting 32-byte digest crosses into the on-chain `final`
+scope.  Combined with `transfer_public_to_private`'s recipient and a
+per-tx random `salt` being declared as **private** transition inputs,
+this keeps both fields out of the public on-chain transaction data.
+
 ## How it works
 
 ```
@@ -47,10 +53,12 @@ may submit the signed payload; the contract debits its own public balance.
                                                   ▼
                                ┌──────────────────────────────────────┐
                                │  virtual_wallet_{eth|pubkey}.aleo    │
-                               │  ─ verify ECDSA signature against    │
-                               │    hardcoded OWNER_*                 │
+                               │  ─ build TransferAuth + Keccak256    │
+                               │    digest entirely in-circuit        │
+                               │  ─ verify ECDSA against the digest,  │
+                               │    using hardcoded OWNER_*           │
                                │  ─ check block.height < expiry       │
-                               │  ─ check & consume nonce             │
+                               │  ─ check & advance next_nonce        │
                                │  ─ call credits.aleo::transfer_*     │
                                └──────────────────┬───────────────────┘
                                                   │ 3. credits debited from
@@ -61,14 +69,33 @@ may submit the signed payload; the contract debits its own public balance.
 
 ### Security properties
 
-| Property          | Mechanism                                                                                       |
-| ----------------- | ----------------------------------------------------------------------------------------------- |
-| Authorization     | ECDSA (Keccak256) signature, verified against the hardcoded `OWNER_*` constant in each program  |
-| Replay protection | each `nonce` tracked in `used_nonces: u64 => bool`                                              |
-| Expiry            | Signed payload carries a block-height deadline                                                  |
-| Cross-call replay | `selector` field in the signed payload differs per transition                                   |
+| Property             | Mechanism                                                                                                  |
+| -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Authorization        | ECDSA (Keccak256) signature, verified against the hardcoded `OWNER_*` constant in each program             |
+| Replay protection    | auto-incrementing `next_nonce: u8 => u64` counter — signed `nonce` must equal the current counter value    |
+| Expiry               | Signed payload carries a block-height deadline                                                             |
+| Cross-call replay    | `selector` byte in the signed payload differs per transition                                                |
 | Cross-program replay | selector ranges are disjoint: eth uses 1..=2, pubkey uses 3..=4, so a sig for one program can't be replayed against the other |
-| Upgradability     | `@noupgrade` — neither contract can be replaced after deployment                                |
+| Upgradability        | `@noupgrade` — neither contract can be replaced after deployment                                            |
+
+### Privacy properties
+
+- **`transfer_public`**: all auth fields are inherently public (the
+  underlying `credits.aleo::transfer_public` exposes recipient and amount
+  on-chain).  The `salt` is still a private input, so an observer cannot
+  reproduce the signed digest without it.
+- **`transfer_public_to_private`**: `to`, `amount`, and `salt` are all
+  **private** transition inputs to this wallet — none of them appears in
+  the wallet's own public transition data.  `to` flows straight into
+  `credits.aleo::transfer_public_to_private`'s `address.private`
+  parameter (so it ends up only in the encrypted output record).
+  `amount` is republished by credits.aleo's own finalize (its signature
+  is `u64.public`, which is unavoidable for the public-balance debit),
+  but it stays out of *this* program's transition input view.  `nonce`
+  and `expiry` remain public because the on-chain finalize checks need
+  them.
+- The `final` scope only ever receives the **digest**, never the
+  individual `TransferAuth` fields.  Hashing happens in-circuit.
 
 ### Funding model
 
@@ -80,6 +107,27 @@ binds the wallet to exactly one secp256k1 keypair via the `OWNER_*`
 constant; rotating that key requires a fresh deployment, since the
 custodian intentionally does not hold Aleo keys and so cannot run an
 admin transition to update an on-chain whitelist.
+
+### Nonce strategy: auto-increment vs. random
+
+The wallet uses a **single auto-incrementing counter** rather than the
+"random nonce + `mapping used_nonces: u64 => bool`" pattern.  Each
+accepted transition advances `next_nonce[0u8]` by exactly 1, and the
+signed `nonce` field must equal the counter's current value at
+submission time.
+
+Pros of the auto-increment design:
+- **O(1) state** — one mapping entry instead of one per transaction.
+- **Safe by default** — the client doesn't need a CSPRNG; just read the
+  current counter.
+- **No front-running between the custodian's own concurrent txs** — if
+  two txs are signed for the same nonce, only one wins; the other is
+  rejected on-chain.
+
+Cost: parallel transaction generation is harder.  A custodian that
+needs to fan out many concurrent transfers can either serialize their
+signing or extend this design with a sub-nonce range; that's left as a
+follow-up.
 
 ## The authorization payload
 
@@ -94,9 +142,10 @@ struct TransferAuth {
                           //              4 = pubkey/transfer_public_to_private
     to_bytes: [u8; 32],   //  32 bytes    the recipient (see below)
     amount: u64,          //   8 bytes    little-endian
-    nonce: u64,           //   8 bytes    little-endian
+    nonce: u64,           //   8 bytes    little-endian — must equal next_nonce[0u8]
     expiry: u32,          //   4 bytes    little-endian
-}                         //  53 bytes total
+    salt: [u8; 32],       //  32 bytes    private witness — fresh-random per tx
+}                         //  85 bytes total
 ```
 
 The custodian's identity is deliberately **not** part of the signed
@@ -105,11 +154,10 @@ hardcoded `OWNER_*` constant, so an attacker cannot supply a signature
 from a different keypair.
 
 Byte ordering is little-endian for all multi-byte integers.  Fields are
-concatenated in declaration order with no padding.  Both programs use
-`*_eth` / `*_raw` ECDSA variants so the on-chain verifier hashes the raw
-byte concatenation of the struct fields (no type-tag metadata, no
-Ethereum-signed-message prefix); the off-chain signer must hash the raw
-53 bytes directly.
+concatenated in declaration order with no padding.  Hashing happens
+**in-circuit** using `Keccak256::hash_to_bits_raw` (raw byte
+concatenation, no struct type-tag metadata) and the resulting digest is
+verified in `final` with `ECDSA::verify_digest{,_eth}`.
 
 ### `to_bytes` encoding
 
@@ -155,9 +203,9 @@ bash run.sh
 ```
 
 The script walks through both variants, in each case: deploy → pre-fund
-→ off-chain sign → relay `transfer_public` → re-submit same payload and
-observe the nonce replay failure → relay `transfer_public_to_private`
-with a fresh nonce.
+→ off-chain sign → relay `transfer_public` (nonce=0, counter advances to
+1) → re-submit the same payload and observe the rejection (counter has
+moved past nonce=0) → relay `transfer_public_to_private` with nonce=1.
 
 ## Project structure
 
@@ -188,6 +236,9 @@ virtual_wallet/
 - **No private-input custody.**  Only public credits can be spent; a
   production custodian would also want ECDSA-gated withdrawals from
   private records.
+- **Sequential signing.**  The auto-incrementing nonce means concurrent
+  transfers must be serialized at the signer; parallel fan-out would need
+  a sub-nonce range or a different replay scheme.
 - **Selector scheme is minimal.**  Four selectors total (1..=4).
   Extending either program with a third transition requires bumping the
   per-program range and documenting the mapping.

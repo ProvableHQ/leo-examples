@@ -10,10 +10,12 @@
 // selected by the `<mode>` argument.
 //
 // Usage:
-//   node sign.js [--args-only] <mode> <selector> <recipient_aleo_addr> <amount> <nonce> <expiry>
+//   node sign.js [--args-only] <mode> <selector> <recipient_aleo_addr> <amount> <nonce> <expiry> [<salt_hex>]
 //
 //     mode:     "eth"    | "pubkey"
 //     selector: "public" | "public_to_private"
+//     salt_hex: optional 64-char hex string (32 bytes).  If omitted, a
+//               cryptographically-random salt is generated.
 //
 //   The numeric selector baked into the signed payload is determined by
 //   the (mode, selector) pair so that signatures cannot be cross-replayed
@@ -29,10 +31,15 @@
 // in the eth program; the derived compressed pubkey must match
 // `OWNER_PUBKEY` in the pubkey program.  If either doesn't match, every
 // transition for that program will revert.
+//
+// The on-chain wallet uses an *auto-incrementing* `next_nonce` counter, so
+// the `<nonce>` you sign over must equal the program's current counter
+// value (start at 0 for a freshly-deployed wallet, then advance by 1 per
+// accepted tx).
 
 import { keccak_256 } from "@noble/hashes/sha3";
 import { secp256k1 } from "@noble/curves/secp256k1";
-import { bytesToHex, hexToBytes } from "@noble/hashes/utils";
+import { bytesToHex, hexToBytes, randomBytes } from "@noble/hashes/utils";
 import { Address } from "@provablehq/sdk/testnet.js";
 
 // (mode, selector) → numeric selector baked into the signed payload.
@@ -94,17 +101,18 @@ function aleoAddressToBytesLE(aleoAddr) {
     return bytes;
 }
 
-// 53-byte canonical layout of the `TransferAuth` struct shared by both
+// 85-byte canonical layout of the `TransferAuth` struct shared by both
 // programs.  Neither `owner_eth_addr` nor `owner_pubkey` is part of the
 // signed payload — they're hardcoded constants in the respective programs.
-function buildAuthBytes({ selector, toBytes, amount, nonce, expiry }) {
-    const out = new Uint8Array(1 + 32 + 8 + 8 + 4); // 53
+function buildAuthBytes({ selector, toBytes, amount, nonce, expiry, salt }) {
+    const out = new Uint8Array(1 + 32 + 8 + 8 + 4 + 32); // 85
     let o = 0;
     out[o] = selector; o += 1;
     out.set(toBytes, o); o += 32;
     out.set(u64LE(amount), o); o += 8;
     out.set(u64LE(nonce), o); o += 8;
     out.set(u32LE(expiry), o); o += 4;
+    out.set(salt, o); o += 32;
     return out;
 }
 
@@ -117,6 +125,17 @@ function programIdFor(mode) {
     return mode === "eth" ? "virtual_wallet_eth.aleo" : "virtual_wallet_pubkey.aleo";
 }
 
+function parseSalt(saltArg) {
+    if (saltArg === undefined) {
+        return randomBytes(32);
+    }
+    const bytes = hexToBytes(saltArg.replace(/^0x/, ""));
+    if (bytes.length !== 32) {
+        throw new Error(`salt must be 32 bytes (64 hex chars); got ${bytes.length}`);
+    }
+    return bytes;
+}
+
 function main() {
     const argv = process.argv.slice(2);
     let argsOnly = false;
@@ -124,10 +143,10 @@ function main() {
         argsOnly = true;
         argv.shift();
     }
-    const [modeArg, selectorArg, recipient, amountArg, nonceArg, expiryArg] = argv;
+    const [modeArg, selectorArg, recipient, amountArg, nonceArg, expiryArg, saltArg] = argv;
     if (!modeArg || !selectorArg || !recipient || !amountArg || !nonceArg || !expiryArg) {
         console.error(
-            "usage: node sign.js [--args-only] <eth|pubkey> <public|public_to_private> <recipient_aleo_addr> <amount> <nonce> <expiry_block_height>",
+            "usage: node sign.js [--args-only] <eth|pubkey> <public|public_to_private> <recipient_aleo_addr> <amount> <nonce> <expiry_block_height> [<salt_hex>]",
         );
         process.exit(1);
     }
@@ -153,12 +172,13 @@ function main() {
     const amount = BigInt(amountArg);
     const nonce = BigInt(nonceArg);
     const expiry = Number(expiryArg);
+    const salt = parseSalt(saltArg);
 
-    const auth = buildAuthBytes({ selector, toBytes, amount, nonce, expiry });
+    const auth = buildAuthBytes({ selector, toBytes, amount, nonce, expiry, salt });
     const digest = keccak_256(auth);
 
-    // ECDSA::verify_keccak256_{eth,raw} expects an r ‖ s ‖ v signature
-    // where v ∈ {27, 28}.
+    // ECDSA::verify_digest{,_eth} expects an r ‖ s ‖ v signature where
+    // v ∈ {27, 28}.
     const sig = secp256k1.sign(digest, privateKey, { lowS: true });
     const sigBytes = new Uint8Array(65);
     sigBytes.set(sig.toCompactRawBytes(), 0);          // r ‖ s
@@ -179,6 +199,7 @@ function main() {
             `${amount}u64`,
             `${nonce}u64`,
             `${expiry}u32`,
+            toLeoByteArray(salt),
         ];
         console.log(parts.join("\n"));
         return;
@@ -190,6 +211,7 @@ function main() {
     } else {
         console.log(`# signer pubkey   = 0x${bytesToHex(ownerPubkey)} (must match OWNER_PUBKEY in pubkey/src/main.leo)`);
     }
+    console.log(`# salt            = 0x${bytesToHex(salt)} (private input — kept off-chain)`);
     console.log(`# digest          = 0x${bytesToHex(digest)}`);
     console.log();
     console.log(`leo execute ${programId}/${fn} \\`);
@@ -197,7 +219,8 @@ function main() {
     console.log(`  '${recipient}' \\`);
     console.log(`  '${amount}u64' \\`);
     console.log(`  '${nonce}u64' \\`);
-    console.log(`  '${expiry}u32'`);
+    console.log(`  '${expiry}u32' \\`);
+    console.log(`  '${toLeoByteArray(salt)}'`);
 }
 
 main();
