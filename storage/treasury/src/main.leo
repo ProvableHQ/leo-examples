@@ -8,13 +8,18 @@
 // The `Final` return type tells the AVM these operations touch on-chain state.
 //
 // Key concepts:
-//   storage balance: u64;           — singleton (one value on-chain)
-//   storage config: FeeConfig;      — struct in storage
-//   storage deposit_log: [u64];     — vector (dynamically-sized on-chain list)
-//   balance.unwrap_or(0u64)         — read with fallback for uninitialized slots
-//   balance = none;                 — clear a storage slot
-//   deposit_log.push(amount);       — append to a vector
-//   deposit_log.get(0u32)           — read a vector element (returns optional)
+//   storage balance: u64;            — singleton (one value on-chain)
+//   storage config: FeeConfig;       — struct in storage
+//   storage deposit_log: [u64];      — vector (dynamically-sized on-chain list)
+//   balance.unwrap_or(0u64)          — read with fallback for uninitialized slots
+//   balance = none;                  — clear a storage slot
+//   deposit_log.push(amount);        — append to a vector
+//   deposit_log.pop();               — remove and return the last element
+//   deposit_log.get(0u32)            — read a vector element (returns optional)
+//   deposit_log.set(0u32, 100u64);   — overwrite an existing element
+//   deposit_log.swap_remove(0u32);   — drop element by swapping with the tail
+//   deposit_log.len();               — current vector length
+//   deposit_log.clear();             — reset the vector to empty
 
 // Structs used in storage are declared at file scope (outside the program block).
 struct FeeConfig {
@@ -98,12 +103,48 @@ program treasury.aleo {
         };
     }
 
-    // Removes the most recent deposit from the log.
-    // Demonstrates vector pop (returns the removed element).
-    fn pop_last_deposit() -> Final {
+    // Reverses the most recent deposit: pops the log, refunds the balance,
+    // and decrements the deposit count.  Demonstrates `pop`, which both
+    // shrinks the vector and returns the removed element.
+    fn undo_last_deposit() -> Final {
         return final {
-            let removed = deposit_log.pop();
+            // pop() returns the last element as an optional, or none if empty.
+            let removed: u64? = deposit_log.pop();
             assert(removed != none);
+
+            // Mirror the pop in the running balance and counter so that
+            // treasury state stays consistent with the deposit log.
+            balance = balance.unwrap_or(0u64) - removed.unwrap();
+            deposit_count = deposit_count.unwrap_or(0u32) - 1u32;
+        };
+    }
+
+    // Overwrites a logged deposit at a specific index.  Demonstrates `set`,
+    // which replaces an existing element (asserts the index is in range).
+    // Useful, e.g., when correcting a bookkeeping mistake without reshaping
+    // the log.
+    fn correct_deposit(index: u32, amount: u64) -> Final {
+        return final {
+            // get() returns the previous value as an optional so we can
+            // adjust the running balance by the delta.
+            let previous: u64 = deposit_log.get(index).unwrap();
+            deposit_log.set(index, amount);
+
+            let current: u64 = balance.unwrap_or(0u64);
+            balance = current + amount - previous;
+        };
+    }
+
+    // Drops a logged deposit out of order by swapping with the tail.
+    // Demonstrates `swap_remove`, which is O(1) but does not preserve order.
+    fn drop_deposit(index: u32) -> Final {
+        return final {
+            // swap_remove() returns the removed element directly (no option),
+            // and asserts that the index is in range.
+            let removed: u64 = deposit_log.swap_remove(index);
+
+            balance = balance.unwrap_or(0u64) - removed;
+            deposit_count = deposit_count.unwrap_or(0u32) - 1u32;
         };
     }
 

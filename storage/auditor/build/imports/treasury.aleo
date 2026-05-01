@@ -4,15 +4,15 @@ struct FeeConfig:
     rate as u64;
     minimum as u64;
 
-struct Optional__DbbQYuLaHdi:
+struct Optional__ATAkdHctJwx:
     is_some as boolean;
     val as boolean;
 
-struct Optional__DOnC9eGtnsJ:
+struct Optional__DmN5CQ9hzeK:
     is_some as boolean;
     val as u64;
 
-struct Optional__EsDmm5O6sv6:
+struct Optional__JzunLORyB8U:
     is_some as boolean;
     val as u32;
 
@@ -60,103 +60,29 @@ finalize deposit:
     input r0 as u64.public;
     contains is_frozen__[false] into r1;
     get.or_use is_frozen__[false] false into r2;
-    cast true r2 into r3 as Optional__DbbQYuLaHdi;
-    cast false false into r4 as Optional__DbbQYuLaHdi;
-    ternary r1 r3.is_some r4.is_some into r5;
-    ternary r1 r3.val r4.val into r6;
-    cast r5 r6 into r7 as Optional__DbbQYuLaHdi;
-    contains is_frozen__[false] into r8;
-    get.or_use is_frozen__[false] false into r9;
-    cast true r9 into r10 as Optional__DbbQYuLaHdi;
-    cast false false into r11 as Optional__DbbQYuLaHdi;
-    ternary r8 r10.is_some r11.is_some into r12;
-    ternary r8 r10.val r11.val into r13;
-    cast r12 r13 into r14 as Optional__DbbQYuLaHdi;
-    ternary r7.is_some r14.val false into r15;
-    is.eq r15 false into r16;
-    assert.eq r16 true;
-    contains balance__[false] into r17;
-    get.or_use balance__[false] 0u64 into r18;
-    cast true r18 into r19 as Optional__DOnC9eGtnsJ;
-    cast false 0u64 into r20 as Optional__DOnC9eGtnsJ;
-    ternary r17 r19.is_some r20.is_some into r21;
-    ternary r17 r19.val r20.val into r22;
-    cast r21 r22 into r23 as Optional__DOnC9eGtnsJ;
-    contains balance__[false] into r24;
-    get.or_use balance__[false] 0u64 into r25;
-    cast true r25 into r26 as Optional__DOnC9eGtnsJ;
-    cast false 0u64 into r27 as Optional__DOnC9eGtnsJ;
-    ternary r24 r26.is_some r27.is_some into r28;
-    ternary r24 r26.val r27.val into r29;
-    cast r28 r29 into r30 as Optional__DOnC9eGtnsJ;
-    ternary r23.is_some r30.val 0u64 into r31;
-    add r31 r0 into r32;
-    set r32 into balance__[false];
-    contains deposit_count__[false] into r33;
-    get.or_use deposit_count__[false] 0u32 into r34;
-    cast true r34 into r35 as Optional__EsDmm5O6sv6;
-    cast false 0u32 into r36 as Optional__EsDmm5O6sv6;
-    ternary r33 r35.is_some r36.is_some into r37;
-    ternary r33 r35.val r36.val into r38;
-    cast r37 r38 into r39 as Optional__EsDmm5O6sv6;
-    contains deposit_count__[false] into r40;
-    get.or_use deposit_count__[false] 0u32 into r41;
-    cast true r41 into r42 as Optional__EsDmm5O6sv6;
-    cast false 0u32 into r43 as Optional__EsDmm5O6sv6;
-    ternary r40 r42.is_some r43.is_some into r44;
-    ternary r40 r42.val r43.val into r45;
-    cast r44 r45 into r46 as Optional__EsDmm5O6sv6;
-    ternary r39.is_some r46.val 0u32 into r47;
-    add r47 1u32 into r48;
-    set r48 into deposit_count__[false];
-    get.or_use deposit_log__len__[false] 0u32 into r49;
-    add r49 1u32 into r50;
-    set r50 into deposit_log__len__[false];
-    set r0 into deposit_log__[r49];
-
-function withdraw:
-    input r0 as u64.private;
-    async withdraw r0 into r1;
-    output r1 as treasury.aleo/withdraw.future;
-
-finalize withdraw:
-    input r0 as u64.public;
-    contains is_frozen__[false] into r1;
-    get.or_use is_frozen__[false] false into r2;
-    cast true r2 into r3 as Optional__DbbQYuLaHdi;
-    cast false false into r4 as Optional__DbbQYuLaHdi;
-    ternary r1 r3.is_some r4.is_some into r5;
-    ternary r1 r3.val r4.val into r6;
-    cast r5 r6 into r7 as Optional__DbbQYuLaHdi;
-    contains is_frozen__[false] into r8;
-    get.or_use is_frozen__[false] false into r9;
-    cast true r9 into r10 as Optional__DbbQYuLaHdi;
-    cast false false into r11 as Optional__DbbQYuLaHdi;
-    ternary r8 r10.is_some r11.is_some into r12;
-    ternary r8 r10.val r11.val into r13;
-    cast r12 r13 into r14 as Optional__DbbQYuLaHdi;
-    ternary r7.is_some r14.val false into r15;
-    is.eq r15 false into r16;
-    assert.eq r16 true;
-    contains balance__[false] into r17;
-    get.or_use balance__[false] 0u64 into r18;
-    cast true r18 into r19 as Optional__DOnC9eGtnsJ;
-    cast false 0u64 into r20 as Optional__DOnC9eGtnsJ;
-    ternary r17 r19.is_some r20.is_some into r21;
-    ternary r17 r19.val r20.val into r22;
-    cast r21 r22 into r23 as Optional__DOnC9eGtnsJ;
-    assert.eq r23.is_some true;
-    contains balance__[false] into r24;
-    get.or_use balance__[false] 0u64 into r25;
-    cast true r25 into r26 as Optional__DOnC9eGtnsJ;
-    cast false 0u64 into r27 as Optional__DOnC9eGtnsJ;
-    ternary r24 r26.is_some r27.is_some into r28;
-    ternary r24 r26.val r27.val into r29;
-    cast r28 r29 into r30 as Optional__DOnC9eGtnsJ;
-    gte r30.val r0 into r31;
-    assert.eq r31 true;
-    sub r30.val r0 into r32;
-    set r32 into balance__[false];
+    ternary r1 r2 false into r3;
+    cast r1 r3 into r4 as Optional__ATAkdHctJwx;
+    ternary r4.is_some r4.val false into r5;
+    is.eq r5 false into r6;
+    assert.eq r6 true;
+    contains balance__[false] into r7;
+    get.or_use balance__[false] 0u64 into r8;
+    ternary r7 r8 0u64 into r9;
+    cast r7 r9 into r10 as Optional__DmN5CQ9hzeK;
+    ternary r10.is_some r10.val 0u64 into r11;
+    add r11 r0 into r12;
+    set r12 into balance__[false];
+    contains deposit_count__[false] into r13;
+    get.or_use deposit_count__[false] 0u32 into r14;
+    ternary r13 r14 0u32 into r15;
+    cast r13 r15 into r16 as Optional__JzunLORyB8U;
+    ternary r16.is_some r16.val 0u32 into r17;
+    add r17 1u32 into r18;
+    set r18 into deposit_count__[false];
+    get.or_use deposit_log__len__[false] 0u32 into r19;
+    add r19 1u32 into r20;
+    set r20 into deposit_log__len__[false];
+    set r0 into deposit_log__[r19];
 
 function freeze:
     async freeze into r0;
@@ -184,25 +110,119 @@ finalize update_config:
     cast r0 r1 into r2 as FeeConfig;
     set r2 into config__[false];
 
-function pop_last_deposit:
-    async pop_last_deposit into r0;
-    output r0 as treasury.aleo/pop_last_deposit.future;
+function withdraw:
+    input r0 as u64.private;
+    async withdraw r0 into r1;
+    output r1 as treasury.aleo/withdraw.future;
 
-finalize pop_last_deposit:
+finalize withdraw:
+    input r0 as u64.public;
+    contains is_frozen__[false] into r1;
+    get.or_use is_frozen__[false] false into r2;
+    ternary r1 r2 false into r3;
+    cast r1 r3 into r4 as Optional__ATAkdHctJwx;
+    ternary r4.is_some r4.val false into r5;
+    is.eq r5 false into r6;
+    assert.eq r6 true;
+    contains balance__[false] into r7;
+    get.or_use balance__[false] 0u64 into r8;
+    ternary r7 r8 0u64 into r9;
+    cast r7 r9 into r10 as Optional__DmN5CQ9hzeK;
+    assert.eq r10.is_some true;
+    gte r10.val r0 into r11;
+    assert.eq r11 true;
+    sub r10.val r0 into r12;
+    set r12 into balance__[false];
+
+function undo_last_deposit:
+    async undo_last_deposit into r0;
+    output r0 as treasury.aleo/undo_last_deposit.future;
+
+finalize undo_last_deposit:
     get.or_use deposit_log__len__[false] 0u32 into r0;
     gt r0 0u32 into r1;
     sub.w r0 1u32 into r2;
     ternary r1 r2 r0 into r3;
     set r3 into deposit_log__len__[false];
     get.or_use deposit_log__[r2] 0u64 into r4;
-    cast true r4 into r5 as Optional__DOnC9eGtnsJ;
-    cast false 0u64 into r6 as Optional__DOnC9eGtnsJ;
-    ternary r1 r5.is_some r6.is_some into r7;
-    ternary r1 r5.val r6.val into r8;
-    cast r7 r8 into r9 as Optional__DOnC9eGtnsJ;
-    cast false 0u64 into r10 as Optional__DOnC9eGtnsJ;
-    is.neq r9 r10 into r11;
-    assert.eq r11 true;
+    ternary r1 r4 0u64 into r5;
+    cast r1 r5 into r6 as Optional__DmN5CQ9hzeK;
+    cast false 0u64 into r7 as Optional__DmN5CQ9hzeK;
+    is.neq r6 r7 into r8;
+    assert.eq r8 true;
+    contains balance__[false] into r9;
+    get.or_use balance__[false] 0u64 into r10;
+    ternary r9 r10 0u64 into r11;
+    cast r9 r11 into r12 as Optional__DmN5CQ9hzeK;
+    assert.eq r6.is_some true;
+    ternary r12.is_some r12.val 0u64 into r13;
+    sub r13 r6.val into r14;
+    set r14 into balance__[false];
+    contains deposit_count__[false] into r15;
+    get.or_use deposit_count__[false] 0u32 into r16;
+    ternary r15 r16 0u32 into r17;
+    cast r15 r17 into r18 as Optional__JzunLORyB8U;
+    ternary r18.is_some r18.val 0u32 into r19;
+    sub r19 1u32 into r20;
+    set r20 into deposit_count__[false];
+
+function correct_deposit:
+    input r0 as u32.private;
+    input r1 as u64.private;
+    async correct_deposit r0 r1 into r2;
+    output r2 as treasury.aleo/correct_deposit.future;
+
+finalize correct_deposit:
+    input r0 as u32.public;
+    input r1 as u64.public;
+    get.or_use deposit_log__len__[false] 0u32 into r2;
+    lt r0 r2 into r3;
+    get.or_use deposit_log__[r0] 0u64 into r4;
+    ternary r3 r4 0u64 into r5;
+    cast r3 r5 into r6 as Optional__DmN5CQ9hzeK;
+    assert.eq r6.is_some true;
+    get.or_use deposit_log__len__[false] 0u32 into r7;
+    lt r0 r7 into r8;
+    assert.eq r8 true;
+    set r1 into deposit_log__[r0];
+    contains balance__[false] into r9;
+    get.or_use balance__[false] 0u64 into r10;
+    ternary r9 r10 0u64 into r11;
+    cast r9 r11 into r12 as Optional__DmN5CQ9hzeK;
+    ternary r12.is_some r12.val 0u64 into r13;
+    add r13 r1 into r14;
+    sub r14 r6.val into r15;
+    set r15 into balance__[false];
+
+function drop_deposit:
+    input r0 as u32.private;
+    async drop_deposit r0 into r1;
+    output r1 as treasury.aleo/drop_deposit.future;
+
+finalize drop_deposit:
+    input r0 as u32.public;
+    get.or_use deposit_log__len__[false] 0u32 into r1;
+    lt r0 r1 into r2;
+    assert.eq r2 true;
+    get deposit_log__[r0] into r3;
+    sub r1 1u32 into r4;
+    get deposit_log__[r4] into r5;
+    set r5 into deposit_log__[r0];
+    set r4 into deposit_log__len__[false];
+    contains balance__[false] into r6;
+    get.or_use balance__[false] 0u64 into r7;
+    ternary r6 r7 0u64 into r8;
+    cast r6 r8 into r9 as Optional__DmN5CQ9hzeK;
+    ternary r9.is_some r9.val 0u64 into r10;
+    sub r10 r3 into r11;
+    set r11 into balance__[false];
+    contains deposit_count__[false] into r12;
+    get.or_use deposit_count__[false] 0u32 into r13;
+    ternary r12 r13 0u32 into r14;
+    cast r12 r14 into r15 as Optional__JzunLORyB8U;
+    ternary r15.is_some r15.val 0u32 into r16;
+    sub r16 1u32 into r17;
+    set r17 into deposit_count__[false];
 
 function reset:
     async reset into r0;

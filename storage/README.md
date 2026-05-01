@@ -77,7 +77,7 @@ program treasury.aleo {
 
 ### Vector Storage
 
-Vectors are dynamically-sized on-chain lists with `push`, `pop`, `get`, `set`, `clear`, `swap_remove`, and `len`:
+Vectors are dynamically-sized on-chain lists with `push`, `pop`, `get`, `set`, `len`, `clear`, and `swap_remove`:
 
 ```leo
 program treasury.aleo {
@@ -85,24 +85,38 @@ program treasury.aleo {
 
     fn deposit(amount: u64) -> Final {
         return final {
-            deposit_log.push(amount);       // append
+            deposit_log.push(amount);                  // append
         };
     }
 
-    fn pop_last_deposit() -> Final {
+    fn undo_last_deposit() -> Final {
         return final {
-            let removed = deposit_log.pop();  // remove last
+            let removed: u64? = deposit_log.pop();     // remove the tail
             assert(removed != none);
+        };
+    }
+
+    fn correct_deposit(index: u32, amount: u64) -> Final {
+        return final {
+            deposit_log.set(index, amount);            // overwrite in place
+        };
+    }
+
+    fn drop_deposit(index: u32) -> Final {
+        return final {
+            let _ = deposit_log.swap_remove(index);    // O(1) drop, swaps with tail
         };
     }
 
     fn reset() -> Final {
         return final {
-            deposit_log.clear();            // empty the list
+            deposit_log.clear();                       // empty the list
         };
     }
 }
 ```
+
+`get(i)` returns the element as an optional (`none` if `i >= len()`); `len()` returns the current length as `u32`.
 
 ### Clearing Storage
 
@@ -152,12 +166,16 @@ storage/
 ├── run.sh
 ├── treasury/              # Owns and writes all storage
 │   ├── program.json
-│   └── src/
-│       └── main.leo
+│   ├── src/
+│   │   └── main.leo
+│   └── tests/             # @test functions that drive treasury locally
+│       └── test_treasury.leo
 └── auditor/               # Reads treasury storage externally
     ├── program.json       # lists treasury.aleo as a local dependency
-    └── src/
-        └── main.leo
+    ├── src/
+    │   └── main.leo
+    └── tests/             # @test functions that exercise cross-program reads
+        └── test_auditor.leo
 ```
 
 ## Running the Example
@@ -176,7 +194,18 @@ leo run update_config 500u64 25u64
 
 Note: each `leo run` starts with fresh state, so operations don't accumulate across calls.
 
-### Part 2 — External storage access (requires `leo devnode`)
+### Part 2 — Unit tests (no devnode)
+
+The `tests/` directories under each package contain `@test`-annotated functions that drive the storage transitions and assert on the resulting on-chain state — including cross-program reads from `auditor.aleo` against `treasury.aleo`.  They run against an in-memory ledger:
+
+```bash
+cd treasury && leo test     # 16 tests covering every treasury op
+cd ../auditor && leo test   # 10 tests covering external reads + alerts
+```
+
+Each `@test` runs against a fresh deployment, so the test sets up its own state by calling treasury transitions before asserting.
+
+### Part 3 — External storage access (requires `leo devnode`)
 
 Cross-program storage reads require both programs to be deployed.  Start a local devnode in a **separate terminal** first:
 

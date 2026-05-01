@@ -1,5 +1,6 @@
 {
   "program": "treasury.aleo",
+  "implements": [],
   "structs": [
     {
       "path": [
@@ -86,6 +87,7 @@
     {
       "name": "initialize",
       "is_final": true,
+      "const_parameters": [],
       "inputs": [],
       "outputs": [
         {
@@ -97,29 +99,7 @@
     {
       "name": "deposit",
       "is_final": true,
-      "inputs": [
-        {
-          "name": "amount",
-          "ty": {
-            "Plaintext": {
-              "Primitive": {
-                "UInt": "U64"
-              }
-            }
-          },
-          "mode": "None"
-        }
-      ],
-      "outputs": [
-        {
-          "ty": "Final",
-          "mode": "None"
-        }
-      ]
-    },
-    {
-      "name": "withdraw",
-      "is_final": true,
+      "const_parameters": [],
       "inputs": [
         {
           "name": "amount",
@@ -143,6 +123,7 @@
     {
       "name": "freeze",
       "is_final": true,
+      "const_parameters": [],
       "inputs": [],
       "outputs": [
         {
@@ -154,6 +135,7 @@
     {
       "name": "unfreeze",
       "is_final": true,
+      "const_parameters": [],
       "inputs": [],
       "outputs": [
         {
@@ -165,6 +147,7 @@
     {
       "name": "update_config",
       "is_final": true,
+      "const_parameters": [],
       "inputs": [
         {
           "name": "rate",
@@ -197,9 +180,93 @@
       ]
     },
     {
-      "name": "pop_last_deposit",
+      "name": "withdraw",
       "is_final": true,
+      "const_parameters": [],
+      "inputs": [
+        {
+          "name": "amount",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "undo_last_deposit",
+      "is_final": true,
+      "const_parameters": [],
       "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "correct_deposit",
+      "is_final": true,
+      "const_parameters": [],
+      "inputs": [
+        {
+          "name": "index",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "None"
+        },
+        {
+          "name": "amount",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "drop_deposit",
+      "is_final": true,
+      "const_parameters": [],
+      "inputs": [
+        {
+          "name": "index",
+          "ty": {
+            "Plaintext": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            }
+          },
+          "mode": "None"
+        }
+      ],
       "outputs": [
         {
           "ty": "Final",
@@ -210,6 +277,7 @@
     {
       "name": "reset",
       "is_final": true,
+      "const_parameters": [],
       "inputs": [],
       "outputs": [
         {

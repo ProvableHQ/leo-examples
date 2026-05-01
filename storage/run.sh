@@ -50,6 +50,14 @@ echo "  Update fee config (struct storage):"
 $LEO run update_config 500u64 25u64
 
 echo ""
+echo "  Correct an existing log entry (vector .set):"
+$LEO run correct_deposit 0u32 4500u64
+
+echo ""
+echo "  Drop an entry by swap_remove (vector .swap_remove):"
+$LEO run drop_deposit 0u32
+
+echo ""
 echo "  Freeze treasury:"
 $LEO run freeze
 
