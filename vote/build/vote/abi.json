@@ -1,0 +1,231 @@
+{
+  "program": "vote.aleo",
+  "structs": [
+    {
+      "path": [
+        "ProposalInfo"
+      ],
+      "fields": [
+        {
+          "name": "title",
+          "ty": {
+            "Primitive": "Field"
+          }
+        },
+        {
+          "name": "content",
+          "ty": {
+            "Primitive": "Field"
+          }
+        },
+        {
+          "name": "proposer",
+          "ty": {
+            "Primitive": "Address"
+          }
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "path": [
+        "Proposal"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "id",
+          "ty": {
+            "Primitive": "Field"
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "info",
+          "ty": {
+            "Struct": {
+              "path": [
+                "ProposalInfo"
+              ],
+              "program": "vote.aleo"
+            }
+          },
+          "mode": "Private"
+        }
+      ]
+    },
+    {
+      "path": [
+        "Ticket"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "pid",
+          "ty": {
+            "Primitive": "Field"
+          },
+          "mode": "Private"
+        }
+      ]
+    }
+  ],
+  "mappings": [
+    {
+      "name": "proposals",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Struct": {
+          "path": [
+            "ProposalInfo"
+          ],
+          "program": "vote.aleo"
+        }
+      }
+    },
+    {
+      "name": "tickets",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Primitive": {
+          "UInt": "U64"
+        }
+      }
+    },
+    {
+      "name": "agree_votes",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Primitive": {
+          "UInt": "U64"
+        }
+      }
+    },
+    {
+      "name": "disagree_votes",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Primitive": {
+          "UInt": "U64"
+        }
+      }
+    }
+  ],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "propose",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Struct": {
+                "path": [
+                  "ProposalInfo"
+                ],
+                "program": "vote.aleo"
+              }
+            },
+            "mode": "Public"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "Proposal"
+            ],
+            "program": "vote.aleo"
+          }
+        },
+        "Final"
+      ]
+    },
+    {
+      "name": "new_ticket",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Field"
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Address"
+            },
+            "mode": "Public"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "Ticket"
+            ],
+            "program": "vote.aleo"
+          }
+        },
+        "Final"
+      ]
+    },
+    {
+      "name": "agree",
+      "inputs": [
+        {
+          "Record": {
+            "path": [
+              "Ticket"
+            ],
+            "program": "vote.aleo"
+          }
+        }
+      ],
+      "outputs": [
+        "Final"
+      ]
+    },
+    {
+      "name": "disagree",
+      "inputs": [
+        {
+          "Record": {
+            "path": [
+              "Ticket"
+            ],
+            "program": "vote.aleo"
+          }
+        }
+      ],
+      "outputs": [
+        "Final"
+      ]
+    }
+  ]
+}

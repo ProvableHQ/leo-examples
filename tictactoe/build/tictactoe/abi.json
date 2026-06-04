@@ -1,0 +1,173 @@
+{
+  "program": "tictactoe.aleo",
+  "structs": [
+    {
+      "path": [
+        "Row"
+      ],
+      "fields": [
+        {
+          "name": "c1",
+          "ty": {
+            "Primitive": {
+              "UInt": "U8"
+            }
+          }
+        },
+        {
+          "name": "c2",
+          "ty": {
+            "Primitive": {
+              "UInt": "U8"
+            }
+          }
+        },
+        {
+          "name": "c3",
+          "ty": {
+            "Primitive": {
+              "UInt": "U8"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": [
+        "Board"
+      ],
+      "fields": [
+        {
+          "name": "r1",
+          "ty": {
+            "Struct": {
+              "path": [
+                "Row"
+              ],
+              "program": "tictactoe.aleo"
+            }
+          }
+        },
+        {
+          "name": "r2",
+          "ty": {
+            "Struct": {
+              "path": [
+                "Row"
+              ],
+              "program": "tictactoe.aleo"
+            }
+          }
+        },
+        {
+          "name": "r3",
+          "ty": {
+            "Struct": {
+              "path": [
+                "Row"
+              ],
+              "program": "tictactoe.aleo"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "new",
+      "inputs": [],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Struct": {
+                "path": [
+                  "Board"
+                ],
+                "program": "tictactoe.aleo"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    },
+    {
+      "name": "make_move",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Struct": {
+                "path": [
+                  "Board"
+                ],
+                "program": "tictactoe.aleo"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Struct": {
+                "path": [
+                  "Board"
+                ],
+                "program": "tictactoe.aleo"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U8"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    }
+  ]
+}

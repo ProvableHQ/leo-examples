@@ -1,0 +1,183 @@
+{
+  "program": "virtual_wallet_pubkey.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [
+    {
+      "name": "next_nonce",
+      "key": {
+        "Primitive": {
+          "UInt": "U8"
+        }
+      },
+      "value": {
+        "Primitive": {
+          "UInt": "U64"
+        }
+      }
+    }
+  ],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "transfer_public",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Array": {
+                "element": {
+                  "Primitive": {
+                    "UInt": "U8"
+                  }
+                },
+                "length": 65
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Address"
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Array": {
+                "element": {
+                  "Primitive": {
+                    "UInt": "U8"
+                  }
+                },
+                "length": 32
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        "Final"
+      ]
+    },
+    {
+      "name": "transfer_public_to_private",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Array": {
+                "element": {
+                  "Primitive": {
+                    "UInt": "U8"
+                  }
+                },
+                "length": 65
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Address"
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Array": {
+                "element": {
+                  "Primitive": {
+                    "UInt": "U8"
+                  }
+                },
+                "length": 32
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "credits"
+            ],
+            "program": "credits.aleo"
+          }
+        },
+        "Final"
+      ]
+    }
+  ]
+}

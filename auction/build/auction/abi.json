@@ -1,0 +1,134 @@
+{
+  "program": "auction.aleo",
+  "structs": [],
+  "records": [
+    {
+      "path": [
+        "Bid"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "bidder",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "amount",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "is_winner",
+          "ty": {
+            "Primitive": "Boolean"
+          },
+          "mode": "Private"
+        }
+      ]
+    }
+  ],
+  "mappings": [],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "place_bid",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Address"
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "Bid"
+            ],
+            "program": "auction.aleo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "resolve",
+      "inputs": [
+        {
+          "Record": {
+            "path": [
+              "Bid"
+            ],
+            "program": "auction.aleo"
+          }
+        },
+        {
+          "Record": {
+            "path": [
+              "Bid"
+            ],
+            "program": "auction.aleo"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "Bid"
+            ],
+            "program": "auction.aleo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "finish",
+      "inputs": [
+        {
+          "Record": {
+            "path": [
+              "Bid"
+            ],
+            "program": "auction.aleo"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "Bid"
+            ],
+            "program": "auction.aleo"
+          }
+        }
+      ]
+    }
+  ]
+}
