@@ -11,40 +11,40 @@
 
 import credits.aleo;
 
+// The 20-byte Ethereum address of the sole custodian.  Derived from the
+// secp256k1 private key 0x4646…4646 (a well-known test key; see
+// run.sh).  For a real deployment, replace with the production eth
+// address and redeploy.
+const OWNER_ETH_ADDR: [u8; 20] = [
+    157u8, 138u8, 98u8, 246u8, 86u8, 168u8, 209u8, 97u8, 92u8, 18u8,
+    148u8, 253u8, 113u8, 233u8, 207u8, 179u8, 228u8, 133u8, 90u8, 79u8,
+];
+
+// Selector values for this program occupy the range 1..=2.  The sister
+// `virtual_wallet_pubkey.aleo` uses 3..=4, so a signature produced for
+// one program cannot be replayed against the other even if the same
+// secp256k1 key signs for both.
+const SELECTOR_PUBLIC: u8 = 1u8;
+const SELECTOR_PUBLIC_TO_PRIVATE: u8 = 2u8;
+
+// Singleton-mapping key for `next_nonce`.
+const NONCE_KEY: u8 = 0u8;
+
+// Canonical authorization payload signed by the custodian.  Hashed
+// *in-circuit* (via `Keccak256::hash_to_bits_raw`) so that only the
+// resulting 32-byte digest crosses into the on-chain `final` scope —
+// the salt (and, for `transfer_public_to_private`, the recipient) stay
+// in witness data.
+struct TransferAuth {
+    selector: u8,         //   1 byte
+    to_bytes: [u8; 32],   //  32 bytes
+    amount: u64,          //   8 bytes (little-endian)
+    nonce: u64,           //   8 bytes (little-endian)
+    expiry: u32,          //   4 bytes (little-endian)
+    salt: [u8; 32],       //  32 bytes
+}                         //  85 bytes total
+
 program virtual_wallet_eth.aleo {
-    // The 20-byte Ethereum address of the sole custodian.  Derived from the
-    // secp256k1 private key 0x4646…4646 (a well-known test key; see
-    // run.sh).  For a real deployment, replace with the production eth
-    // address and redeploy.
-    const OWNER_ETH_ADDR: [u8; 20] = [
-        157u8, 138u8, 98u8, 246u8, 86u8, 168u8, 209u8, 97u8, 92u8, 18u8,
-        148u8, 253u8, 113u8, 233u8, 207u8, 179u8, 228u8, 133u8, 90u8, 79u8,
-    ];
-
-    // Selector values for this program occupy the range 1..=2.  The sister
-    // `virtual_wallet_pubkey.aleo` uses 3..=4, so a signature produced for
-    // one program cannot be replayed against the other even if the same
-    // secp256k1 key signs for both.
-    const SELECTOR_PUBLIC: u8 = 1u8;
-    const SELECTOR_PUBLIC_TO_PRIVATE: u8 = 2u8;
-
-    // Singleton-mapping key for `next_nonce`.
-    const NONCE_KEY: u8 = 0u8;
-
-    // Canonical authorization payload signed by the custodian.  Hashed
-    // *in-circuit* (via `Keccak256::hash_to_bits_raw`) so that only the
-    // resulting 32-byte digest crosses into the on-chain `final` scope —
-    // the salt (and, for `transfer_public_to_private`, the recipient) stay
-    // in witness data.
-    struct TransferAuth {
-        selector: u8,         //   1 byte
-        to_bytes: [u8; 32],   //  32 bytes
-        amount: u64,          //   8 bytes (little-endian)
-        nonce: u64,           //   8 bytes (little-endian)
-        expiry: u32,          //   4 bytes (little-endian)
-        salt: [u8; 32],       //  32 bytes
-    }                         //  85 bytes total
-
     // Auto-incrementing nonce counter.  A single u64 keyed by `NONCE_KEY`,
     // starting at 0u64.  Each accepted transition advances it by exactly 1,
     // so the signed `nonce` field doubles as a sequence number — replay
