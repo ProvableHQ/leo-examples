@@ -1,0 +1,6 @@
+{
+    "program": "quadratic_power.aleo",
+    "version": "0.1.0",
+    "description": "Quadratic voting strategy: floor(sqrt(balance)) votes per token.",
+    "license": "MIT"
+}
