@@ -1,0 +1,7 @@
+{
+    "program": "sqrt_math",
+    "version": "0.1.0",
+    "description": "Integer square root library.",
+    "license": "MIT",
+    "leo": "4.0.1"
+}

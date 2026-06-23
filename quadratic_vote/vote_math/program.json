@@ -1,0 +1,15 @@
+{
+    "program": "vote_math",
+    "version": "0.1.0",
+    "description": "Quadratic-voting weight and credit-cost library.",
+    "license": "MIT",
+    "leo": "4.0.1",
+    "dependencies": [
+        {
+            "name": "sqrt_math",
+            "location": "local",
+            "path": "../sqrt_math",
+            "edition": null
+        }
+    ]
+}

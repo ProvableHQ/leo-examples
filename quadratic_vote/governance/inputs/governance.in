@@ -1,0 +1,4 @@
+// cast_vote inputs: proposal_id (public field), token_balance (u32), approve (bool)
+1field
+1000u32
+true
