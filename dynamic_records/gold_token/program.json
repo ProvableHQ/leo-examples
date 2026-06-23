@@ -1,0 +1,6 @@
+{
+    "program": "gold_token.aleo",
+    "version": "0.1.0",
+    "description": "Gold token implementing the TokenStandard interface. Carries a purity field beyond the interface minimum.",
+    "license": "MIT"
+}
