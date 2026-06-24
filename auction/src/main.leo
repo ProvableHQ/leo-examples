@@ -20,7 +20,7 @@ program auction.aleo {
     // The address of the auction runner is aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg.
     fn place_bid(bidder: address, amount: u64) -> Bid {
         // Ensure the caller is the auction bidder.
-        assert_eq(self.caller, bidder);
+        assert_eq(std::ctx::caller(), bidder);
         // Return a new 'Bid' record for the auction bidder.
         return Bid {
             owner: aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg,
@@ -38,7 +38,7 @@ program auction.aleo {
     // In the event of a tie, the first bid is selected.
     fn resolve(first: Bid, second: Bid) -> Bid {
         // Ensure the caller is the auctioneer.
-        assert_eq(self.caller, aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg);
+        assert_eq(std::ctx::caller(), aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg);
         // Resolve the winner of the auction.
         if (first.amount >= second.amount) {
             return first;
@@ -53,7 +53,7 @@ program auction.aleo {
     // Assumes that the function is invoked only after all bids have been resolved.
     fn finish(bid: Bid) -> Bid {
         // Ensure the caller is the auctioneer.
-        assert_eq(self.caller, aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg);
+        assert_eq(std::ctx::caller(), aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg);
         // Return 'is_winner' as 'true' in the winning 'Bid'.
         return Bid {
             owner: bid.bidder,

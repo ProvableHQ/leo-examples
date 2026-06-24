@@ -33,7 +33,7 @@ program vote.aleo {
     // Propose a new proposal to vote on.
     fn propose(public info: ProposalInfo) -> (Proposal, Final) {
         // Authenticate proposer.
-        assert_eq(self.caller, info.proposer);
+        assert_eq(std::ctx::caller(), info.proposer);
 
         // Generate a new proposal id.
         let id: field = BHP256::hash_to_field(info.title);
@@ -41,7 +41,7 @@ program vote.aleo {
 
         // Return a new record for the proposal.
         // Finalize the proposal id.
-        return (Proposal { owner: self.caller, id, info }, final {
+        return (Proposal { owner: std::ctx::caller(), id, info }, final {
             // Create a new proposal in the "tickets" mapping.
             Mapping::set(tickets, id, 0u64);
         });

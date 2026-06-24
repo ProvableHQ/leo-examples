@@ -1,9 +1,0 @@
-{
-  "program": "fibonacci.aleo",
-  "version": "0.1.0",
-  "description": "",
-  "license": "",
-  "leo": "4.0.0",
-  "dependencies": null,
-  "dev_dependencies": null
-}
