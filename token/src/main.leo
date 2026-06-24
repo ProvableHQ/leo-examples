@@ -35,7 +35,7 @@ program token.aleo {
     /* Transfer */
     fn transfer_public(public receiver: address, public amount: u64) -> Final {
         // Transfer the tokens publicly, by invoking the computation on-chain.
-        let caller = self.caller;
+        let caller = std::ctx::caller();
         return final {
             // Decrements `account[sender]` by `amount`.
             // If `account[sender]` does not exist, it will be created.
@@ -106,7 +106,7 @@ program token.aleo {
             owner: receiver,
             amount: amount,
         };
-        let caller = self.caller;
+        let caller = std::ctx::caller();
 
         // Output the receiver's record.
         // Decrement the token amount of the caller publicly.
