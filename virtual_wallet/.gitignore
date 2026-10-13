@@ -1,0 +1,6 @@
+.env
+*/outputs/
+*.avm
+*.prover
+*.verifier
+signer/node_modules/
