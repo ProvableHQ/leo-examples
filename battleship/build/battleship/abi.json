@@ -1,0 +1,191 @@
+{
+  "program": "battleship.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "initialize_board",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Address"
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "BoardState"
+            ],
+            "program": "board.aleo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "offer_battleship",
+      "inputs": [
+        {
+          "Record": {
+            "path": [
+              "BoardState"
+            ],
+            "program": "board.aleo"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "BoardState"
+            ],
+            "program": "board.aleo"
+          }
+        },
+        {
+          "Record": {
+            "path": [
+              "Move"
+            ],
+            "program": "move.aleo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "start_battleship",
+      "inputs": [
+        {
+          "Record": {
+            "path": [
+              "BoardState"
+            ],
+            "program": "board.aleo"
+          }
+        },
+        {
+          "Record": {
+            "path": [
+              "Move"
+            ],
+            "program": "move.aleo"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "BoardState"
+            ],
+            "program": "board.aleo"
+          }
+        },
+        {
+          "Record": {
+            "path": [
+              "Move"
+            ],
+            "program": "move.aleo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "inputs": [
+        {
+          "Record": {
+            "path": [
+              "BoardState"
+            ],
+            "program": "board.aleo"
+          }
+        },
+        {
+          "Record": {
+            "path": [
+              "Move"
+            ],
+            "program": "move.aleo"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "BoardState"
+            ],
+            "program": "board.aleo"
+          }
+        },
+        {
+          "Record": {
+            "path": [
+              "Move"
+            ],
+            "program": "move.aleo"
+          }
+        }
+      ]
+    }
+  ]
+}

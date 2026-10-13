@@ -29,7 +29,7 @@ program basic_voting.aleo {
 
     // Vote on a proposed checksum.
     fn vote(checksum: [u8; 32], approved: bool) -> Final {
-        let caller = self.caller;
+        let caller = std::ctx::caller();
         return final {
             // Ensure that the checksum is proposed.
             assert(proposed_checksum.contains(true));

@@ -1,0 +1,13 @@
+program message.aleo;
+
+struct Message:
+    first as field;
+    second as field;
+
+function main:
+    input r0 as Message.private;
+    add r0.first r0.second into r1;
+    output r1 as field.private;
+
+constructor:
+    assert.eq edition 0u16;
