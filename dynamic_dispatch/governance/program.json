@@ -1,0 +1,19 @@
+{
+    "program": "governance.aleo",
+    "version": "0.1.0",
+    "description": "Dynamic strategy calls using an exported interface.",
+    "license": "MIT",
+    "dependencies": [
+        {
+            "name": "voting_power.aleo",
+            "location": "local",
+            "path": "../voting_power"
+        },
+        {
+            "name": "quadratic_power.aleo",
+            "location": "local",
+            "path": "../quadratic_power"
+        }
+    ],
+    "leo": "4.4.5"
+}

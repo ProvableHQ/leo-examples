@@ -1,0 +1,14 @@
+{
+    "program": "quadratic_power.aleo",
+    "version": "0.1.0",
+    "description": "Integer square root strategy for u64 inputs.",
+    "license": "MIT",
+    "leo": "4.4.5",
+    "dependencies": [
+        {
+            "name": "voting_power.aleo",
+            "location": "local",
+            "path": "../voting_power"
+        }
+    ]
+}

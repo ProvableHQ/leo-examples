@@ -1,0 +1,36 @@
+{
+  "program": "quadratic_power.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "compute_power",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    }
+  ]
+}

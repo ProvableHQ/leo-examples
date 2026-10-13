@@ -1,0 +1,7 @@
+{
+    "program": "voting_power.aleo",
+    "version": "0.1.0",
+    "description": "Exported strategy interface and linear implementation.",
+    "license": "MIT",
+    "leo": "4.4.5"
+}

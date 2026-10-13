@@ -1,0 +1,41 @@
+{
+  "name": "VotingStrategy",
+  "program": "voting_power.aleo",
+  "path": [
+    "VotingStrategy"
+  ],
+  "parents": [],
+  "functions": [
+    {
+      "name": "compute_power",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    }
+  ],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "structs": []
+}
