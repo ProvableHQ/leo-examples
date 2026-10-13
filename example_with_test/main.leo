@@ -23,4 +23,7 @@ program example_program.aleo {
             Mapping::set(map, 0field, x);
         };
     }
+
+    @noupgrade
+    constructor() {}
 }
