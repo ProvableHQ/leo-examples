@@ -81,7 +81,7 @@ program virtual_wallet_pubkey.aleo {
         return final {
             // Cheap checks first so a rejected nonce/expiry doesn't pay
             // for the secp256k1 verify on the failure path.
-            assert(block.height < expiry);
+            assert(std::ctx::block_height() < expiry);
             let cur: u64 = next_nonce.get_or_use(NONCE_KEY, 0u64);
             assert_eq(nonce, cur);
             assert(ECDSA::verify_digest(sig, OWNER_PUBKEY, digest));
@@ -110,7 +110,7 @@ program virtual_wallet_pubkey.aleo {
         let (cred, f): (credits.aleo::credits, Final) =
             credits.aleo::transfer_public_to_private(to, amount);
         return (cred, final {
-            assert(block.height < expiry);
+            assert(std::ctx::block_height() < expiry);
             let cur: u64 = next_nonce.get_or_use(NONCE_KEY, 0u64);
             assert_eq(nonce, cur);
             assert(ECDSA::verify_digest(sig, OWNER_PUBKEY, digest));

@@ -25,11 +25,11 @@ program board.aleo {
         opponent: address,
     ) -> BoardState {
         return BoardState {
-            owner: self.caller,
+            owner: std::ctx::caller(),
             hits_and_misses: 0u64,
             played_tiles: 0u64,
             ships,
-            player_1: self.caller,
+            player_1: std::ctx::caller(),
             player_2: opponent,
             game_started: false,
         };

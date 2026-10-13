@@ -9,11 +9,11 @@ program lottery.aleo {
 
     fn play() -> (Ticket, Final) {
         let ticket: Ticket = Ticket {
-            owner: self.caller,
+            owner: std::ctx::caller(),
         };
         return (ticket, final {
             // Check that the lottery has not expired.
-            assert(block.height <= 1000u32);
+            assert(std::ctx::block_height() <= 1000u32);
 
             // Randomly select whether or not the ticket is a winner.
             assert(ChaCha::rand_bool());
