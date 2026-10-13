@@ -1,4 +1,4 @@
-// Maximum vote weight any single participant may hold.
-const MAX_WEIGHT: u32 = 100u32;
-// Minimum token balance required to participate in a vote.
-const MIN_BALANCE: u32 = 1u32;
+// Cap the weight calculated from a supplied balance.
+export const MAX_WEIGHT: u32 = 100u32;
+// Require a positive supplied balance.
+export const MIN_BALANCE: u32 = 1u32;

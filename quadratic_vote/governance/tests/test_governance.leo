@@ -1,15 +1,17 @@
 import governance.aleo;
 
 program test_governance.aleo {
-    // A voter with 100 tokens gets weight floor(sqrt(100)) = 10.
+    // A supplied balance of 100 gives weight 10.
     @test
     fn test_cast_vote_weight_10() {
         let v: governance.aleo::Vote = governance.aleo::cast_vote(1field, 100u32, true);
         assert_eq(v.weight, 10u32);
         assert_eq(v.approve, true);
+        assert_eq(v.proposal_id, 1field);
+        assert_eq(v.owner, std::ctx::signer());
     }
 
-    // A voter with 1 000 tokens gets weight floor(sqrt(1000)) = 31.
+    // A supplied balance of 1000 gives weight 31.
     @test
     fn test_cast_vote_weight_31() {
         let v: governance.aleo::Vote = governance.aleo::cast_vote(1field, 1000u32, false);
@@ -17,21 +19,21 @@ program test_governance.aleo {
         assert_eq(v.approve, false);
     }
 
-    // Weight is capped at MAX_WEIGHT (100) for very large balances.
+    // The weight reaches MAX_WEIGHT at a supplied balance of 10000.
     @test
     fn test_cast_vote_cap() {
         let v: governance.aleo::Vote = governance.aleo::cast_vote(1field, 10000u32, true);
         assert_eq(v.weight, 100u32);
     }
 
-    // A voter with 1 token (MIN_BALANCE) is eligible and gets weight 1.
+    // A supplied balance at MIN_BALANCE gives weight 1.
     @test
     fn test_cast_vote_min_balance() {
         let v: governance.aleo::Vote = governance.aleo::cast_vote(2field, 1u32, true);
         assert_eq(v.weight, 1u32);
     }
 
-    // A voter with 0 tokens must be rejected (MIN_BALANCE = 1).
+    // A supplied balance below MIN_BALANCE is rejected.
     @test
     @should_fail
     fn test_cast_vote_ineligible() {
@@ -114,6 +116,65 @@ program test_governance.aleo {
     @test
     fn test_is_passing_false() {
         assert(!governance.aleo::is_passing(10u32, 20u32));
+    }
+
+    @test
+    fn test_isqrt_boundaries() {
+        let inputs: [u32; 12] = [0u32, 1u32, 2u32, 3u32, 4u32, 15u32, 16u32, 17u32,
+            4_294_836_224u32, 4_294_836_225u32, 4_294_836_226u32, 4_294_967_295u32];
+        let expected: [u32; 12] = [0u32, 1u32, 1u32, 1u32, 2u32, 3u32, 4u32, 4u32,
+            65_534u32, 65_535u32, 65_535u32, 65_535u32];
+        for i: u8 in 0u8..12u8 {
+            assert_eq(sqrt_math::newton::isqrt(inputs[i]), expected[i]);
+        }
+    }
+
+    @test
+    fn test_cast_vote_below_cap() {
+        let v: governance.aleo::Vote = governance.aleo::cast_vote(1field, 9_999u32, true);
+        assert_eq(v.weight, 99u32);
+    }
+
+    @test
+    fn test_cast_vote_above_cap() {
+        let v: governance.aleo::Vote = governance.aleo::cast_vote(1field, 10_201u32, true);
+        assert_eq(v.weight, 100u32);
+    }
+
+    @test
+    fn test_cast_vote_u32_max() {
+        let v: governance.aleo::Vote = governance.aleo::cast_vote(1field, 4_294_967_295u32, false);
+        assert_eq(v.weight, 100u32);
+        assert_eq(v.approve, false);
+    }
+
+    @test
+    fn test_qv_cost_zero() {
+        assert_eq(governance.aleo::qv_cost(0u32), 0u32);
+    }
+
+    @test
+    fn test_qv_cost_max() {
+        assert_eq(governance.aleo::qv_cost(65_535u32), 4_294_836_225u32);
+    }
+
+    @test
+    @should_fail
+    fn test_qv_cost_overflow() {
+        let cost: u32 = governance.aleo::qv_cost(65_536u32);
+    }
+
+    @test
+    fn test_perfect_square_u32_limits() {
+        assert(governance.aleo::has_perfect_sqrt(4_294_836_225u32));
+        assert(!governance.aleo::has_perfect_sqrt(4_294_836_224u32));
+        assert(!governance.aleo::has_perfect_sqrt(4_294_836_226u32));
+        assert(!governance.aleo::has_perfect_sqrt(4_294_967_295u32));
+    }
+
+    @test
+    fn test_is_passing_zero_totals() {
+        assert(!governance.aleo::is_passing(0u32, 0u32));
     }
 
     @noupgrade

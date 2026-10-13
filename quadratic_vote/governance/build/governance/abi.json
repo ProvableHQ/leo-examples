@@ -12,14 +12,14 @@
           "ty": {
             "Primitive": "Address"
           },
-          "mode": "None"
+          "mode": "Private"
         },
         {
           "name": "proposal_id",
           "ty": {
             "Primitive": "Field"
           },
-          "mode": "None"
+          "mode": "Private"
         },
         {
           "name": "weight",
@@ -28,14 +28,14 @@
               "UInt": "U32"
             }
           },
-          "mode": "None"
+          "mode": "Private"
         },
         {
           "name": "approve",
           "ty": {
             "Primitive": "Boolean"
           },
-          "mode": "None"
+          "mode": "Private"
         }
       ]
     }
@@ -45,143 +45,129 @@
   "functions": [
     {
       "name": "cast_vote",
-      "is_final": false,
       "inputs": [
         {
-          "name": "proposal_id",
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": "Field"
-            }
-          },
-          "mode": "Public"
+            },
+            "mode": "Public"
+          }
         },
         {
-          "name": "token_balance",
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": {
                 "UInt": "U32"
               }
-            }
-          },
-          "mode": "None"
+            },
+            "mode": "Private"
+          }
         },
         {
-          "name": "approve",
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": "Boolean"
-            }
-          },
-          "mode": "None"
+            },
+            "mode": "Private"
+          }
         }
       ],
       "outputs": [
         {
-          "ty": {
-            "Record": {
-              "path": [
-                "Vote"
-              ],
-              "program": "governance.aleo"
-            }
-          },
-          "mode": "None"
+          "Record": {
+            "path": [
+              "Vote"
+            ],
+            "program": "governance.aleo"
+          }
         }
       ]
     },
     {
       "name": "qv_cost",
-      "is_final": false,
       "inputs": [
         {
-          "name": "votes",
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": {
                 "UInt": "U32"
               }
-            }
-          },
-          "mode": "None"
+            },
+            "mode": "Private"
+          }
         }
       ],
       "outputs": [
         {
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": {
                 "UInt": "U32"
               }
-            }
-          },
-          "mode": "None"
+            },
+            "mode": "Private"
+          }
         }
       ]
     },
     {
       "name": "has_perfect_sqrt",
-      "is_final": false,
       "inputs": [
         {
-          "name": "token_balance",
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": {
                 "UInt": "U32"
               }
-            }
-          },
-          "mode": "None"
+            },
+            "mode": "Private"
+          }
         }
       ],
       "outputs": [
         {
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": "Boolean"
-            }
-          },
-          "mode": "None"
+            },
+            "mode": "Private"
+          }
         }
       ]
     },
     {
       "name": "is_passing",
-      "is_final": false,
       "inputs": [
         {
-          "name": "approvals",
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": {
                 "UInt": "U32"
               }
-            }
-          },
-          "mode": "Public"
+            },
+            "mode": "Public"
+          }
         },
         {
-          "name": "rejections",
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": {
                 "UInt": "U32"
               }
-            }
-          },
-          "mode": "Public"
+            },
+            "mode": "Public"
+          }
         }
       ],
       "outputs": [
         {
-          "ty": {
-            "Plaintext": {
+          "Plaintext": {
+            "ty": {
               "Primitive": "Boolean"
-            }
-          },
-          "mode": "None"
+            },
+            "mode": "Private"
+          }
         }
       ]
     }

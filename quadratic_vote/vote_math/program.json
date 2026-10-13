@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "description": "Quadratic-voting weight and credit-cost library.",
     "license": "MIT",
-    "leo": "4.0.1",
+    "leo": "4.4.5",
     "dependencies": [
         {
             "name": "sqrt_math",

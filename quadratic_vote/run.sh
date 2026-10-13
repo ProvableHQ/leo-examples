@@ -1,39 +1,35 @@
-#!/bin/bash
-# Quadratic Vote — full walkthrough.
-# Run from the quadratic_vote/ directory.
+#!/usr/bin/env bash
+set -euo pipefail
 
-cd governance || exit 1
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+cd "$script_dir/governance"
+leo_bin="${LEO:-leo}"
 
-echo ""
-echo "=== Step 1: Alice (1 000 tokens) approves proposal 1 ==="
-echo "    weight = floor(sqrt(1000)) = 31"
-leo run cast_vote 1field 1000u32 true
+run_leo() {
+    "$leo_bin" "$@" --network testnet --disable-update-check
+}
 
-echo ""
-echo "=== Step 2: Bob (225 tokens) rejects proposal 1 ==="
-echo "    weight = floor(sqrt(225)) = 15"
-leo run cast_vote 1field 225u32 false
+"$leo_bin" --version
 
-echo ""
-echo "=== Step 3: Carol (10 000 tokens) approves proposal 1 ==="
-echo "    weight = floor(sqrt(10000)) = 100  (hits MAX_WEIGHT cap)"
-leo run cast_vote 1field 10000u32 true
+echo "Scenario 1: balance 1000, approval. Expected weight: 31."
+run_leo run cast_vote 1field 1000u32 true
 
-echo ""
-echo "=== Step 4: Credit cost of casting 5 votes (= 5² = 25) ==="
-leo run qv_cost 5u32
+echo "Scenario 2: balance 225, rejection. Expected weight: 15."
+run_leo run cast_vote 1field 225u32 false
 
-echo ""
-echo "=== Step 5: Does proposal 1 pass? (131 approvals vs 15 rejections) ==="
-leo run is_passing 131u32 15u32
+echo "Scenario 3: balance 10000, approval. Expected weight: 100."
+run_leo run cast_vote 1field 10000u32 true
 
-echo ""
-echo "=== Step 6: Perfect-square check via sqrt_math::checks ==="
-echo "    1024 = 32²  → true"
-leo run has_perfect_sqrt 1024u32
-echo "    1000 is not a perfect square  → false"
-leo run has_perfect_sqrt 1000u32
+echo "Cost of 5 votes. Expected result: 25u32."
+run_leo run qv_cost 5u32
 
-echo ""
-echo "=== Step 7: Unit tests (leo test) ==="
-leo test
+echo "Compare supplied totals of 131 approvals and 15 rejections. Expected result: true."
+run_leo run is_passing 131u32 15u32
+
+echo "Check 1024. Expected result: true."
+run_leo run has_perfect_sqrt 1024u32
+echo "Check 1000. Expected result: false."
+run_leo run has_perfect_sqrt 1000u32
+
+echo "Run the tests."
+run_leo test
