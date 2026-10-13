@@ -1,0 +1,121 @@
+{
+  "program": "verify.aleo",
+  "structs": [],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "validate_ship",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Boolean"
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_board",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U64"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    }
+  ]
+}

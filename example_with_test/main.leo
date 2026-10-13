@@ -13,7 +13,7 @@ program example_program.aleo {
 
     fn mint_record(x: field) -> Example {
         return Example {
-            owner: self.signer,
+            owner: std::ctx::signer(),
             x,
         };
     }
@@ -23,4 +23,7 @@ program example_program.aleo {
             Mapping::set(map, 0field, x);
         };
     }
+
+    @noupgrade
+    constructor() {}
 }

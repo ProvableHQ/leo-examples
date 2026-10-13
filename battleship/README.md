@@ -99,7 +99,7 @@ leo run initialize_board 34084860461056u64 551911718912u64 7u64 1157425104234217
   _nonce: 3887646704618532506963887075433683846689834495661101507703164090915348189037group.public
 }
 
-✅ Executed 'battleship.aleo/initialize_board'
+✅ Executed 'battleship.aleo::initialize_board'
 ```
 
 The output is a `board_state` record owned by Player 1.
@@ -156,7 +156,7 @@ leo run offer_battleship '{
   _nonce: 4374626042494973146987320062571809401151262172766172816829659487584978644457group.public
 }
 
-✅ Executed 'battleship.aleo/offer_battleship'
+✅ Executed 'battleship.aleo::offer_battleship'
 ```
 
 The first output record is the updated `board_state` record.
@@ -205,7 +205,7 @@ leo run initialize_board 31u64 2207646875648u64 224u64 9042383626829824u64 aleo1
   _nonce: 1549419609469324182591325047490602235361156298832591378925133482196483208807group.public
 }
 
-✅ Executed 'battleship.aleo/initialize_board'
+✅ Executed 'battleship.aleo::initialize_board'
 ```
 
 Note, the output ships here is 9044591273705727u64, which in a bitstring is:
@@ -265,7 +265,7 @@ leo run start_battleship '{
   _nonce: 3742551407126138397717446975757978589064777004441277005584760115236217735495group.public
 }
 
-✅ Executed 'battleship.aleo/start_battleship'
+✅ Executed 'battleship.aleo::start_battleship'
 ```
 
 Notice the outputs here are similar to `offer_battleship`.
@@ -319,7 +319,7 @@ leo run play '{
   _nonce: 5481529266389297320813092061136936339861329677911328036818179854958874588416group.public
 }
 
-✅ Executed 'battleship.aleo/play'
+✅ Executed 'battleship.aleo::play'
 ```
 
 Player 1 has an updated `board_state` record -- they have a new `played_tiles` bitstring,
@@ -376,7 +376,7 @@ leo run play '{
   _nonce: 5851606198769770675504009323414373017067582072428989801313256693053765675198group.public
 }
 
-✅ Executed 'battleship.aleo/play'
+✅ Executed 'battleship.aleo::play'
 ```
 
 Player 2 now has an updated `board_state` record which includes their newly updated `played_tiles`,
@@ -441,7 +441,7 @@ leo run play '{
   _nonce: 710336412388939616658264778971886770861024495941253598683184288448156545822group.public
 }
 
-✅ Executed 'battleship.aleo/play'
+✅ Executed 'battleship.aleo::play'
 ```
 
 As before, both a `board_state` record and `move` record are created.
@@ -506,7 +506,7 @@ leo run play '{
   _nonce: 5958326936461495382488152485080596366937963499216527548334225566230682598418group.public
 }
 
-✅ Executed 'battleship.aleo/play'
+✅ Executed 'battleship.aleo::play'
 ```
 
 ### 10. Who Wins?

@@ -1,0 +1,175 @@
+{
+  "program": "governance.aleo",
+  "structs": [],
+  "records": [
+    {
+      "path": [
+        "Vote"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "proposal_id",
+          "ty": {
+            "Primitive": "Field"
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "weight",
+          "ty": {
+            "Primitive": {
+              "UInt": "U32"
+            }
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "approve",
+          "ty": {
+            "Primitive": "Boolean"
+          },
+          "mode": "Private"
+        }
+      ]
+    }
+  ],
+  "mappings": [],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "cast_vote",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Field"
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Private"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Boolean"
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "Vote"
+            ],
+            "program": "governance.aleo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "qv_cost",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    },
+    {
+      "name": "has_perfect_sqrt",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Boolean"
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    },
+    {
+      "name": "is_passing",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Public"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Boolean"
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    }
+  ]
+}

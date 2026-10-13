@@ -1,0 +1,57 @@
+{
+  "program": "message.aleo",
+  "structs": [
+    {
+      "path": [
+        "Message"
+      ],
+      "fields": [
+        {
+          "name": "first",
+          "ty": {
+            "Primitive": "Field"
+          }
+        },
+        {
+          "name": "second",
+          "ty": {
+            "Primitive": "Field"
+          }
+        }
+      ]
+    }
+  ],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "main",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Struct": {
+                "path": [
+                  "Message"
+                ],
+                "program": "message.aleo"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Field"
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    }
+  ]
+}

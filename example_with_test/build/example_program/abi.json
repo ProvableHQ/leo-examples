@@ -1,0 +1,117 @@
+{
+  "program": "example_program.aleo",
+  "structs": [],
+  "records": [
+    {
+      "path": [
+        "Example"
+      ],
+      "fields": [
+        {
+          "name": "owner",
+          "ty": {
+            "Primitive": "Address"
+          },
+          "mode": "Private"
+        },
+        {
+          "name": "x",
+          "ty": {
+            "Primitive": "Field"
+          },
+          "mode": "Private"
+        }
+      ]
+    }
+  ],
+  "mappings": [
+    {
+      "name": "map",
+      "key": {
+        "Primitive": "Field"
+      },
+      "value": {
+        "Primitive": "Field"
+      }
+    }
+  ],
+  "storage_variables": [],
+  "functions": [
+    {
+      "name": "simple_addition",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Public"
+          }
+        },
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": {
+                "UInt": "U32"
+              }
+            },
+            "mode": "Private"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mint_record",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Field"
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "Record": {
+            "path": [
+              "Example"
+            ],
+            "program": "example_program.aleo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "set_mapping",
+      "inputs": [
+        {
+          "Plaintext": {
+            "ty": {
+              "Primitive": "Field"
+            },
+            "mode": "Private"
+          }
+        }
+      ],
+      "outputs": [
+        "Final"
+      ]
+    }
+  ]
+}
