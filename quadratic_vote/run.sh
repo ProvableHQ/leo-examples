@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+leo_bin="${LEO:-leo}"
+if [[ "$leo_bin" == */* && "$leo_bin" != /* ]]; then
+    compiler_dir=$(cd -- "$(dirname -- "$leo_bin")" && pwd)
+    leo_bin="$compiler_dir/$(basename -- "$leo_bin")"
+fi
+
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 cd "$script_dir/governance"
-leo_bin="${LEO:-leo}"
 
 run_leo() {
     "$leo_bin" "$@" --network testnet --disable-update-check
