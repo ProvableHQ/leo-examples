@@ -1,16 +1,23 @@
-// The 'test_basic_voting' test program.
 import basic_voting.aleo;
+
 program test_basic_voting.aleo {
     @test
     @should_fail
-    fn do_nothing() {
-        let result: u32 = basic_voting.aleo::main(2u32, 3u32);
-        assert_eq(result, 3u32);
+    fn test_vote_without_proposal() -> Final {
+        let fin: Final = basic_voting.aleo::vote([0u8; 32], true);
+        return final {
+            fin.run();
+        };
     }
-}
-@test
-script test_it() {
-    let result: u32 = basic_voting.aleo::main(1u32, 2u32);
-    assert_eq(result, 3u32);
-}
 
+    @test
+    fn test_propose() -> Final {
+        let fin: Final = basic_voting.aleo::propose([0u8; 32]);
+        return final {
+            fin.run();
+        };
+    }
+
+    @noupgrade
+    constructor() {}
+}
