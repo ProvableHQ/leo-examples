@@ -1,3 +1,4 @@
+import voting_power.aleo;
 program governance.aleo;
 
 function get_voting_power:

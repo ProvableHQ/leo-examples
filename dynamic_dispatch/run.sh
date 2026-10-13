@@ -1,106 +1,64 @@
-#!/bin/bash
-# Demonstrates interfaces and dynamic dispatch in Leo.
-# Run from the dynamic_dispatch/ directory.
-#
-# Prerequisites:
-#   leo devnode must be running in a separate terminal:
-#     leo devnode start --private-key APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH
-
+#!/usr/bin/env bash
 set -euo pipefail
 
-LEO=${LEO:-leo}
+mode=local
+case "${1:-}" in
+    --devnode) mode=devnode ;;
+    "") ;;
+    --help) echo "Usage: bash run.sh [--devnode]"; exit 0 ;;
+    *) echo "Usage: bash run.sh [--devnode]" >&2; exit 2 ;;
+esac
+if (( $# > 1 )); then
+    echo "Usage: bash run.sh [--devnode]" >&2
+    exit 2
+fi
 
-PRIVATE_KEY="APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH"
-COMMON_OPTS=(-y --disable-update-check --broadcast
-             --network testnet
-             --endpoint "http://localhost:${LEO_DEVNODE_PORT:-3030}"
-             --private-key "$PRIVATE_KEY"
-             --consensus-heights "0,1,2,3,4,5,6,7,8,9,10,11,12,13")
+leo_bin="${LEO:-leo}"
+if [[ "$leo_bin" == */* && "$leo_bin" != /* ]]; then
+    compiler_dir=$(cd -- "$(dirname -- "$leo_bin")" && pwd)
+    leo_bin="$compiler_dir/$(basename -- "$leo_bin")"
+fi
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+cd "$script_dir"
 
-# ─── Local demos (no devnode required) ────────────────────────────────────────
+local_opts=(--network testnet --disable-update-check)
+"$leo_bin" --version
 
-echo ""
-echo "═══════════════════════════════════════════════"
-echo " PART 1: Local execution (no devnode needed)"
-echo "═══════════════════════════════════════════════"
+for package in voting_power quadratic_power governance; do
+    "$leo_bin" build --path "$package" "${local_opts[@]}"
+    "$leo_bin" test --path "$package" "${local_opts[@]}"
+done
 
-echo ""
-echo "── voting_power.aleo: linear strategy ─────────"
-cd voting_power
-echo "  10 000 tokens → linear voting power:"
-$LEO run compute_power 10000u64
-echo "    100 tokens → linear voting power:"
-$LEO run compute_power 100u64
-cd ..
+echo "Variable linear target. Expected result: 10000u64."
+"$leo_bin" run get_voting_power "'voting_power'" 10000u64 --path governance "${local_opts[@]}"
+echo "Variable square-root target. Expected result: 100u64."
+"$leo_bin" run get_voting_power "'quadratic_power'" 10000u64 --path governance "${local_opts[@]}"
+echo "Linear comparison of 101 and 100. Expected result: true."
+"$leo_bin" run proposal_passes "'voting_power'" 101u64 100u64 --path governance "${local_opts[@]}"
+echo "Square-root comparison of 101 and 100. Expected result: false."
+"$leo_bin" run proposal_passes "'quadratic_power'" 101u64 100u64 --path governance "${local_opts[@]}"
+echo "Identifier literals. Expected results: 10000u64 and 100u64."
+"$leo_bin" run compare_strategies 10000u64 --path governance "${local_opts[@]}"
 
-echo ""
-echo "── quadratic_power.aleo: quadratic strategy ───"
-cd quadratic_power
-echo "  10 000 tokens → quadratic voting power (expected: 100):"
-$LEO run compute_power 10000u64
-echo "    100 tokens → quadratic voting power (expected: 10):"
-$LEO run compute_power 100u64
-cd ..
+if [[ "$mode" == devnode ]]; then
+    port="${LEO_DEVNODE_PORT:-3030}"
+    if [[ ! "$port" =~ ^[0-9]{1,5}$ ]] || (( 10#$port < 1 || 10#$port > 65535 )); then
+        echo "LEO_DEVNODE_PORT must be an integer from 1 to 65535." >&2
+        exit 2
+    fi
+    endpoint="http://127.0.0.1:$port"
+    test_private_key="APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH"
+    node_opts=("${local_opts[@]}" --endpoint "$endpoint" --private-key "$test_private_key" --devnet --broadcast --yes)
 
-# ─── Devnode deployment and dynamic dispatch ──────────────────────────────────
-
-echo ""
-echo "═══════════════════════════════════════════════"
-echo " PART 2: Deployment and dynamic dispatch"
-echo "         (requires leo devnode)"
-echo "═══════════════════════════════════════════════"
-
-echo ""
-echo "── Step 1: Deploy voting_power.aleo ───────────"
-echo "   (defines VotingStrategy interface + linear implementation)"
-cd voting_power
-$LEO deploy "${COMMON_OPTS[@]}"
-cd ..
-
-echo ""
-echo "── Step 2: Deploy quadratic_power.aleo ────────"
-echo "   (quadratic implementation of VotingStrategy)"
-cd quadratic_power
-$LEO deploy "${COMMON_OPTS[@]}"
-cd ..
-
-echo ""
-echo "── Step 3: Deploy governance.aleo ─────────────"
-echo "   (dynamic dispatch hub — no voting logic of its own)"
-cd governance
-$LEO deploy "${COMMON_OPTS[@]}"
-
-echo ""
-echo "── Step 4: get_voting_power with variable identifier ─"
-echo "   The same function routes to different programs at runtime."
-
-echo ""
-echo "   strategy = 'voting_power'  (linear), balance = 10 000"
-$LEO execute governance.aleo/get_voting_power "'voting_power'" 10000u64 "${COMMON_OPTS[@]}"
-
-echo ""
-echo "   strategy = 'quadratic_power'  (quadratic), balance = 10 000"
-$LEO execute governance.aleo/get_voting_power "'quadratic_power'" 10000u64 "${COMMON_OPTS[@]}"
-
-echo ""
-echo "── Step 5: proposal_passes — diverging outcomes ─"
-echo "   Whale: 1 000 000 tokens for  vs  Regular voter: 10 000 tokens against"
-
-echo ""
-echo "   Linear strategy — whale wins by 100x margin:"
-$LEO execute governance.aleo/proposal_passes "'voting_power'" 1000000u64 10000u64 "${COMMON_OPTS[@]}"
-
-echo ""
-echo "   Quadratic strategy — whale wins by 10x margin (1000 vs 100):"
-$LEO execute governance.aleo/proposal_passes "'quadratic_power'" 1000000u64 10000u64 "${COMMON_OPTS[@]}"
-
-echo ""
-echo "── Step 6: compare_strategies (identifier literals) ─"
-echo "   Single call dispatches to both built-in targets."
-$LEO execute governance.aleo/compare_strategies 10000u64 "${COMMON_OPTS[@]}"
-
-cd ..
-
-echo ""
-echo "Done!  Dynamic dispatch routed governance.aleo to different"
-echo "VotingStrategy implementations without any contract redeployment."
+    "$leo_bin" query block --latest-height --endpoint "$endpoint" "${local_opts[@]}"
+    echo "Deploy all three programs to the fresh local devnode."
+    "$leo_bin" deploy --path governance "${node_opts[@]}"
+    echo "Execute both variable targets on the devnode."
+    "$leo_bin" execute get_voting_power "'voting_power'" 10000u64 --path governance "${node_opts[@]}"
+    "$leo_bin" execute get_voting_power "'quadratic_power'" 10000u64 --path governance "${node_opts[@]}"
+    echo "Execute the two comparisons. Expected results: true and false."
+    "$leo_bin" execute proposal_passes "'voting_power'" 101u64 100u64 --path governance "${node_opts[@]}"
+    "$leo_bin" execute proposal_passes "'quadratic_power'" 101u64 100u64 --path governance "${node_opts[@]}"
+    echo "Execute the identifier literals. Expected results: 10000u64 and 100u64."
+    "$leo_bin" execute compare_strategies 10000u64 --path governance "${node_opts[@]}"
+fi
