@@ -1,0 +1,10 @@
+{
+    "program": "token_router.aleo",
+    "version": "0.1.0",
+    "description": "Generic token router. Routes transfers and reads balances for any TokenStandard-compliant program via dynamic dispatch and dyn record.",
+    "license": "MIT",
+    "dependencies": [
+        { "name": "gold_token.aleo", "location": "network", "path": null },
+        { "name": "silver_token.aleo", "location": "network", "path": null }
+    ]
+}
