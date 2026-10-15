@@ -1,0 +1,9 @@
+{
+    "program": "auditor.aleo",
+    "version": "0.1.0",
+    "description": "Auditor demonstrating external storage reads across programs.",
+    "license": "MIT",
+    "dependencies": [
+        { "name": "treasury.aleo", "location": "local", "path": "../treasury" }
+    ]
+}

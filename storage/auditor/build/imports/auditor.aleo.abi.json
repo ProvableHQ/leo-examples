@@ -1,0 +1,98 @@
+{
+  "program": "auditor.aleo",
+  "implements": [],
+  "structs": [
+    {
+      "path": [
+        "Snapshot"
+      ],
+      "fields": [
+        {
+          "name": "balance",
+          "ty": {
+            "Primitive": {
+              "UInt": "U64"
+            }
+          }
+        },
+        {
+          "name": "deposit_count",
+          "ty": {
+            "Primitive": {
+              "UInt": "U32"
+            }
+          }
+        },
+        {
+          "name": "is_frozen",
+          "ty": {
+            "Primitive": "Boolean"
+          }
+        }
+      ]
+    }
+  ],
+  "records": [],
+  "mappings": [],
+  "storage_variables": [
+    {
+      "name": "last_snapshot",
+      "ty": {
+        "Plaintext": {
+          "Struct": {
+            "path": [
+              "Snapshot"
+            ],
+            "program": "auditor.aleo"
+          }
+        }
+      }
+    },
+    {
+      "name": "is_alert",
+      "ty": {
+        "Plaintext": {
+          "Primitive": "Boolean"
+        }
+      }
+    }
+  ],
+  "functions": [
+    {
+      "name": "take_snapshot",
+      "is_final": true,
+      "const_parameters": [],
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "check_fee_config",
+      "is_final": true,
+      "const_parameters": [],
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    },
+    {
+      "name": "check_deposits",
+      "is_final": true,
+      "const_parameters": [],
+      "inputs": [],
+      "outputs": [
+        {
+          "ty": "Final",
+          "mode": "None"
+        }
+      ]
+    }
+  ]
+}
